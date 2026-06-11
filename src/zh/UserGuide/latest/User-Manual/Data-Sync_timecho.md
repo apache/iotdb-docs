@@ -108,6 +108,29 @@
 
 - 对于 root.__system, root.__audit 均不会同步
 
+3. Pipe 接收端类型自动转换
+
+当 Pipe 向接收端写入数据因字段类型不匹配而失败时，IoTDB 可按照目标端已有 schema 的字段类型对数据进行转换，并重试写入，以提高同步成功率。该能力由 `sink.exception.data.convert-on-type-mismatch` 控制，参数说明见后文 sink 参数表。
+
+类型不匹配时的转换规则如下：
+
+| 源类型             | 目标类型  | 转换规则                                                                       |
+| -------------------- | ----------- | -------------------------------------------------------------------------------- |
+| 数值类型           | 数值类型  | 按目标数值类型进行转换，可能发生截断、精度损失或溢出。                         |
+| 数值类型           | BOOLEAN   | `0`转换为`false`，非`0`转换为`true`。                          |
+| BOOLEAN            | 数值类型  | `true`转换为`1`，`false`转换为`0`。                            |
+| TEXT、STRING、BLOB | BOOLEAN   | 按字符串解析为 BOOLEAN。                                                       |
+| TEXT、STRING、BLOB | 数值类型  | 按字符串解析为目标数值类型；解析失败时写入默认值`0`、`0L`或`0.0`。 |
+| TEXT、STRING、BLOB | TIMESTAMP | 按字符串解析为 TIMESTAMP；解析失败时写入默认值`0L`。                       |
+| TEXT、STRING、BLOB | DATE      | 按字符串解析为 DATE；解析失败时写入默认日期`1970-01-01`。                  |
+| 非法数值           | DATE      | 若无法转换为合法 DATE，则写入默认日期`1970-01-01`。                        |
+| DATE               | TIMESTAMP | 按 UTC 转换为当天零点对应的时间戳。                                            |
+| TIMESTAMP          | DATE      | 按 UTC 转换为对应日期。                                                        |
+
+> 注意：自动转换基于目标端已有 schema 执行，不会自动修改目标端 schema；该能力优先保证同步继续进行，可能导致精度损失或默认值写入。
+
+
+
 ## 2. 使用说明
 
 数据同步任务有三种状态：RUNNING、STOPPED 和 DROPPED。任务状态转换如下图所示：
@@ -665,53 +688,56 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 
 #### iotdb-thrift-sink
 
-| key                         | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                             |
-|-----------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |----------------------------------|
-| sink                        | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink         | 必填     | -                                |
-| node-urls                   | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                |
-| user/username               | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                     | 选填     | root                             |
-| password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                     | 选填     | TimechoDB@2021, V2.0.6.x 之前为root |
-| batch.enable                | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                             |
-| batch.max-delay-seconds     | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                |
-| batch.max-delay-ms        | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）             | Integer                                                                    | 选填     | 1            |
-| batch.size-bytes            | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                     |
-| compressor                  | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                 | 选填     | ""                               |
-| compressor.zstd.level       | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                         | 选填     | 3                                |
-| rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                              | 选填     | -1                               |
-| load-tsfile-strategy        | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                             |
-| format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet    | 选填    | hybrid                           |
+| key                                       | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                             |
+|-------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |----------------------------------|
+| sink                                      | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink         | 必填     | -                                |
+| node-urls                                 | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                |
+| user/username                             | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                     | 选填     | root                             |
+| password                                  | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                     | 选填     | TimechoDB@2021, V2.0.6.x 之前为root |
+| batch.enable                              | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                             |
+| batch.max-delay-seconds                   | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                |
+| batch.max-delay-ms                        | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）             | Integer                                                                    | 选填     | 1            |
+| batch.size-bytes                          | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                     |
+| compressor                                | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                 | 选填     | ""                               |
+| compressor.zstd.level                     | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                         | 选填     | 3                                |
+| rate-limit-bytes-per-second               | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                              | 选填     | -1                               |
+| load-tsfile-strategy                      | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                             |
+| format                                    | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet    | 选填    | hybrid                           |
+| exception.data.convert-on-type-mismatch   | 接收端类型不同时是否转换                                                                                                                                                                                             | Boolean: true / false                                                      | 选填       | true       |
 
 #### iotdb-air-gap-sink
 
-| key                          | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                              |
-| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |-----------------------------------|
-| sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | 必填     | -                                 |
-| node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url      | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                 |
-| user/username                | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限     | String                                                       | 选填     | root                              |
-| password                     | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限 | String                                                       | 选填     | TimechoDB@2021, V2.0.6.x 之前为root  |
-| compressor                   | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用        | String: snappy / gzip / lz4 / zstd / lzma2                   | 选填     | ""                                |
-| compressor.zstd.level        | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级 | Int: [-131072, 22]                                           | 选填     | 3                                 |
-| rate-limit-bytes-per-second  | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | 选填     | -1                                |
-| load-tsfile-strategy         | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                              |
-| air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                      | 选填     | 5000                              |
+| key                                       | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                              |
+|-------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |-----------------------------------|
+| sink                                      | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | 必填     | -                                 |
+| node-urls                                 | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url      | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                 |
+| user/username                             | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限     | String                                                       | 选填     | root                              |
+| password                                  | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限 | String                                                       | 选填     | TimechoDB@2021, V2.0.6.x 之前为root  |
+| compressor                                | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用        | String: snappy / gzip / lz4 / zstd / lzma2                   | 选填     | ""                                |
+| compressor.zstd.level                     | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级 | Int: [-131072, 22]                                           | 选填     | 3                                 |
+| rate-limit-bytes-per-second               | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | 选填     | -1                                |
+| load-tsfile-strategy                      | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                              |
+| air-gap.handshake-timeout-ms              | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                      | 选填     | 5000                              |
+| exception.data.convert-on-type-mismatch   | 接收端类型不同时是否转换                                                                                                                                                                                             | Boolean: true / false                                                      | 选填       | true       |
 
 #### iotdb-thrift-ssl-sink
 
-| key                     | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                              |
-| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |-----------------------------------|
-| sink                    | iotdb-thrift-ssl-sink                                        | String: iotdb-thrift-ssl-sink                                | 必填     | -                                 |
-| node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                 |
-| user/username               | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                           | 选填     | root                              |
-| password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                           | 选填     | TimechoDB@2021, V2.0.6.x 之前为root  |
-| batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                              |
-| batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                 |
-| batch.max-delay-ms       | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）      | Integer                                                                    | 选填     | 1            |
-| batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                      |
-| compressor                  | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                       | 选填     | ""                                |
-| compressor.zstd.level       | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                               | 选填     | 3                                 |
-| rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                                    | 选填     | -1                                |
-| load-tsfile-strategy        | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                              |
-| ssl.trust-store-path    | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -                                 |
-| ssl.trust-store-pwd     | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -                                 |
-| format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet       | 选填    | hybrid                            |
+| key                                        | value                                                        | value 取值范围                                               | 是否必填 | 默认取值                              |
+|--------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |-----------------------------------|
+| sink                                       | iotdb-thrift-ssl-sink                                        | String: iotdb-thrift-ssl-sink                                | 必填     | -                                 |
+| node-urls                                  | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -                                 |
+| user/username                              | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                           | 选填     | root                              |
+| password                                   | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                           | 选填     | TimechoDB@2021, V2.0.6.x 之前为root  |
+| batch.enable                               | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                              |
+| batch.max-delay-seconds                    | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                 |
+| batch.max-delay-ms                         | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）      | Integer                                                                    | 选填     | 1            |
+| batch.size-bytes                           | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                      |
+| compressor                                 | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                       | 选填     | ""                                |
+| compressor.zstd.level                      | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                               | 选填     | 3                                 |
+| rate-limit-bytes-per-second                | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                                    | 选填     | -1                                |
+| load-tsfile-strategy                       | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                              |
+| ssl.trust-store-path                       | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -                                 |
+| ssl.trust-store-pwd                        | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -                                 |
+| format                                     | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet       | 选填    | hybrid                            |
+| exception.data.convert-on-type-mismatch    | 接收端类型不同时是否转换                                                                                                                                                                                             | Boolean: true / false                                                      | 选填       | true       |
 
