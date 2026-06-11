@@ -238,6 +238,8 @@ export const zhSidebar = {
             { text: '集合操作', link: 'Set-Operations_apache' },
           ],
         },
+        { text: '数据同步', link: 'SQL-Data-Sync_apache' },
+        { text: '权限管理', link: 'SQL-Authority-Management_apache' },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_apache' },
         { text: '标识符', link: 'Identifier' },
         { text: '保留字&关键字', link: 'Keywords' },

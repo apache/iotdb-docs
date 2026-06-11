@@ -239,6 +239,8 @@ export const enSidebar = {
             { text: 'Set Operations', link: 'Set-Operations_apache' },
           ],
         },
+        { text: 'Data Sync', link: 'SQL-Data-Sync_apache' },
+        { text: 'Authority Management', link: 'SQL-Authority-Management_apache' },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_apache' },
         { text: 'Identifier', link: 'Identifier' },
         { text: 'Keywords', link: 'Keywords' },
