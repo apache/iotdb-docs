@@ -64,7 +64,7 @@ encrypt_key_path=......
 
 在某些客户的生产环境中，对于数据传输的安全性要求更高，希望有更安全的传输方式，因此扩展了 Datanode 的 Client RPC 以支持数据传输加密。以下是支持数据传输加密的方式：
 
-1. Thrift 除了普通模式与压缩模式外，增加 SSL 模式 
+1. Thrift 除了普通模式与压缩模式外，增加 SSL 模式
 2. SessionPool(java) 与 Session(java) 支持使用 SSL 模式连接
 3. JDBC 支持使用 SSL 模式连接
 4. CLI 支持使用 SSL 模式连接
@@ -160,7 +160,32 @@ session =
         .build();
 ```
 
-### 2.5 JDBC
+### 2.5 Python
+python 客户端配置 ssl 需要设置use_ssl、ca_certs。
+
+- use_ssl ：是否启用 SSL。
+- ca_certs ： 指定客户端证书路径。
+
+#### 2.5.1 代码示例
+
+```python
+ip = "127.0.0.1"
+port_ = "6667"
+username_ = "root"
+password_ = "root"
+# Configure SSL enabled
+use_ssl = True
+# Configure certificate path
+ca_certs = "/path/server.crt"
+
+
+def get_data():
+    session = Session(
+        ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
+    )
+```
+
+### 2.6 JDBC
 
 jdbc 支持两种方式的ssl 配置，需要配置use_ssl、trust_store、trust_store_pwd。
 
@@ -168,7 +193,7 @@ jdbc 支持两种方式的ssl 配置，需要配置use_ssl、trust_store、trust
 - trust_store:truststore的证书路径
 - trust_store_pwd:truststore证书的密码（秘钥库口令）
 
-#### 2.5.1 代码示例：
+#### 2.6.1 代码示例：
 
 **方式一、在jdbc 的url 中配置使用**
 
@@ -204,15 +229,16 @@ try (Connection connection =
 }catch (IoTDBSQLException e) {
       logger.error("IoTDB Jdbc example error", e);
 }
-```
+``` 
 
-### 2.6 CLI
+
+### 2.7 CLI
 
 ```SQL
 ./start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -usessl true -ts /Users/keystore/.truststore -tpw 123456
 ```
 
-### 2.7 SSL证书生成方式
+### 2.8 SSL证书生成方式
 
 需安装 JDK、测试jdk8和jdk11生成证书未发现问题
 
@@ -246,9 +272,9 @@ keytool -export -alias mykey -keystore aa.keystore -rfc -file certificate.cer
 keytool -import -alias mykey -file certificate.cer -keystore aa.truststore
 ```
 
-### 2.8 性能测试
+### 2.9 性能测试
 
-#### 2.8.1 插入测试
+#### 2.9.1 插入测试
 
 使用session 的inserttablet方法，使用100 设备*100测点，每批 100 行 loop 100 次，测试3遍，三次插入使用不同的设备名字，测试环境：1c1d，mac 16G，Intel Core i5。
 
@@ -301,7 +327,7 @@ private static void insertTablet(String d) throws IoTDBConnectionException, Stat
 
 根据ssl 三次取平均值为13117ms、非ssl取平均值12666ms，综合测试结果可以看出非ssl 插入速度略快ssl(`3.5%`)
 
-#### 2.8.2 查询测试
+#### 2.9.2 查询测试
 
 使用session 的executeQueryStatement方法、循环100次查询不同设备的测点，测试3遍，查询完后修改ssl重启iotdb，三次查询使用不同的设备名字，测试环境：1c1d，mac 16G，Intel Core i5
 
@@ -309,13 +335,13 @@ private static void insertTablet(String d) throws IoTDBConnectionException, Stat
 
 ```Properties
 private static void query(String d) throws IoTDBConnectionException, StatementExecutionException {
-  try (SessionDataSet dataSet = session.executeQueryStatement("select * from root.sg1.d9"+d)) {
-    System.out.println(dataSet.getColumnNames());
-    dataSet.setFetchSize(1024); // default is 10000
-    while (dataSet.hasNext()) {
-      System.out.println(dataSet.next());
-    }
-  }
+try (SessionDataSet dataSet = session.executeQueryStatement("select * from root.sg1.d9"+d)) {
+System.out.println(dataSet.getColumnNames());
+dataSet.setFetchSize(1024); // default is 10000
+while (dataSet.hasNext()) {
+System.out.println(dataSet.next());
+}
+}
 }
 ```
 
