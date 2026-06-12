@@ -23,6 +23,17 @@
 ## 1. TimechoDB (Database Core)
 
 
+### V2.0.9.4
+> Release Date: 2026.06.10<br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.9.4-bin.zip<br>
+> SHA512 Checksum: 040ebdd9e45d93535e9628cf377003d560be83cec9737f5a5fbd0c3a93a12810814094752eac3eacdfec5cddcf433fa83e76edc14be34c73c1a54d9b937ea1b5
+
+Version 2.0.9.4 primarily optimizes table model AINode inference, fixes several product defects, and provides comprehensive improvements to database monitoring, performance, and stability. Specific release contents are as follows:
+
+- AINode: Table model covariate inference models adaptively support filling null values
+
+
 ### V2.0.9.3
 > Release Date: 2026.05.14<br>
 > Download Link: Please contact Timecho Team to obtain the download link</br>
@@ -318,6 +329,37 @@ V2.0.1.2 officially implements ​**​dual-model configuration (tree + table)�
   * import-data/export-data: Universal support for TsFile/CSV/SQL
 * ​**​Ecosystem Integration:​**​
   * Kubernetes Operator support
+
+
+### V1.3.7.3
+
+> Release Date: 2026.06.02</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: iotdb-enterprise-1.3.7.3-bin.zip</br>
+> SHA512 Checksum: 8e6cde061421a552b9855f39f9cccd4838c820dc15ef0ad2a7c23a54cd6cc4f06c35190c1f428784e6a4d5463dd1b794f58ff5cdf891f27f6d0be4d3ab00bf6f
+
+V1.3.7.3 primarily optimizes query module and data synchronization capabilities, fixes several product defects, and provides comprehensive improvements to database monitoring, performance, and stability. Specific release contents are as follows:
+
+- Query Module: Optimized `Last` queries, aligned series queries, reverse-order time filter queries, and other scenarios.
+- Metadata Module: Optimized device creation validation for activated series and their child paths.
+- Data Synchronization: Optimized the retry mechanism after synchronization failures.
+- Data Synchronization: Cross-network-gateway synchronization plugin supports configuring the real-time write transmission timeout.
+- Interface Module: Added error code validation to the Go client write interface.
+- Interface Module: Optimized C# client connection pool management.
+
+
+### V1.3.7.2
+
+> Release Date: 2026.04.07</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: iotdb-enterprise-1.3.7.2-bin.zip</br>
+> SHA512 Checksum: 787766af64992069f0db0ac8b250b461d799307b3ce06b0782fc25752c8c5307fa2205c9e3a38a41685b81bb6b4b5c1ec9f71a395bfad285caf90de7b8224783
+
+V1.3.7.2 primarily optimizes data synchronization and query module capabilities, fixes several product defects, and provides comprehensive improvements to database monitoring, performance, and stability. Specific release contents are as follows:
+
+- Data Synchronization: Optimized distribution performance for Pipe complex path matching scenarios.
+- Query Module: The `SHOW QUERIES` statement now includes client IP, query timeout, server wait time, and other information.
+- Ecosystem Integration: Supports IoTDB pushing data to an external OPC Server in OPC Client mode.
 
 
 ### V1.3.6.6
