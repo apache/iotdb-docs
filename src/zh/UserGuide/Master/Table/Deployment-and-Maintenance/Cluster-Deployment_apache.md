@@ -170,6 +170,7 @@ cd  apache-iotdb-{version}-all-bin
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
 ```shell
+# Unix/OS X
 cd sbin
 ./start-confignode.sh -d      #“-d”参数将在后台进行启动 
 
@@ -188,6 +189,7 @@ cd sbin
  分别进入iotdb的sbin目录下，依次启动3个datanode节点：
 
 ```shell
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 
@@ -443,6 +445,7 @@ remove datanode [datanode_id]
          1. 结束所有 ConfigNode 和 DataNode 进程。
 ```Bash
              # 1. 停止 ConfigNode 和 DataNode 服务
+             # Unix/OS X
              sbin/stop-standalone.sh
 
              # Windows

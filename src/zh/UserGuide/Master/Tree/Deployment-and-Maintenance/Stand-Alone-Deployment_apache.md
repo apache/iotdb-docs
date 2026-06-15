@@ -139,6 +139,7 @@ cd  apache-iotdb-{version}-all-bin
 进入iotdb的sbin目录下，启动confignode
 
 ```shell
+# Unix/OS X
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 
 # Windows
@@ -155,6 +156,7 @@ cd  apache-iotdb-{version}-all-bin
  进入iotdb的sbin目录下，启动datanode：
 
 ```shell
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 
@@ -171,6 +173,7 @@ cd sbin
 可直接执行 ./sbin 目录下的 Cli 启动脚本：
 
 ```shell
+# Unix/OS X
 ./start-cli.sh  -h  ip(本机ip或域名)  -p  端口号(6667)
 
 # Windows
@@ -207,6 +210,7 @@ cd sbin
    
 ```Bash
         # 1. 停止 ConfigNode 和 DataNode 服务
+        # Unix/OS X
         sbin/stop-standalone.sh
 
         # Windows

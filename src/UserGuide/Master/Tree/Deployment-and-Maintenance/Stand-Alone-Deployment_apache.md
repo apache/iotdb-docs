@@ -142,6 +142,7 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 Enter the sbin directory of iotdb and start confignode
 
 ```Shell
+# Unix/OS X
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 
 # Windows
@@ -158,6 +159,7 @@ If the startup fails, please refer to [Common Questions](#common-questions).
 Enter the sbin directory of iotdb and start datanode:
 
 ```Shell
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #The "- d" parameter will start in the background 
 
@@ -174,6 +176,7 @@ cd sbin
 Can be executed directly/ Cli startup script in sbin directory:
 
 ```Shell
+# Unix/OS X
 ./start-cli.sh  -h  ip(local IP or domain name)  -p  port(6667)
 
 # Windows

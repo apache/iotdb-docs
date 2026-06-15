@@ -30,6 +30,7 @@ There are several ways to identify the version of IoTDB that you are using:
 * Launch IoTDB's Command Line Interface:
 
 ```
+# Unix/OS X
 > ./start-cli.sh -p 6667 -pw root -u root -h localhost
  _____       _________  ______   ______    
 |_   _|     |  _   _  ||_   _ `.|_   _ \   
@@ -110,6 +111,7 @@ Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [S
 The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:00:00.001```), if you want to display time in timestamp type or other readable format, add parameter ```-disableISO8601``` in start command:
 
 ```
+# Unix/OS X
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 

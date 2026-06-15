@@ -136,6 +136,7 @@ DataNode 配置
 进入iotdb的sbin目录下，启动confignode
 
 ```shell
+# Unix/OS X
 ./sbin/start-confignode.sh -d      #“-d”参数将在后台进行启动 
 
 # Windows
@@ -153,6 +154,7 @@ DataNode 配置
  进入iotdb的sbin目录下，启动datanode：
 
 ```shell
+# Unix/OS X
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 
 # Windows
@@ -251,6 +253,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
          1. 结束所有 ConfigNode 和 DataNode 进程。
         ```Bash
              # 1. 停止 ConfigNode 和 DataNode 服务
+             # Unix/OS X
              sbin/stop-standalone.sh
 
              # Windows

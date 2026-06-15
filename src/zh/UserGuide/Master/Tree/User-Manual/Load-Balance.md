@@ -164,6 +164,7 @@ vim iotdb-system.properies
 进入iotdb的sbin目录下，启动datanode：
 
 ```Shell
+# Unix/OS X
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 
 # Windows

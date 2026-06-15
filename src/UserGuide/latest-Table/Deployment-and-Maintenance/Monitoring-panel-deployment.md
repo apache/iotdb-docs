@@ -57,6 +57,7 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 2. Restart all nodes. After modifying the monitoring configurations on all 3 nodes, restart the ConfigNode and DataNode services:
 
 ```Bash
+  # Unix/OS X
   ./sbin/stop-standalone.sh      #Stop confignode and datanode first
   ./sbin/start-confignode.sh  -d #Start confignode
   ./sbin/start-datanode.sh  -d   #Start datanode 

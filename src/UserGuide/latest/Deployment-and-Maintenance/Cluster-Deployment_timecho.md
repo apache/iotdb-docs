@@ -180,6 +180,7 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 1. Start the first ConfigNode (`iotdb-1`) as the seed node
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 
@@ -200,6 +201,7 @@ cd sbin
 On each server, navigate to the `sbin` directory and start the DataNode:
 
 ```Go
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 

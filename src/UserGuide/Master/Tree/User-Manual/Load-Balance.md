@@ -168,6 +168,7 @@ vim iotdb-system.properties
 Navigate to the `sbin`directory under IoTDB and start the datanode:
 
 ```
+# Unix/OS X
 ./sbin/start-datanode.sh -d    # The "-d" parameter starts the process in the background.
 
 # Windows

@@ -60,6 +60,7 @@
 - 在机器A上创建数据同步流程，即机器A上的数据自动同步到机器B，使用sbin目录下的cli工具连接A上的IoTDB数据库：
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-1
 
     # Windows
@@ -91,6 +92,7 @@
   - 在机器B上创建数据同步流程，即机器B上的数据自动同步到机器A，使用sbin目录下的cli工具连接B上的IoTDB数据库：
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-2
 
     # Windows
@@ -163,6 +165,7 @@ show pipes
 - 在机器A的执行下列命令：
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-1  #登录cli
     IoTDB> stop pipe AB             #停止数据同步流程
     ./sbin/stop-standalone.sh       #停止数据库服务
@@ -182,6 +185,7 @@ show pipes
 - 在机器B的执行下列命令：
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-2  #登录cli
     IoTDB> stop pipe BA             #停止数据同步流程
     ./sbin/stop-standalone.sh       #停止数据库服务

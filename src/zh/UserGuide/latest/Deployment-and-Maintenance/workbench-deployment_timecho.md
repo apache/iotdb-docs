@@ -130,6 +130,7 @@
 2. 重启所有节点。修改3个节点的监控指标配置后，可重新启动所有节点的confignode和datanode服务：
 
     ```shell
+    # Unix/OS X
     ./sbin/stop-standalone.sh      #先停止confignode和datanode
     ./sbin/start-confignode.sh  -d #启动confignode
     ./sbin/start-datanode.sh  -d   #启动datanode 

@@ -60,6 +60,7 @@ Install IoTDB on two machines separately, and refer to the deployment documentat
 - Create a data synchronization process on machine A, where the data on machine A is automatically synchronized to machine B. Use the cli tool in the sbin directory to connect to the IoTDB database on machine A:
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-1
 
     # Windows
@@ -91,6 +92,7 @@ Install IoTDB on two machines separately, and refer to the deployment documentat
 - Create a data synchronization process on machine B, where the data on machine B is automatically synchronized to machine A. Use the cli tool in the sbin directory to connect to the IoTDB database on machine B
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-2
 
     # Windows
@@ -163,6 +165,7 @@ Ensure that every pipe is in the RUNNING state.
 - Execute the following command on machine A:
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-1  #Log in to CLI
     IoTDB> stop pipe AB             #Stop the data synchronization process
     ./sbin/stop-standalone.sh       #Stop database service
@@ -182,6 +185,7 @@ Ensure that every pipe is in the RUNNING state.
 - Execute the following command on machine B:
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-2  #Log in to CLI
     IoTDB> stop pipe BA             #Stop the data synchronization process
     ./sbin/stop-standalone.sh       #Stop database service

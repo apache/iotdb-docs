@@ -173,6 +173,7 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 
@@ -192,6 +193,7 @@ If the startup fails, please refer to [Common Questions](#common-questions).
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 
@@ -208,6 +210,7 @@ cd sbin
 Can be executed directly Cli startup script in `./sbin`  directory:
 
 ```Plain
+# Unix/OS X
 ./start-cli.sh  -h  ip(local IP or domain name)  -p  port(6667)
 
 # Windows

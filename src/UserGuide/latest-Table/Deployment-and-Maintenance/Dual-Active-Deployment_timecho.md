@@ -67,6 +67,7 @@ Ensure that configurations for A and B are consistent for optimal dual-active pe
 - Connect to the database on Machine A using the CLI tool from the `sbin` directory:
 
 ```Bash
+# Unix/OS X
 ./sbin/start-cli.sh  -h iotdb-1
 
 # Windows
@@ -97,6 +98,7 @@ with sink (
 - Connect to the database on Machine B:
 
 ```Bash
+# Unix/OS X
 ./sbin/start-cli.sh  -h iotdb-2
 
 # Windows
@@ -168,6 +170,7 @@ To stop the dual-active instances:
 On machine A:
 
 ```SQL
+# Unix/OS X
 ./sbin/start-cli.sh -h iotdb-1  # Log in to CLI
 IoTDB> stop pipe AB             # Stop data synchronization
 ./sbin/stop-standalone.sh       # Stop database service
@@ -187,6 +190,7 @@ IoTDB> stop pipe AB
 On machine B:
 
 ```SQL
+# Unix/OS X
 ./sbin/start-cli.sh -h iotdb-2  # Log in to CLI
 IoTDB> stop pipe BA             # Stop data synchronization
 ./sbin/stop-standalone.sh       # Stop database service
