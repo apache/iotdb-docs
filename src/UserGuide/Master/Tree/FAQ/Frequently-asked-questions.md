@@ -39,6 +39,16 @@ There are several ways to identify the version of IoTDB that you are using:
 |_____|'.__.' |_____|  |______.'|_______/  version x.x.x
 ```
 
+Windows startup command examples:
+
+```
+# Before version V2.0.4.x
+> .\sbin\start-cli.bat -p 6667 -pw root -u root -h localhost
+
+# V2.0.4.x and later versions
+> .\sbin\windows\start-cli.bat -p 6667 -pw root -u root -h localhost
+```
+
 * Check pom.xml file:
 
 ```
@@ -150,6 +160,16 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 
 ```
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+```
+
+Windows startup command examples:
+
+```
+# Before version V2.0.4.x
+> %IOTDB_CLI_HOME%\sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+
+# V2.0.4.x and later versions
+> %IOTDB_CLI_HOME%\sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
 ### 1.9 How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?

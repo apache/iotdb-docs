@@ -172,6 +172,13 @@ cd  apache-iotdb-{version}-all-bin
 ```shell
 cd sbin
 ./start-confignode.sh -d      #“-d”参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-confignode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-confignode.bat
 ```
 
 如果启动失败，请参考下[常见问题](#常见问题)
@@ -183,6 +190,13 @@ cd sbin
 ```shell
 cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-datanode.bat
 ```
 
 ### 3.5 启动 CLI
@@ -193,8 +207,12 @@ cd sbin
 # Linux或MACOS系统
 ./start-cli.sh -sql_dialect table
 
-# windows系统
-./start-cli.bat -sql_dialect table
+# Windows
+# V2.0.4.x 版本之前
+.\start-cli.bat -sql_dialect table
+
+# V2.0.4.x 版本及之后
+.\windows\start-cli-table.bat
 ```
 
 ### 3.6 一键启停集群
@@ -382,7 +400,7 @@ sbin/start-datanode.sh
 sbin\start-datanode.bat
 
 # V2.0.4.x 版本及之后     
-tools\windows\start-datanode.bat
+sbin\windows\start-datanode.bat
 ```
 
 说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。
@@ -423,9 +441,16 @@ remove datanode [datanode_id]
         - 清理环境：
 
          1. 结束所有 ConfigNode 和 DataNode 进程。
-        ```Bash
+```Bash
              # 1. 停止 ConfigNode 和 DataNode 服务
              sbin/stop-standalone.sh
+
+             # Windows
+             # V2.0.4.x 版本之前
+             sbin\stop-standalone.bat
+
+             # V2.0.4.x 版本及之后
+             sbin\windows\stop-standalone.bat
             
              # 2. 检查是否还有进程残留
              jps

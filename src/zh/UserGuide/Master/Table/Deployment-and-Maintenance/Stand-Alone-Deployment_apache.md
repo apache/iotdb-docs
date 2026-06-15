@@ -88,7 +88,7 @@ cd  apache-iotdb-{version}-all-bin
 
 | **配置项**  | **说明**                               | **默认值** | **推荐值**                                       | 备注         |
 | :---------- | :------------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 根据系统内存自动计算，默认为系统内存的30%         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
+| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 根据系统内存自动计算，默认为系统内存的30%          | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 - conf/datanode-env.sh（或 .bat）
 
@@ -136,6 +136,13 @@ DataNode 配置
 
 ```shell
 ./sbin/start-confignode.sh -d      #“-d”参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\start-confignode.bat
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\start-confignode.bat
 ```
 
 如果启动失败，请参考下方[常见问题](#常见问题)。
@@ -146,6 +153,13 @@ DataNode 配置
 
 ```shell
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\start-datanode.bat
 ```
 ### 2.6 启动 CLI
 
@@ -155,8 +169,12 @@ DataNode 配置
 # Linux或MACOS系统
 ./start-cli.sh -sql_dialect table
 
-# windows系统
-./start-cli.bat -sql_dialect table
+# Windows
+# V2.0.4.x 版本之前
+.\start-cli.bat -sql_dialect table
+
+# V2.0.4.x 版本及之后
+.\windows\start-cli-table.bat
 ```
 
 ## 3. 常见问题
@@ -170,6 +188,13 @@ DataNode 配置
         ```Bash
              # 1. 停止 ConfigNode 和 DataNode 服务
              sbin/stop-standalone.sh
+
+             # Windows
+             # V2.0.4.x 版本之前
+             sbin\stop-standalone.bat
+
+             # V2.0.4.x 版本及之后
+             sbin\windows\stop-standalone.bat
             
              # 2. 检查是否还有进程残留
              jps

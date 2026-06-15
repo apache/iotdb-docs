@@ -209,7 +209,15 @@ try (Connection connection =
 ### 2.6 CLI
 
 ```SQL
+# Linux / MacOS
 ./start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -usessl true -ts /Users/keystore/.truststore -tpw 123456
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -usessl true -ts C:\Users\keystore\.truststore -tpw 123456
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -usessl true -ts C:\Users\keystore\.truststore -tpw 123456
 ```
 
 ### 2.7 SSL证书生成方式

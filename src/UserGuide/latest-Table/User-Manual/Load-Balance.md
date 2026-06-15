@@ -169,6 +169,13 @@ Navigate to the `sbin`directory under IoTDB and start the datanode:
 
 ```
 ./sbin/start-datanode.sh -d    # The "-d" parameter starts the process in the background.
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-datanode.bat
 ```
 
 5. Connect to the original cluster via CLI command for post-scaling verification.
@@ -178,7 +185,11 @@ Navigate to the `sbin`directory under IoTDB and start the datanode:
   ./apache-iotdb-{version}-bin/sbin/start-cli.sh
 
   # Windows
+  # Before version V2.0.4.x
   .\apache-iotdb-{version}-bin\sbin\start-cli.bat
+
+  # V2.0.4.x and later versions
+  .\apache-iotdb-{version}-bin\sbin\windows\start-cli.bat
 ```
 
 6. Execute commands for verification.
@@ -316,7 +327,7 @@ sbin/start-datanode.sh
 sbin\start-datanode.bat
 
 # V2.0.4.x and later
-tools\windows\start-datanode.bat
+sbin\windows\start-datanode.bat
 ```
 
 **Parameter description:**

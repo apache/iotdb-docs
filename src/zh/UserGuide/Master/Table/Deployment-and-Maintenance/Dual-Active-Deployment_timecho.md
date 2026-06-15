@@ -61,6 +61,13 @@
 
     ```Bash
     ./sbin/start-cli.sh  -h iotdb-1
+
+    # Windows
+    # V2.0.4.x 版本之前
+    .\sbin\start-cli.bat -h iotdb-1
+
+    # V2.0.4.x 版本及之后
+    .\sbin\windows\start-cli.bat -h iotdb-1
     ```
 
 - 创建并启动数据同步命令，SQL 如下:
@@ -85,6 +92,13 @@
 
     ```Bash
     ./sbin/start-cli.sh  -h iotdb-2
+
+    # Windows
+    # V2.0.4.x 版本之前
+    .\sbin\start-cli.bat -h iotdb-2
+
+    # V2.0.4.x 版本及之后
+    .\sbin\windows\start-cli.bat -h iotdb-2
     ```
 
     创建并启动pipe，SQL 如下:
@@ -152,6 +166,17 @@ show pipes
     ./sbin/start-cli.sh -h iotdb-1  #登录cli
     IoTDB> stop pipe AB             #停止数据同步流程
     ./sbin/stop-standalone.sh       #停止数据库服务
+
+    # Windows
+    # V2.0.4.x 版本之前
+    .\sbin\start-cli.bat -h iotdb-1
+    IoTDB> stop pipe AB
+    .\sbin\stop-standalone.bat
+
+    # V2.0.4.x 版本及之后
+    .\sbin\windows\start-cli.bat -h iotdb-1
+    IoTDB> stop pipe AB
+    .\sbin\windows\stop-standalone.bat
     ```
 
 - 在机器B的执行下列命令：
@@ -160,4 +185,15 @@ show pipes
     ./sbin/start-cli.sh -h iotdb-2  #登录cli
     IoTDB> stop pipe BA             #停止数据同步流程
     ./sbin/stop-standalone.sh       #停止数据库服务
+
+    # Windows
+    # V2.0.4.x 版本之前
+    .\sbin\start-cli.bat -h iotdb-2
+    IoTDB> stop pipe BA
+    .\sbin\stop-standalone.bat
+
+    # V2.0.4.x 版本及之后
+    .\sbin\windows\start-cli.bat -h iotdb-2
+    IoTDB> stop pipe BA
+    .\sbin\windows\stop-standalone.bat
     ```

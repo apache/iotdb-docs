@@ -171,6 +171,13 @@ cd  apache-iotdb-{version}-all-bin
 ```Bash
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-confignode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-confignode.bat
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
@@ -181,6 +188,13 @@ cd sbin
 ```Bash
 cd sbin
 ./start-datanode.sh   -d   #“-d”参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-datanode.bat
 ```
 
 ### 3.5 验证部署
@@ -189,6 +203,13 @@ cd sbin
 
 ```Plain
 ./start-cli.sh  -h  ip(本机ip或域名)  -p  端口号(6667)
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-cli.bat -h ip -p 6667
+
+# V2.0.4.x 版本及之后
+.\windows\start-cli.bat -h ip -p 6667
 ```
 
    成功启动后，出现如下界面显示IOTDB安装成功。
@@ -397,7 +418,7 @@ sbin/start-datanode.sh
 sbin\start-datanode.bat
 
 # V2.0.4.x 版本及之后     
-tools\windows\start-datanode.bat
+sbin\windows\start-datanode.bat
 ```
 
 参数介绍：
@@ -460,9 +481,16 @@ remove datanode [datanode_id]
 
     a. 结束所有 ConfigNode 和 DataNode 进程。
    
-    ```Bash
+```Bash
         # 1. 停止 ConfigNode 和 DataNode 服务
         sbin/stop-standalone.sh
+
+        # Windows
+        # V2.0.4.x 版本之前
+        sbin\stop-standalone.bat
+
+        # V2.0.4.x 版本及之后
+        sbin\windows\stop-standalone.bat
 
         # 2. 检查是否还有进程残留
         jps

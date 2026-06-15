@@ -165,6 +165,13 @@ vim iotdb-system.properies
 
 ```Shell
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\start-datanode.bat
 ```
 
 5. 通过CLI命令连接原集群，进行扩容后验证
@@ -173,8 +180,12 @@ vim iotdb-system.properies
 # Linux或MACOS系统
   ./apache-iotdb-{version}-bin/sbin/start-cli.sh
   
-  # windows系统
-  ./apache-iotdb-{version}-bin/sbin/start-cli.bat
+  # Windows
+  # V2.0.4.x 版本之前
+  .\apache-iotdb-{version}-bin\sbin\start-cli.bat
+
+  # V2.0.4.x 版本及之后
+  .\apache-iotdb-{version}-bin\sbin\windows\start-cli.bat
 ```
 
 6. 执行命令进行验证
@@ -314,7 +325,7 @@ sbin/start-datanode.sh
 sbin\start-datanode.bat
 
 # V2.0.4.x 版本及之后     
-tools\windows\start-datanode.bat
+sbin\windows\start-datanode.bat
 ```
 
 参数介绍：

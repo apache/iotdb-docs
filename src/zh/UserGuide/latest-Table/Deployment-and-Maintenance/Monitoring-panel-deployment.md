@@ -59,6 +59,17 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 ./sbin/stop-standalone.sh      #先停止confignode和datanode
 ./sbin/start-confignode.sh  -d #启动confignode
 ./sbin/start-datanode.sh  -d   #启动datanode 
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\stop-standalone.bat
+.\sbin\start-confignode.bat
+.\sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\stop-standalone.bat
+.\sbin\windows\start-confignode.bat
+.\sbin\windows\start-datanode.bat
 ```
 
 3. 重启后，通过客户端确认各节点的运行状态，若状态都为Running，则为配置成功：

@@ -149,6 +149,13 @@ Navigate to the `sbin` directory and start ConfigNode:
 
 ```Bash
 ./sbin/start-confignode.sh -d   # The "-d" flag starts the process in the background.
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-confignode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-confignode.bat
 ```
 
 If the startup fails, refer to the [Common Issues](#3-common-issues)。 section below for troubleshooting.
@@ -161,6 +168,13 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
 ```Bash
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-datanode.bat
 ```
 
 ### 2.6 Activate the Database

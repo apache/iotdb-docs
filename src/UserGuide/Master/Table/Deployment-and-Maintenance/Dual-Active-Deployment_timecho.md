@@ -68,6 +68,13 @@ Ensure that configurations for A and B are consistent for optimal dual-active pe
 
 ```Bash
 ./sbin/start-cli.sh  -h iotdb-1
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-cli.bat -h iotdb-1
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-cli.bat -h iotdb-1
 ```
 
 - Then create and start a data synchronization process. Use the following SQL command:
@@ -91,6 +98,13 @@ with sink (
 
 ```Bash
 ./sbin/start-cli.sh  -h iotdb-2
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-cli.bat -h iotdb-2
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-cli.bat -h iotdb-2
 ```
 
 - Then create and start the synchronization process with the following SQL command:
@@ -157,6 +171,17 @@ On machine A:
 ./sbin/start-cli.sh -h iotdb-1  # Log in to CLI
 IoTDB> stop pipe AB             # Stop data synchronization
 ./sbin/stop-standalone.sh       # Stop database service
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-cli.bat -h iotdb-1
+IoTDB> stop pipe AB
+.\sbin\stop-standalone.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-cli.bat -h iotdb-1
+IoTDB> stop pipe AB
+.\sbin\windows\stop-standalone.bat
 ```
 
 On machine B:
@@ -165,4 +190,15 @@ On machine B:
 ./sbin/start-cli.sh -h iotdb-2  # Log in to CLI
 IoTDB> stop pipe BA             # Stop data synchronization
 ./sbin/stop-standalone.sh       # Stop database service
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-cli.bat -h iotdb-2
+IoTDB> stop pipe BA
+.\sbin\stop-standalone.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-cli.bat -h iotdb-2
+IoTDB> stop pipe BA
+.\sbin\windows\stop-standalone.bat
 ```

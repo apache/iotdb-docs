@@ -172,6 +172,13 @@ cd  iotdb-enterprise-{version}-bin
 ```shell
 cd sbin
 ./start-confignode.sh -d      #“-d”参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-confignode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-confignode.bat
 ```
 
 如果启动失败，请参考下[常见问题](#常见问题)
@@ -183,6 +190,13 @@ cd sbin
 ```shell
 cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
+
+# Windows
+# V2.0.4.x 版本之前
+.\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\windows\start-datanode.bat
 ```
 
 ### 3.5 激活数据库
@@ -474,7 +488,7 @@ sbin/start-datanode.sh
 sbin\start-datanode.bat
 
 # V2.0.4.x 版本及之后     
-tools\windows\start-datanode.bat
+sbin\windows\start-datanode.bat
 ```
 
 参数介绍：
@@ -542,9 +556,16 @@ remove datanode [datanode_id]
 
     a. 结束所有 ConfigNode 和 DataNode 进程。
    
-    ```Bash
+```Bash
         # 1. 停止 ConfigNode 和 DataNode 服务
         sbin/stop-standalone.sh
+
+        # Windows
+        # V2.0.4.x 版本之前
+        sbin\stop-standalone.bat
+
+        # V2.0.4.x 版本及之后
+        sbin\windows\stop-standalone.bat
 
         # 2. 检查是否还有进程残留
         jps

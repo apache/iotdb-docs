@@ -61,6 +61,17 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 ./sbin/stop-standalone.sh      #Stop confignode and datanode first
 ./sbin/start-confignode.sh  -d #Start confignode
 ./sbin/start-datanode.sh  -d   #Start datanode 
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\stop-standalone.bat
+.\sbin\start-confignode.bat
+.\sbin\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\stop-standalone.bat
+.\sbin\windows\start-confignode.bat
+.\sbin\windows\start-datanode.bat
 ```
 
 3. After restarting, confirm the running status of each node through the client. If the status is Running, it indicates successful configuration:
