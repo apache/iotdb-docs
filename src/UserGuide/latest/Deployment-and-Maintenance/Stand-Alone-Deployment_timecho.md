@@ -147,7 +147,15 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 Navigate to the `sbin` directory and start ConfigNode:
 
 ```Bash
+# Unix/OS X
 ./sbin/start-confignode.sh -d   # The "-d" flag starts the process in the background.
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-confignode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-confignode.bat
 ```
 
  If the startup fails, refer to the  [**Common Problem**](#Common Problem) section below for troubleshooting.
@@ -157,7 +165,15 @@ Navigate to the `sbin` directory and start ConfigNode:
 Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
 ````shell
+# Unix/OS X
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
+
+# Windows
+# Before version V2.0.4.x
+.\sbin\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\sbin\windows\start-datanode.bat
 ````
 
 ### 2.6 Activate Database

@@ -32,6 +32,7 @@
 * 启动 IoTDB 的命令行界面：
 
 ```
+# Unix/OS X
 > ./start-cli.sh -p 6667 -pw root -u root -h localhost
  _____       _________  ______   ______    
 |_   _|     |  _   _  ||_   _ `.|_   _ \   
@@ -39,6 +40,16 @@
   | | / .'`\ \  | |      | |  | | |  __'.  
  _| |_| \__. | _| |_    _| |_.' /_| |__) | 
 |_____|'.__.' |_____|  |______.'|_______/  version x.x.x
+```
+
+Windows 系统启动命令示例：
+
+```
+# V2.0.4.x 版本之前
+> .\sbin\start-cli.bat -p 6667 -pw root -u root -h localhost
+
+# V2.0.4.x 版本及之后
+> .\sbin\windows\start-cli.bat -p 6667 -pw root -u root -h localhost
 ```
 
 * 检查 pom.xml 文件：
@@ -151,7 +162,18 @@ IoTDB> show timeseries root.fit.d1.*
 IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T08:00:00.001```)，如果您想显示是时间戳或者其他可读格式，请在启动命令上添加参数```-disableISO8601```:
 
 ```
+# Unix/OS X
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+```
+
+Windows 系统启动命令示例：
+
+```
+# V2.0.4.x 版本之前
+> %IOTDB_CLI_HOME%\sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+
+# V2.0.4.x 版本及之后
+> %IOTDB_CLI_HOME%\sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
 ### 1.9 怎么处理来自`org.apache.ratis.grpc.server.GrpcLogAppender`的`IndexOutOfBoundsException`？

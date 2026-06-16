@@ -60,7 +60,15 @@ Install IoTDB on two machines separately, and refer to the deployment documentat
 - Create a data synchronization process on machine A, where the data on machine A is automatically synchronized to machine B. Use the cli tool in the sbin directory to connect to the IoTDB database on machine A:
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-1
+
+    # Windows
+    # Before version V2.0.4.x
+    .\sbin\start-cli.bat -h iotdb-1
+
+    # V2.0.4.x and later versions
+    .\sbin\windows\start-cli.bat -h iotdb-1
     ```
 
 - Create and start the data synchronization command with the following SQL:
@@ -84,7 +92,15 @@ Install IoTDB on two machines separately, and refer to the deployment documentat
 - Create a data synchronization process on machine B, where the data on machine B is automatically synchronized to machine A. Use the cli tool in the sbin directory to connect to the IoTDB database on machine B
 
     ```Bash
+    # Unix/OS X
     ./sbin/start-cli.sh  -h iotdb-2
+
+    # Windows
+    # Before version V2.0.4.x
+    .\sbin\start-cli.bat -h iotdb-2
+
+    # V2.0.4.x and later versions
+    .\sbin\windows\start-cli.bat -h iotdb-2
     ```
 
     Create and start the pipe with the following SQL:
@@ -149,16 +165,40 @@ Ensure that every pipe is in the RUNNING state.
 - Execute the following command on machine A:
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-1  #Log in to CLI
     IoTDB> stop pipe AB             #Stop the data synchronization process
     ./sbin/stop-standalone.sh       #Stop database service
+
+    # Windows
+    # Before version V2.0.4.x
+    .\sbin\start-cli.bat -h iotdb-1
+    IoTDB> stop pipe AB
+    .\sbin\stop-standalone.bat
+
+    # V2.0.4.x and later versions
+    .\sbin\windows\start-cli.bat -h iotdb-1
+    IoTDB> stop pipe AB
+    .\sbin\windows\stop-standalone.bat
     ```
 
 - Execute the following command on machine B:
 
     ```SQL
+    # Unix/OS X
     ./sbin/start-cli.sh -h iotdb-2  #Log in to CLI
     IoTDB> stop pipe BA             #Stop the data synchronization process
     ./sbin/stop-standalone.sh       #Stop database service
+
+    # Windows
+    # Before version V2.0.4.x
+    .\sbin\start-cli.bat -h iotdb-2
+    IoTDB> stop pipe BA
+    .\sbin\stop-standalone.bat
+
+    # V2.0.4.x and later versions
+    .\sbin\windows\start-cli.bat -h iotdb-2
+    IoTDB> stop pipe BA
+    .\sbin\windows\stop-standalone.bat
     ```
 

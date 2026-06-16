@@ -39,9 +39,7 @@ The instructions for using the visualization console tool can be found in the [I
 |         Database         |            IoTDB            |         Requires V1.2.0 Enterprise Edition and above         |   You can contact business or technical support to obtain    |
 |         Console          | IoTDB-Workbench-`<version>` |                              -                               | You can choose according to the appendix version comparison table and contact business or technical support to obtain it |
 
-## 2. Installation Steps
-
-### 2.1 Pre-installation Check
+### Pre-installation Check
 
 To ensure the Workbench installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
 
@@ -70,7 +68,9 @@ To ensure the Workbench installation package you obtained is complete and valid,
 - If the verification results do not match, please contact the Timecho Team to re-obtain the installation package.
 - If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
 
-### 2.2 IoTDB enables monitoring indicator collection
+## 2. Installation Steps
+
+### 2.1 IoTDB enables monitoring indicator collection
 
 1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
 
@@ -131,16 +131,28 @@ To ensure the Workbench installation package you obtained is complete and valid,
 2. Restart all nodes. After modifying the monitoring indicator configuration of three nodes, the confignode and datanode services of all nodes can be restarted:
 
     ```shell
+    # Unix/OS X
     ./sbin/stop-standalone.sh      #Stop confignode and datanode first
     ./sbin/start-confignode.sh  -d #Start confignode
     ./sbin/start-datanode.sh  -d   #Start datanode 
+
+    # Windows
+    # Before version V2.0.4.x
+    .\sbin\stop-standalone.bat
+    .\sbin\start-confignode.bat
+    .\sbin\start-datanode.bat
+
+    # V2.0.4.x and later versions
+    .\sbin\windows\stop-standalone.bat
+    .\sbin\windows\start-confignode.bat
+    .\sbin\windows\start-datanode.bat
     ```
 
 3. After restarting, confirm the running status of each node through the client. If the status is Running, it indicates successful configuration:
 
     ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### 2.3 Install and configure Prometheus
+### 2.2 Install and configure Prometheus
 
 1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it (https://prometheus.io/docs/introduction/first_steps/)
 2. Unzip the installation package and enter the unzipped folder:
@@ -186,7 +198,7 @@ To ensure the Workbench installation package you obtained is complete and valid,
     </div>
 
 
-### 2.4 Install Workbench
+### 2.3 Install Workbench
 
 1. Enter the config directory of iotdb Workbench -`<version>`
 
@@ -219,7 +231,7 @@ To ensure the Workbench installation package you obtained is complete and valid,
     ![](/img/workbench-en.png)
 
 
-### 2.5 Configure Instance Information
+### 2.4 Configure Instance Information
 
 1. Configure instance information: You only need to fill in the following information to connect to the instance
 

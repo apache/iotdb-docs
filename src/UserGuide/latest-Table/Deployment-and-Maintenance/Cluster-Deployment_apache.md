@@ -179,8 +179,16 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 1. Start the first ConfigNode (`iotdb-1`) as the seed node
 
 ```Bash
+  # Unix/OS X
   cd sbin
   ./start-confignode.sh -d   # The "-d" flag starts the process in the background.
+
+  # Windows
+  # Before version V2.0.4.x
+  .\start-confignode.bat
+
+  # V2.0.4.x and later versions
+  .\windows\start-confignode.bat
   ```
 
 2. Start the remaining ConfigNodes (`iotdb-2` and `iotdb-3`) in sequence.
@@ -192,8 +200,16 @@ If the startup fails, refer to the [Common Issues](#5-common-issues) section bel
 On each server, navigate to the `sbin` directory and start the DataNode:
 
 ```Bash
+  # Unix/OS X
   cd sbin
   ./start-datanode.sh -d    # The "-d" flag starts the process in the background.
+
+  # Windows
+  # Before version V2.0.4.x
+  .\start-datanode.bat
+
+  # V2.0.4.x and later versions
+  .\windows\start-datanode.bat
   ```
 
 ### 3.6 Start CLI
@@ -205,7 +221,11 @@ On each server, navigate to the `sbin` directory and start the DataNode:
 ./start-cli.sh -sql_dialect table
 
 # For Windows
-./start-cli.bat -sql_dialect table
+# Before version V2.0.4.x
+.\start-cli.bat -sql_dialect table
+
+# V2.0.4.x and later versions
+.\windows\start-cli-table.bat
 ```
 
 ### 3.7 One-click Cluster Start and Stop

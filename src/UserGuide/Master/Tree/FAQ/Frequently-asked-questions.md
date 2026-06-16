@@ -30,6 +30,7 @@ There are several ways to identify the version of IoTDB that you are using:
 * Launch IoTDB's Command Line Interface:
 
 ```
+# Unix/OS X
 > ./start-cli.sh -p 6667 -pw root -u root -h localhost
  _____       _________  ______   ______    
 |_   _|     |  _   _  ||_   _ `.|_   _ \   
@@ -37,6 +38,16 @@ There are several ways to identify the version of IoTDB that you are using:
   | | / .'`\ \  | |      | |  | | |  __'.  
  _| |_| \__. | _| |_    _| |_.' /_| |__) | 
 |_____|'.__.' |_____|  |______.'|_______/  version x.x.x
+```
+
+Windows startup command examples:
+
+```
+# Before version V2.0.4.x
+> .\sbin\start-cli.bat -p 6667 -pw root -u root -h localhost
+
+# V2.0.4.x and later versions
+> .\sbin\windows\start-cli.bat -p 6667 -pw root -u root -h localhost
 ```
 
 * Check pom.xml file:
@@ -149,7 +160,18 @@ IoTDB> show timeseries root.fit.d1.*
 The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:00:00.001```), if you want to display time in timestamp type or other readable format, add parameter ```-disableISO8601``` in start command:
 
 ```
+# Unix/OS X
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+```
+
+Windows startup command examples:
+
+```
+# Before version V2.0.4.x
+> %IOTDB_CLI_HOME%\sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
+
+# V2.0.4.x and later versions
+> %IOTDB_CLI_HOME%\sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
 ### 1.9 How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?

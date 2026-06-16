@@ -180,8 +180,16 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 1. Start the first ConfigNode (`iotdb-1`) as the seed node
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
+
+# Windows
+# Before version V2.0.4.x
+.\start-confignode.bat
+
+# V2.0.4.x and later versions
+.\windows\start-confignode.bat
 ```
 
 2. Start the remaining ConfigNodes (`iotdb-2` and `iotdb-3`) in sequence.
@@ -193,8 +201,16 @@ cd sbin
 On each server, navigate to the `sbin` directory and start the DataNode:
 
 ```Go
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
+
+# Windows
+# Before version V2.0.4.x
+.\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\windows\start-datanode.bat
 ```
 
 ### 3.6 Activate Database
@@ -211,6 +227,19 @@ Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
 
 # V2.0.6.x and later versions
 Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
+
+The Windows system startup commands are as follows:
+
+```shell
+# Before version V2.0.4.x
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x and later versions, before version V2.0.6.x
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 
 The Windows system startup commands are as follows:

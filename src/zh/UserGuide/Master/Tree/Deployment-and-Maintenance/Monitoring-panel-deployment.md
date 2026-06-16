@@ -58,9 +58,21 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 2. 重启所有节点。修改3个节点的监控指标配置后，可重新启动所有节点的confignode和datanode服务：
 
 ```shell
+# Unix/OS X
 ./sbin/stop-standalone.sh      #先停止confignode和datanode
 ./sbin/start-confignode.sh  -d #启动confignode
 ./sbin/start-datanode.sh  -d   #启动datanode 
+
+# Windows
+# V2.0.4.x 版本之前
+.\sbin\stop-standalone.bat
+.\sbin\start-confignode.bat
+.\sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后
+.\sbin\windows\stop-standalone.bat
+.\sbin\windows\start-confignode.bat
+.\sbin\windows\start-datanode.bat
 ```
 
 3. 重启后，通过客户端确认各节点的运行状态，若状态都为Running，则为配置成功：
@@ -225,8 +237,8 @@ cd grafana-*
   - Unseq：乱序 TsFile 数量
   - WAL：WAL 文件数量
   - Cross-Temp：跨空间合并 temp 文件数量
-  - Tnner-Seq-Temp：顺序空间内合并 temp 文件数量
-  - Innser-Unseq-Temp：乱序空间内合并 temp 文件数量
+  - Inner-Seq-Temp：顺序空间内合并 temp 文件数量
+  - Innsr-Unseq-Temp：乱序空间内合并 temp 文件数量
   - Mods：墓碑文件数量
 - Open File Handles：系统打开的文件句柄数量
 - File Size：IoTDB 相关文件的大小。各子项分别是对应文件的大小。

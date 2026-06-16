@@ -173,8 +173,16 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
+
+# Windows
+# Before version V2.0.4.x
+.\start-confignode.bat
+
+# V2.0.4.x and later versions
+.\windows\start-confignode.bat
 ```
 
 If the startup fails, please refer to [Common Questions](#common-questions).
@@ -185,8 +193,16 @@ If the startup fails, please refer to [Common Questions](#common-questions).
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
 ```Bash
+# Unix/OS X
 cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
+
+# Windows
+# Before version V2.0.4.x
+.\start-datanode.bat
+
+# V2.0.4.x and later versions
+.\windows\start-datanode.bat
 ```
 
 ### 3.5 Verify Deployment
@@ -194,7 +210,15 @@ cd sbin
 Can be executed directly Cli startup script in `./sbin`  directory:
 
 ```Plain
+# Unix/OS X
 ./start-cli.sh  -h  ip(local IP or domain name)  -p  port(6667)
+
+# Windows
+# Before version V2.0.4.x
+.\start-cli.bat -h ip -p 6667
+
+# V2.0.4.x and later versions
+.\windows\start-cli.bat -h ip -p 6667
 ```
 
 After successful startup, the following interface will appear displaying successful installation of IOTDB.
