@@ -28,6 +28,7 @@ Reserved keywords must be enclosed in double quotes (" ") to be used as identifi
 - AS
 - BETWEEN
 - BY
+- CALCULATION
 - CASE
 - CAST
 - CONSTRAINT
@@ -86,6 +87,8 @@ Reserved keywords must be enclosed in double quotes (" ") to be used as identifi
 - OR
 - ORDER
 - OUTER
+- POINT
+- POINTS
 - PREPARE
 - RECURSIVE
 - RIGHT
