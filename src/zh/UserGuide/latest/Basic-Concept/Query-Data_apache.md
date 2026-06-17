@@ -3010,7 +3010,7 @@ select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from
 #### 实现 IoTDB 内部 ETL
 对原始数据进行 ETL 处理后写入新序列。
 ```sql
-SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEVICE;
 ```
 ```shell
 +--------------+-------------------+---------------------------+--------+

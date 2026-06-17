@@ -109,21 +109,21 @@ Detailed meanings of SQL parameters:
 
   - **Model configuration file**: Parameters related to the model structure provided during registration, which must include input and output dimensions for inference:
 
-  | **Parameter Name** | **Description**           | **Example**            |
-    | ------------ | ---------------------------- | -------- |
-    | input_shape  | Rows and columns of model input | [96,2]   |
-    | output_shape | Rows and columns of model output | [48,2]   |  
+  | **Parameter Name** | **Description**                  | **Example** |
+  | ------------------ | -------------------------------- | ----------- |
+  | input_shape        | Rows and columns of model input  | [96,2]      |
+  | output_shape       | Rows and columns of model output | [48,2]      |
   
   In addition to inference, data types of input and output can also be specified:
 
-  | **Parameter Name** | **Description**           | **Example**            |
+  | **Parameter Name** | **Description**                  | **Example** |
   | ------------------ | ------------------------- | ---------------------- |
   | input_type         | Data type of model input  | ['float32', 'float32'] |
   | output_type        | Data type of model output | ['float32', 'float32'] |
 
   Additional notes can be specified for model management display:
 
-  | **Parameter Name** | **Description**                               | **Example**                                  |
+  | **Parameter Name** | **Description**                  | **Example** |
   | ------------------ | --------------------------------------------- | -------------------------------------------- |
   | attributes         | Optional notes set by users for model display | 'model_type': 'dlinear', 'kernel_size': '25' |
 

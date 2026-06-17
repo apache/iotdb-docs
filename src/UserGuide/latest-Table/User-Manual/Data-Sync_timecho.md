@@ -84,22 +84,22 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 - Object-type data export is supported since version V2.0.9.2.
 - When Pipe fails to write data to the sink due to field type mismatches, IoTDB automatically converts the data to the field types defined in the existing sink schema and retries the write operation to improve synchronization success rate. This feature is controlled by the parameter `sink.exception.data.convert-on-type-mismatch`. Refer to the subsequent sink parameter table for detailed parameter descriptions.
 
-  * The conversion rules for type mismatches are as follows:
-    
-    | Source Type         | Target Type | Conversion Rule                                                                 |
-    |---------------------|-------------|---------------------------------------------------------------------------------|
-    | Numeric Type        | Numeric Type| Convert to the target numeric type. Truncation, precision loss or overflow may occur. |
-    | Numeric Type        | BOOLEAN     | `0` is converted to `false`; non-zero values are converted to `true`.            |
-    | BOOLEAN             | Numeric Type| `true` is converted to `1`; `false` is converted to `0`.                          |
-    | TEXT, STRING, BLOB  | BOOLEAN     | Parse the string into a BOOLEAN value.                                           |
-    | TEXT, STRING, BLOB  | Numeric Type| Parse the string into the target numeric type. If parsing fails, write the default value `0`, `0L` or `0.0`. |
-    | TEXT, STRING, BLOB  | TIMESTAMP   | Parse the string into a TIMESTAMP value. If parsing fails, write the default value `0L`. |
-    | TEXT, STRING, BLOB  | DATE        | Parse the string into a DATE value. If parsing fails, write the default date `1970-01-01`. |
-    | Invalid Numeric Value | DATE      | If conversion to a valid DATE fails, write the default date `1970-01-01`.        |
-    | DATE                | TIMESTAMP   | Convert to the timestamp of 00:00 (UTC) on the same day.                          |
-    | TIMESTAMP           | DATE        | Convert to the corresponding date in UTC.                                        |
+The conversion rules for type mismatches are as follows:
 
-    > **Note**: Automatic conversion is performed based on the existing sink schema and will **not** modify the sink schema. This feature prioritizes continuous data synchronization, which may result in precision loss or writing of default values.
+| Source Type           | Target Type  | Conversion Rule |
+| --------------------- | ------------ | --------------- |
+| Numeric Type          | Numeric Type | Convert to the target numeric type. Truncation, precision loss, or overflow may occur. |
+| Numeric Type          | BOOLEAN      | `0` is converted to `false`; non-zero values are converted to `true`. |
+| BOOLEAN               | Numeric Type | `true` is converted to `1`; `false` is converted to `0`. |
+| TEXT, STRING, BLOB    | BOOLEAN      | Parse the string into a BOOLEAN value. |
+| TEXT, STRING, BLOB    | Numeric Type | Parse the string into the target numeric type. If parsing fails, write the default value `0`, `0L`, or `0.0`. |
+| TEXT, STRING, BLOB    | TIMESTAMP    | Parse the string into a TIMESTAMP value. If parsing fails, write the default value `0L`. |
+| TEXT, STRING, BLOB    | DATE         | Parse the string into a DATE value. If parsing fails, write the default date `1970-01-01`. |
+| Invalid Numeric Value | DATE         | If conversion to a valid DATE fails, write the default date `1970-01-01`. |
+| DATE                  | TIMESTAMP    | Convert to the timestamp of 00:00 (UTC) on the same day. |
+| TIMESTAMP             | DATE         | Convert to the corresponding date in UTC. |
+
+> **Note**: Automatic conversion is performed based on the existing sink schema and will **not** modify the sink schema. This feature prioritizes continuous data synchronization, which may result in precision loss or writing of default values.
 
 
 

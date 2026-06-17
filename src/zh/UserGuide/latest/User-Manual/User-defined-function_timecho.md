@@ -458,7 +458,7 @@ public class Adder implements UDTF {
 
 该方法每次处理原始数据的多行，经过性能测试，我们发现一次性处理多行的 UDTF 比一次处理一行的 UDTF 性能更好。原始数据由`Column[]`读入，由`ColumnBuilder`输出。您必须在一次`transform`方法调用中，根据每个输入的数据点输出一个对应的数据点，即输入和输出依然是一对一的。需要注意的是，输出数据点的类型必须与您在`beforeStart`方法中设置的一致，而输出数据点的时间戳必须是严格单调递增的。
 
-下面是一个实现了`void transform(Column[] columns, ColumnBuilder builder) throws Exceptionn`方法的完整 UDF 示例。它是一个加法器，接收两列时间序列输入，输出这两个数据点的代数和。
+下面是一个实现了`void transform(Column[] columns, ColumnBuilder builder) throws Exception`方法的完整 UDF 示例。它是一个加法器，接收两列时间序列输入，输出这两个数据点的代数和。
 
 ``` java
 import org.apache.iotdb.tsfile.read.common.block.column.Column;

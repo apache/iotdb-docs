@@ -31,7 +31,7 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 
 | **Short Param** | **Full Param**            | **Description**                                                          | Required | Default                                   |
 |-----------------|---------------------------|--------------------------------------------------------------------------| ---------- |-------------------------------------------|
-| `-h`            | `-- host`                 | Hostname                                                                 | No       | 127.0.0.1                                 |
+| `-h`            | `--host`                 | Hostname                                                                 | No       | 127.0.0.1                                 |
 | `-p`            | `--port`                  | Port number                                                              | No       | 6667                                      |
 | `-u`            | `--username`              | Username                                                                 | No       | root                                      |
 | `-pw`           | `--password`              | Password. Supported for hidden input since V2.0.9-beta                                                                | No       | root                                      |

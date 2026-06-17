@@ -148,7 +148,7 @@ IoTDB> show models
 
 ### 附录
 
-<a id="appendix1"></a>**[1]** Timer- Generative Pre-trained Transformers Are Large Time Series Models, Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](<u>#ref1</u>)
+<a id="appendix1"></a>**[1]** Timer- Generative Pre-trained Transformers Are Large Time Series Models, Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](#ref1)
 
 <a id="appendix2"></a>**[2]** TIMER-XL- LONG-CONTEXT TRANSFORMERS FOR UNIFIED TIME SERIES FORECASTING ,Yong Liu, Guo Qin, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](<u>#ref2</u>)
 
