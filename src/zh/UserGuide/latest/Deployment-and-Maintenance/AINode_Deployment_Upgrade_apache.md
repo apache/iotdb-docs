@@ -231,7 +231,7 @@ IoTDB> show cluster
    * 备份 conf 目录下已修改的配置文件，然后替换 conf 文件夹，并将修改的配置同步到对应位置
 3. 更新内置模型权重（可选）
 
-   * 若新版本涉及内置模型更新，相关信息将在[发布历史](../IoTDB-Introduction/Release-history\_apache.md)中同步。可联系商业支持获取最新权重包，并将权重包替换至 `data/ainode/models/builtin` 目录
+   * 若新版本涉及内置模型更新，相关信息将在[发布历史](../IoTDB-Introduction/Release-history_apache.md)中同步。可联系商业支持获取最新权重包，并将权重包替换至 `data/ainode/models/builtin` 目录
 4. 升级完毕后，可启动 AINode 服务，并查看节点状态，具体命令可参考【3.4】和【3.5】小节。
 
 

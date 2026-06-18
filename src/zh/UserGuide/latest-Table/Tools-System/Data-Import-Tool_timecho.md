@@ -46,18 +46,18 @@ IoTDB 支持三种方式进行数据导入：
 
 | 参数缩写         | 参数全称                    | 参数含义                                                                                                                          | 是否为必填项 | 默认值                                 |
 |--------------|-------------------------|-------------------------------------------------------------------------------------------------------------------------------| -------------- |-------------------------------------|
-| -ft          | --file\_type            | 导入文件的类型，可以选择：csv、sql、tsfile                                                                                                   | √           |
-| -h           | -- host                 | 主机名                                                                                                                           | 否           | 127.0.0.1                           |
+| -ft          | --file\_type            | 导入文件的类型，可以选择：csv、sql、tsfile                                                                                                   | √ |  |
+| -h           | --host                 | 主机名                                                                                                                           | 否           | 127.0.0.1                           |
 | -p           | --port                  | 端口号                                                                                                                           | 否           | 6667                                |
 | -u           | --username              | 用户名                                                                                                                           | 否           | root                                |
 | -pw          | --password              | 密码，自 V2.0.9.1 起支持隐藏输入                                                                                                         | 否           | TimechoDB@2021 (V2.0.6 版本之前为 root)  |
-| -s           | --source                | 待加载的脚本文件(夹)的本地目录路径<br>如果为 csv sql tsfile 这三个支持的格式，直接导入<br>不支持的格式，报错提示`The file name must end with "csv" or "sql"or "tsfile"!` | √           |
+| -s           | --source                | 待加载的脚本文件(夹)的本地目录路径<br>如果为 csv sql tsfile 这三个支持的格式，直接导入<br>不支持的格式，报错提示`The file name must end with "csv" or "sql"or "tsfile"!` | √ |  |
 | -sql_dialect | --sql_dialect           | 选择 server 是树模型还是表模型，当前支持 tree 和 table 类型                                                                                      | 否      | tree                                |
 | -db          | --database              | 数据将要导入的目标库，只在 `-sql_dialect` 为 table 类型下生效。                                                                                   |-sql_dialect 为 table 时必填；<br>V2.0.9.2 版本起，当文件格式为 SQL 时，该参数为可选参数，若参数或 SQL 中均未显式指定目标数据库时会进行提示。 | -                                   |
 | -table       | --table                 | 数据将要导入的目标表，只在 `-sql_dialect` 为 table 类型且文件类型为 csv 条件下生效且必填。                                                                   | 否  | -                                   |
 | -tn          | --thread\_num           | 最大并行线程数                                                                                                                       | 否           | 8<br>范围：0～Integer.Max=2147483647    |
 | -tz          | --timezone              | 时区设置，例如`+08:00`或`-01:00`                                                                                                      | 否           | 本机系统时间                              |
-| -help        | --help                  | 显示帮助信息,支持分开展示和全部展示`-help`或`-help csv`                                                                                         | 否           |
+| -help        | --help                  | 显示帮助信息,支持分开展示和全部展示`-help`或`-help csv`                                                                                         | 否 |  |
 | -usessl      | --use_ssl               | 使用 SSL 协议，自 V2.0.9.1 起支持                                                                                                      | 否      | -                                    |
 | -ts          | --trust_store           | 信任库。支持隐藏输入，自 V2.0.9.1 起支持                                                                                                     | 否      | -                                    |
 | -tpw         | --trust_store_password  | 信任库密码。支持隐藏输入，自 V2.0.9.1 起支持                                                                                                   | 否        | -                                    |
@@ -100,8 +100,7 @@ IoTDB 支持三种方式进行数据导入：
 | -aligned | --use\_aligned             | 是否导入为对齐序列                                                                | 否                                         | false                                 |
 | -batch   | --batch\_size              | 指定每调用一次接口处理的数据行数（最小值为1，最大值为Integer.​*MAX\_VALUE*​） | 否                                         | 100000<br>范围：0～Integer.Max=2147483647 |
 | -ti      | --type\_infer              | 通过选项定义类型信息，例如`"boolean=text,int=long, ..."`                      | 否                                         | 无                                     |
-| -tp      | --timestamp\_precision     | 时间戳精度                                                                        | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms                                    
-|
+| -tp      | --timestamp\_precision     | 时间戳精度                                                                        | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms                                    |
 
 #### 2.2.3 运行示例
 
@@ -211,7 +210,7 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 | 参数缩写 | 参数全称                 | 参数含义                                                                                                                                                             | 是否为必填项                                    | 默认值                |
 |------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------| -------------------- |
 | -os  | --on\_succcess       | 1. none：不删除 <br> 2. mv：移动成功的文件到目标文件夹 <br>3. cp：硬连接（拷贝）成功的文件到目标文件夹 <br>4. delete：删除                                                                               | √                                         ||
-| -sd  | --success\_dir       | 当`--on_succcess`为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                                                 | 当`--on_succcess`为mv或cp时需要填写               | `${EXEC_DIR}/success`|
+| -sd  | --success\_dir       | 当`--on_success`为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                                                 | 当`--on_success`为mv或cp时需要填写               | `${EXEC_DIR}/success`|
 | -of  | --on\_fail           | 1. none：跳过 <br>2. mv：移动失败的文件到目标文件夹 <br>3. cp：硬连接（拷贝）失败的文件到目标文件夹 <br>4. delete：删除                                                                                 | √                                         ||
 | -fd  | --fail\_dir          | 当`--on_fail`指定为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                                                   | 当`--on_fail`指定为 mv 或 cp 时需要填写             | `${EXEC_DIR}/fail`   |
 | -tp  | --timestamp\_precision | 时间戳精度<br>tsfile 非远程导入：-tp 指定 tsfile 文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定 tsfile 文件的时间精度 pipe 自动校验时间戳精度是否一致 不一致返回 pipe 报错信息                         | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms|

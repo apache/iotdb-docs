@@ -70,7 +70,7 @@ if has_next:
 
 | Function Name | Description | Parameters | Return Value |
 |---------------|-------------|------------|--------------|
-| `encode_object_cell` | Encodes a single OBJECT cell into wire-format bytes | `is_eof: bool`,<br>`offset: int`,<br>`content: bytes` | `bytes`: `|[eof 1B]|[offset 8B BE]|[payload]|` |
+| `encode_object_cell` | Encodes a single OBJECT cell into wire-format bytes | `is_eof: bool`,<br>`offset: int`,<br>`content: bytes` | `bytes`: `\|[eof 1B]\|[offset 8B BE]\|[payload]\|` |
 | `decode_object_cell` | Parses a wire-format cell back into `eof`, `offset`, and `payload` | `cell: bytes` (length ≥ 9) | `Tuple[bool, int, bytes]`: `(is_eof, offset, payload)` |
 | `Tablet.add_value_object` | Writes an OBJECT cell at the specified row and column (internally calls `encode_object_cell`) | `row_index: int`,<br>`column_index: int`,<br>`is_eof: bool`,<br>`offset: int`,<br>`content: bytes` | `None` |
 | `Tablet.add_value_object_by_name` | Same as above, locates column by name | `column_name: str`,<br>`row_index: int`,<br>`is_eof: bool`,<br>`offset: int`,<br>`content: bytes` | `None` |

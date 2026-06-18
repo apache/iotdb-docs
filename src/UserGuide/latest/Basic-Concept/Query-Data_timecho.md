@@ -2984,7 +2984,7 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 ETL the original data and write a new time series.
 
 ```sql
-SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEVICE;
 ```
 ```
 +--------------+-------------------+---------------------------+--------+

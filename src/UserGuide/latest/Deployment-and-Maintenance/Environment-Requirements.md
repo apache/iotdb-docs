@@ -43,7 +43,7 @@ Only a few hard disks are installed on the server. Configure Raid5 directly.
 The recommended configurations are as follows:
 | **Use classification** | **Raid type**  | **Disk number** | **Redundancy** | **Available capacity** |
 | ----------- | -------- | -------- | --------- | -------- |
-| system/data disk | RAID5 | 4 | 1 | 3 | is allowed to fail|
+| system/data disk | RAID5 | 4 | 1 is allowed to fail | 3 |
 
 - Example 2: Twelve 3.5-inch hard disks
 
@@ -119,7 +119,8 @@ The following table lists the recommended disk partitioning methods.
       </tr>
 </tbody>
 </table>
-### Network Configuration
+
+### 2.3 Network Configuration
 
 1. Disable the firewall
 
@@ -152,7 +153,7 @@ systemctl start sshd # Enable port 22
 
 3. Ensure that servers are connected to each other
 
-### 2.3 Other Configuration
+### 2.4 Other Configuration
 
 1. Reduce the system swap priority to the lowest level
 

@@ -172,7 +172,7 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 | storage_tsdb_retention_time | 默认保存数据天数 默认15天    | 非必填                   |
 | storage_tsdb_retention_size | 指定block可以保存的数据大小默认512M ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
 
-如果在config/xxx.yaml的`iotdb-system.properties`和`iotdb-system.properties`中配置了metrics,则会自动把配置放入到promethues无需手动修改
+如果在config/xxx.yaml的`iotdb-system.properties`和`iotdb-system.properties`中配置了metrics,则会自动把配置放入到Prometheus无需手动修改
 
 注意:如何配置yaml key对应的值包含特殊字符如:等建议整个value使用双引号，对应的文件路径中不要使用包含空格的路径，防止出现识别出现异常问题。
 

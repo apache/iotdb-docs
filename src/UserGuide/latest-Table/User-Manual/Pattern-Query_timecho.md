@@ -230,7 +230,7 @@ Used to specify which row to start the next pattern match from after identifying
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------- |
 | `AFTER MATCH SKIP PAST LAST ROW`                        | Default behavior. Starts from the row after the last row of the current match. | No                          |
 | `AFTER MATCH SKIP TO NEXT ROW`                          | Starts from the second row in the current match.                               | Yes                         |
-| `AFTER MATCH SKIP TO [ FIRST \| LAST ] pattern_variable` | Jumps to start from the [ first row | last row ] of a pattern variable.        | Yes                         |
+| `AFTER MATCH SKIP TO [ FIRST \| LAST ] pattern_variable` | Jumps to start from the [ first row \| last row ] of a pattern variable.        | Yes                         |
 
 * Among all possible configurations, only when `ALL ROWS PER MATCH WITH UNMATCHED ROWS` is used in combination with `AFTER MATCH SKIP PAST LAST ROW` can the system ensure that exactly one output record is generated for each input row.
 

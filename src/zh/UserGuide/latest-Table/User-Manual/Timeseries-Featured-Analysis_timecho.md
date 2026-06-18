@@ -233,7 +233,7 @@ MATCH_RECOGNIZE (
 | ------------------------------------------------------------- | --------------------------------------------------- | ------------------------ |
 | `AFTER MATCH SKIP PAST LAST ROW`                        | 默认行为。在当前匹配的最后一行之后的下一行开始。  | 否                     |
 | `AFTER MATCH SKIP TO NEXT ROW`                          | 在当前匹配中的第二行开始。                        | 是                     |
-| `AFTER MATCH SKIP TO [ FIRST \| LAST ] pattern_variable` | 跳转到某个模式变量的 [ 第一行 | 最后一行 ] 开始。 | 是                     |
+| `AFTER MATCH SKIP TO [ FIRST \| LAST ] pattern_variable` | 跳转到某个模式变量的 [ 第一行 \| 最后一行 ] 开始。 | 是                     |
 
 * 在所有可能的配置中，仅当 `ALL ROWS PER MATCH WITH UNMATCHED ROWS` 与 `AFTER MATCH SKIP PAST LAST ROW` 联合使用时，系统才能确保对每个输入行恰好生成一条输出记录。
 

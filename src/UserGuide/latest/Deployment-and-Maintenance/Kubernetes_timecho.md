@@ -315,7 +315,7 @@ cd /iotdb/sbin
 # Exit the container
 ```
 
-### Option 3: Manual Activation
+### 8.3 Option 3: Manual Activation
 
 1. View ConfigNode details to determine the node:
 
