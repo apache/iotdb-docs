@@ -107,6 +107,15 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
+        {
+          text: '时序特色分析',
+          collapsible: true,
+          children: [
+            { text: '模式查询', link: 'Pattern-Query_apache' },
+            { text: '窗口函数', link: 'Window-Function_apache' },
+          ],
+          badge: ['hot'],
+        },
         { text: 'UDF', link: 'User-defined-function' },
         {
           text: '安全管理',

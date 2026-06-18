@@ -107,6 +107,15 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
+        {
+          text: 'Timeseries Featured Analysis',
+          collapsible: true,
+          children: [
+            { text: 'Pattern Query', link: 'Pattern-Query_apache' },
+            { text: 'Window Function', link: 'Window-Function_apache' },
+          ],
+          badge: ['hot'],
+        },
         { text: 'UDF', link: 'User-defined-function' },
         {
           text: 'Security Management',
