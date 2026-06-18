@@ -238,7 +238,7 @@ Connection connection = DriverManager.getConnection(
 
 IoTDB 提供了树转表功能，如下图所示：
 
-![](/img/tree-to-table-1.png)
+![](/img/data-modeling-new-1.png)
 
 该功能支持通过创建表视图的方式，将已存在的树模型数据转化为表视图，进而通过表视图进行查询，实现了对同一份数据的树模型和表模型协同处理。更详细的功能介绍可参考[树转表视图](../../latest-Table/User-Manual/Tree-to-Table_timecho.md)，需要注意的是：​**创建树转表视图的 SQL 语句只允许在表模型下执行**​。
 
@@ -279,7 +279,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 如场景中不同类型的设备具备不同的层级路径和测点集合，可以在数据库节点下按设备类型创建分支。每种设备下可以有不同的测点结构。
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-1.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-2.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 如果场景中没有设备，只有测点，如何建模？
@@ -287,7 +287,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 如场站的监控系统中，每个测点都有唯一编号，但无法对应到某些设备。
 
 <div style="text-align: center;">
-      <img src="/img/data-modeling04.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-3.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.3 如果在一个设备下，既有子设备，也有测点，如何建模？
@@ -295,7 +295,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 如在储能场景中，每一层结构都要监控其电压和电流，可以采用如下建模方式。
 
 <div style="text-align: center;">
-      <img src="/img/Modeling-scheme05.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-4.png" alt="" style="width: 70%;"/>
 </div>
 
 
@@ -331,7 +331,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 即使设备之间有联系，或有层级关系，也推荐为每一类设备建一张表。
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-2.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-5.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.2.3.2 如果没有设备标识列和属性列，如何建模？
@@ -339,7 +339,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 列数没有数量限制，可以达到数十万以上。
 
 <div style="text-align: center;">
-      <img src="/img/data-modeling07.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-6.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.2.3.3 如果在一个设备下，既有子设备，也有测点，如何建模？
@@ -347,7 +347,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 每个设备有多个子设备及测点信息，推荐为每类设备建一个表进行管理。
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-3.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-7.png" alt="" style="width: 70%;"/>
 </div>
 
 ### 3.3 场景三：双模型结合
@@ -371,7 +371,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 表视图：为每种类型的设备建立一张表视图，每个表视图具有不同的标签和测点集合。
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-4.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-8.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.3.2.2 如果没有设备标识列和属性列，如何建模？
@@ -381,7 +381,7 @@ IoTDB 提供了树转表功能，如下图所示：
 - 表视图：将所有测点放入一张表中，测点列数没有数量限制，可以达到数十万以上。若测点具有相同的数据类型，可将测点作为同一类设备。
 
 <div style="text-align: center;">
-      <img src="/img/Modeling-scheme02.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-9.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.3.2.3 如果在一个设备下，既有子设备，也有测点，如何建模？
@@ -391,5 +391,5 @@ IoTDB 提供了树转表功能，如下图所示：
 - 表视图：按照设备分类，建立多个表对每一层结构信息进行管理。
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-5.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-10.png" alt="" style="width: 70%;"/>
 </div>

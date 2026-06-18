@@ -235,7 +235,7 @@ Connection connection = DriverManager.getConnection(
 
 IoTDB supports **tree-to-table conversion**, as shown in the figure below:
 
-![](/img/tree-to-table-en-1.png)
+![](/img/data-modeling-new-1-en.png)
 
 This feature allows existing tree-model data to be transformed into table views. Users can then query the same dataset using either model. Detailed instructions are available in [Tree-to-Table View](../User-Manual/Tree-to-Table_apache.md). **Note**: SQL statements for creating tree-to-table views **must be executed in table mode**.
 
@@ -273,7 +273,7 @@ The application scenarios mainly include two categories:
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-1-en.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-2-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 How to mode when there are no devices, only data points?
@@ -281,7 +281,7 @@ The application scenarios mainly include two categories:
 - For example, in a monitoring system for a station, each data point has a unique number but does not correspond to any specific device.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en02.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-3.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.3 How to mode when a device has both sub-devices and data points?
@@ -289,7 +289,7 @@ The application scenarios mainly include two categories:
 - For example, in an energy storage scenario, each layer of the structure monitors its voltage and current. The following mode approach can be used.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en03.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-4-en.png" alt="" style="width: 70%;"/>
 </div>
 
 
@@ -325,7 +325,7 @@ The application scenarios mainly include two categories:
 - Even if devices are related or have hierarchical relationships, it is recommended to create a table for each type of device.
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-2-en.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-5-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.2.3.2 How to mode when there are no device identifier columns or attribute columns?
@@ -333,7 +333,7 @@ The application scenarios mainly include two categories:
 - There is no limit to the number of columns; it can reach hundreds of thousands.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en05.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-6-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.2.3.3 How to mode when a device has both sub-devices and data points?
@@ -341,5 +341,5 @@ The application scenarios mainly include two categories:
 - Each device has multiple sub-devices and data point information. It is recommended to create a table for each type of device for management.
 
 <div style="text-align: center;">
-      <img src="/img/data-model-new-3-en.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling-new-7-en.png" alt="" style="width: 70%;"/>
 </div>
