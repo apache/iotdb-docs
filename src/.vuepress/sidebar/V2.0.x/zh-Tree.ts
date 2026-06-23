@@ -272,7 +272,6 @@ export const zhSidebar = {
           text: '函数与运算符',
           collapsible: true,
           children: [
-            { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
             { text: '函数与运算符', link: 'Operator-and-Expression' },
             { text: '内置函数与表达式', link: 'Function-and-Expression' },
           ],
