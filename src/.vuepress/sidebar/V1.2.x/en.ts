@@ -178,7 +178,6 @@ export const enSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF Libraries', link: 'UDF-Libraries' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },

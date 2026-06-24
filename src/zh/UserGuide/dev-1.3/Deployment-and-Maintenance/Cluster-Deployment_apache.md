@@ -201,7 +201,7 @@ cd sbin
 
 ![](/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
 
-> 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系商业支持重新申请.
+> 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请重新申请.
 
 
 ### 一键启停集群
@@ -406,7 +406,7 @@ remove datanode [datanode_id]
 
     步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
 
-    步骤 2: 请查看启动日志，检查是否出现其他异常。日志中若存在异常现象，请联系商业支持咨询解决方案。
+    步骤 2: 请查看启动日志，检查是否出现其他异常。
 
     步骤 3: 如果是首次部署或者数据可删除，也可按下述步骤清理环境，重新部署后，再次启动。
 

@@ -126,7 +126,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 
 > 仅离线环境，在线环境可忽略本步骤
 >
-联系商业支持获取模型权重文件，并放置到/IOTDB_AINODE_HOME/data/ainode/models/weights/目录下。
+需提前准备模型权重文件，并放置到/IOTDB_AINODE_HOME/data/ainode/models/weights/目录下。
 
 ### 3.4 启动 AINode
 

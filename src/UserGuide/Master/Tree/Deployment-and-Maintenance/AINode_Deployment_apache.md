@@ -129,7 +129,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 
 > Offline environment only (Online environments can skip this step)
 >
- Contact commercial support to obtain the model weight files, then place them in the /IOTDB_AINODE_HOME/data/ainode/models/weights/ directory.
+ Prepare the model weight files in advance, then place them in the /IOTDB_AINODE_HOME/data/ainode/models/weights/ directory.
 
 ### 3.4 Start AINode
 
