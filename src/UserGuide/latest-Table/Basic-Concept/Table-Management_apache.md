@@ -21,15 +21,49 @@
 
 # Table Management
 
-Before starting to use the table management functionality, we recommend familiarizing yourself with the following related background knowledge for a better understanding and application of the table management features:
-* [Timeseries Data Model](../Background-knowledge/Navigating_Time_Series_Data_apache.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
-* [Modeling Scheme Design](../Background-knowledge/Data-Model-and-Terminology_apache.md): Master the IoTDB time series model and its applicable scenarios to provide a design basis for table management.
+In the table model, it is recommended that one table corresponds to one type of device, for managing time series data of such devices. Devices of the same type usually have the same or similar set of measurement points, such as wind turbines, vehicles, production equipment or monitoring objects of the same category.
 
-## 1. Table Management
+## 1. Basic Concepts
 
-### 1.1 Create a Table
+### 1.1 Table
 
-#### 1.1.1 Manually create a table with CREATE
+Tables are generally used to store time series data for the same type of device. During data modeling, device identification information can be designed as TAG columns, static device descriptions as ATTRIBUTE columns, and time-varying collected values as FIELD columns.
+
+### 1.2 Time Column, Tag Column, Attribute Column and Measurement Column
+
+![](/img/sample-dataset-en-01.png)
+
+The table structure in the table model is generally shown in the figure above. Columns can be classified into the following categories by purpose:
+
+| Concept | Description |
+| ------- | ----------- |
+| Time Column (TIME) | Each table must contain one time column of the TIMESTAMP data type, which records the timestamp corresponding to each data point. |
+| Tag Column (TAG) | Used to identify devices and can serve as the composite primary key of a device. It typically stores information for locating devices, such as region, plant, and device ID. Values in tag columns usually do not change over time. |
+| Attribute Column (ATTRIBUTE) | Used to describe static attributes of a device, such as model, manufacturer, and maintenance information. Attribute columns do not change over time and can be added or updated. |
+| Measurement Column (FIELD) | Used to store physical quantities or metrics collected from devices, whose values change over time, such as temperature, humidity, current, voltage, and status. |
+
+In terms of query filtering efficiency, the general priority order is: time column and tag columns first, followed by attribute columns, and measurement columns last.
+
+### 1.3 Devices and Measurement Points
+
+In the table model, a device is uniquely identified by the combination of values from all TAG columns in a table. For example, if a table contains three TAG columns: `region`, `plant_id`, and `device_id`, each unique combination of `region + plant_id + device_id` represents an independent device.
+
+Measurement points correspond to FIELD columns in the table. One FIELD column for a single device generates multiple data points over time, and these time-ordered data points form a time series.
+
+Therefore, the number of measurement points per table in the table model can be expressed by the following formula:
+`Number of measurement points per table = Number of devices × Number of FIELD columns`
+
+### 1.4 Table-Level TTL
+
+The TTL of a table defaults to the TTL of its parent database. If a table is configured with a separate TTL, the table-level TTL takes precedence. Proper use of table-level TTL allows different data retention periods to be set for different business tables.
+
+For a more detailed introduction to TTL features, see: [TTL Delete Data](../Basic-Concept/TTL-Delete-Data_apache.md)
+
+For further information on the IoTDB tree-table twin model, model selection methods and typical modeling solutions, please refer to [Modeling Scheme Design](../Background-knowledge/Data-Model-and-Terminology_apache.md).
+
+## 2. Table Management
+
+### 2.1 Create a Table
 
 Manually create a table within the current or specified database.The format is "database name. table name".
 
@@ -111,7 +145,7 @@ CREATE TABLE table1 (
 
 Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
 
-### 1.2 View Tables
+### 2.2 View Tables
 
 Used to view all tables and their properties in the current or a specified database.
 
@@ -143,7 +177,7 @@ show tables details from database1;
 +---------------+-----------+------+-------+
 ```
 
-### 1.3 View Table Columns
+### 2.3 View Table Columns
 
 Used to view column names, data types, categories, and states of a table.
 
@@ -183,7 +217,7 @@ desc table1 details;
 ```
 
 
-### 1.4 View Table Creation Statement
+### 2.4 View Table Creation Statement
 
 Retrieves the complete definition statement of a table or view under the table model. This feature automatically fills in all default values that were omitted during creation, so the displayed statement may differ from the original CREATE statement.
 
@@ -213,7 +247,7 @@ show create table table1;
 ```
 
 
-### 1.5 Update Tables
+### 2.5 Update Tables
 
 Used to update a table, including adding or deleting columns and configuring table properties.
 
@@ -254,7 +288,7 @@ COMMENT ON TABLE table1 IS 'table1';
 COMMENT ON COLUMN table1.a IS null;
 ```
 
-### 1.6 Delete Tables
+### 2.6 Delete Tables
 
 Used to delete a table.
 
