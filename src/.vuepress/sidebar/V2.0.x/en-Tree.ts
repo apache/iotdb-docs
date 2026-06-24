@@ -249,7 +249,6 @@ export const enSidebar = {
             { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
             { text: 'Grafana', link: 'Grafana-Connector' },
             { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
-            { text: 'DataEase', link: 'DataEase' },
           ],
         },
         {
@@ -257,13 +256,6 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'DBeaver', link: 'DBeaver' },
-          ],
-        },
-        {
-          text: '‌IoT Platform',
-          collapsible: true,
-          children: [
-            { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
       ],

@@ -55,7 +55,7 @@ To ensure the AINode installation package you obtained is complete and correct, 
 
 **Preparation:**
 
-- Obtain the official SHA512 checksum: Please contact commercial support.
+- Obtain the official SHA512 checksum.
 
 **Verification Steps (using Linux as an example):**
 
@@ -77,7 +77,7 @@ To ensure the AINode installation package you obtained is complete and correct, 
 
 **Notes:**
 
-- If the verification results do not match, please contact commercial support to obtain a new installation package.
+- If the verification results do not match, please obtain a new installation package.
 - If you encounter a "file not found" prompt during verification, check if the file path is correct or if the installation package was downloaded completely.
 
 ### 2.3 Environment Requirements
@@ -116,7 +116,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 ### 3.3 Importing Built-in Weight Files
 
 *If the deployment environment has network connectivity and can access HuggingFace, the system will automatically pull the built-in model weight files. This step can be skipped.*
-*For offline environments, contact commercial support to obtain the model weight folder and place it under the `/IOTDB_AINODE_HOME/data/ainode/models/builtin` directory.*
+*For offline environments, prepare the model weight folder in advance and place it under the `/IOTDB_AINODE_HOME/data/ainode/models/builtin` directory.*
 **NOTE:** Pay attention to the directory hierarchy. The parent directory for all built-in model weights should be `builtin`.
 
 ### 3.4 Starting AINode
@@ -228,7 +228,7 @@ If you need to upgrade the version of the current AINode, you can refer to the f
 
 3. Update built-in model weights (optional)
 
-   * If the new version involves updates to built-in models, relevant information will be updated in the [Release History](../IoTDB-Introduction/Release-history_apache.md). You may contact commercial support to obtain the latest weight package and replace it in the `data/ainode/models/builtin` directory.
+   * If the new version involves updates to built-in models, relevant information will be updated in the [Release History](../IoTDB-Introduction/Release-history_apache.md). Prepare the latest weight package in advance and replace it in the `data/ainode/models/builtin` directory.
 
 4. After the upgrade is completed, you can start the AINode service and check the node status. For specific commands, refer to Sections 3.4 and 3.5.
 

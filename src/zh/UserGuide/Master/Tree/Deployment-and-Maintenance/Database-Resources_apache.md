@@ -72,11 +72,11 @@
             <td>48核</td>
             <td>1</td>
             <td>2</td>
-            <td>请联系商业支持咨询</td>
+            <td>建议按需评估</td>
       </tr>
       <tr>
             <td>1000w以上</td>
-            <td colspan="4">请联系商业支持咨询</td>
+            <td colspan="4">建议按需评估</td>
       </tr>
   </tbody>
 </table>
@@ -136,11 +136,11 @@
             <td>128G</td>
             <td>1</td>
             <td>2</td>
-            <td>请联系商业支持咨询</td>
+            <td>建议按需评估</td>
       </tr>
       <tr>
             <td>1000w以上</td>
-            <td colspan="4">请联系商业支持咨询</td>
+            <td colspan="4">建议按需评估</td>
       </tr>
   </tbody>
 </table>

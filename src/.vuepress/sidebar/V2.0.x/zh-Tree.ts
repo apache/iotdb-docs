@@ -240,7 +240,6 @@ export const zhSidebar = {
             { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
             { text: 'Grafana', link: 'Grafana-Connector' },
             { text: 'Grafana插件', link: 'Grafana-Plugin' },
-            { text: 'DataEase', link: 'DataEase' },
           ],
         },
         {
@@ -248,13 +247,6 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'DBeaver', link: 'DBeaver' },
-          ],
-        },
-        {
-          text: '物联网平台',
-          collapsible: true,
-          children: [
-            { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
       ],

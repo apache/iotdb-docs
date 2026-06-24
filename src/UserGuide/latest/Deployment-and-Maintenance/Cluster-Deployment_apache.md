@@ -229,7 +229,7 @@ You can use the `show cluster` command to view cluster information:
 
 ![](/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
 
-> The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact commercial support to reapply.
+> The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please reapply.
 
 ### 3.6 One-click Cluster Start and Stop
 
@@ -500,8 +500,7 @@ For more details on cluster maintenance, please refer to: [Cluster Maintenance](
 
     Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
 
-    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact commercial support for consultation on solutions.
-
+    Step 2: Please check the startup log for any other abnormalities.
     Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
 
     Step 4: Clean up the environment:
