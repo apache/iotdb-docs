@@ -96,22 +96,34 @@ Referring to the Apache Software Foundation's community philosophy, our communit
 
 ### Contributor
 
-- Set up a development platform account:
-  - Create a Jira account: [https://issues.apache.org/jira/projects/IOTDB/issues](https://issues.apache.org/jira/projects/IOTDB/issues) to claim an issue.
-  - Create a Confluence account: [https://cwiki.apache.org/confluence/display/IOTDB/Home](https://cwiki.apache.org/confluence/display/IOTDB/Home). This will be used to write the design documentation.
-    Once created, send an email to the mailing list with **Introduction** and **Jira ID** and **Confluence ID** and the community PMC will add permissions to the account.
-- Long Term Matters:
-  - Learn how to debug IoTDB
-    - [How to debug IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
-  - Understand the basics of using IoTDB
-    - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
-    - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
-    - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
-    - [API Interface](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
-  - Understand IoTDB's Internal Design
-    - [IoTDB Design Documentation](https://cwiki.apache.org/confluence/display/IOTDB/Home)
-  - Finding tasks to be done
-    - [Resolving Issues on Jira](https://issues.apache.org/jira/projects/IOTDB/issues)
+Becoming a Contributor requires no election: anyone who makes a valid contribution to the project is a Contributor. The following is a recommended path to start contributing to IoTDB from scratch.
+
+#### Step 1: Set up your development accounts
+
+- Create a Jira account: <https://issues.apache.org/jira/projects/IOTDB/issues>, used to claim development tasks (issues).
+- Create a Confluence account: <https://cwiki.apache.org/confluence/display/IOTDB/Home>, used to read and write design documents.
+- Once your accounts are ready, send an introduction email to the developer mailing list <dev@iotdb.apache.org> with your **Jira ID** and **Confluence ID**, and the community PMC will grant you the corresponding permissions.
+
+#### Step 2: Get the code running
+
+- To clone the source, build from source, and start and debug IoTDB in an IDE, refer to the documentation in the code repository:
+  - [Apache IoTDB README](https://github.com/apache/iotdb/blob/master/README.md) (environment requirements, building, and starting DataNode/CLI with breakpoint debugging in IDEA)
+  - [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html) (contribution workflow, code formatting, PR conventions, etc.)
+- To get familiar with IoTDB as a user first, see:
+  - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+  - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
+  - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
+  - [Java Native API](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
+
+#### Step 3: Understand the internal design
+
+- [IoTDB Design Documentation (Confluence)](https://cwiki.apache.org/confluence/display/IOTDB/Home)
+
+#### Step 4: Pick a task and start contributing
+
+- Browse and claim issues on Jira: <https://issues.apache.org/jira/projects/IOTDB/issues>. Newcomers are encouraged to start with issues labeled newbie / good first issue.
+- For the full contribution workflow (claim an issue → submit a PR → review → merge), see the [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
+- If you run into problems, feel free to ask via the mailing list or the channels listed in [Communication Channels](https://iotdb.apache.org/Community/Communication-Channels.html).
 
 ## Code of Conduct in the Apache Community
 

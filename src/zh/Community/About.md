@@ -100,22 +100,34 @@
 
 ### Contributor
 
-- 创建开发平台账号：
-  - 创建 Jira 账号：[https://issues.apache.org/jira/projects/IOTDB/issues](https://issues.apache.org/jira/projects/IOTDB/issues) ，用来认领 issue。
-  - 创建 Confluence 账号：[https://cwiki.apache.org/confluence/display/IOTDB/Home](https://cwiki.apache.org/confluence/display/IOTDB/Home) ，之后用来写设计文档。
-    创建好后，向邮件列表发送一封邮件，包括 **自我介绍** 以及 **Jira ID** 和 **Confluence ID**，社区 PMC 会为账户添加权限。
-- 长期事项：
-  - 学习如何调试 IoTDB
-    - [如何调试 IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
-  - 学习 IoTDB 的基本使用
-    - [IoTDB 下载与安装](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
-    - [IoTDB 快速上手](https://iotdb.apache.org/zh/UserGuide/Master/QuickStart/QuickStart.html)
-    - [数据模式与概念](https://iotdb.apache.org/zh/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
-    - [API 接口](https://iotdb.apache.org/zh/UserGuide/latest/API/Programming-Java-Native-API.html)
-  - 了解 IoTDB 的内部设计
-    - [IoTDB 设计文档](https://cwiki.apache.org/confluence/display/IOTDB/Home)
-  - 寻找待做任务
-    - [在 Jira 上解决 issue](https://issues.apache.org/jira/projects/IOTDB/issues)
+成为 Contributor 不需要评选，任何向项目提交了有效贡献的人都是 Contributor。下面是从零开始参与 IoTDB 开发的推荐路径。
+
+#### 第一步：准备开发平台账号
+
+- 注册 Jira 账号：<https://issues.apache.org/jira/projects/IOTDB/issues> ，用于认领开发任务（issue）。
+- 注册 Confluence 账号：<https://cwiki.apache.org/confluence/display/IOTDB/Home> ，用于阅读和编写设计文档。
+- 账号注册完成后，向开发者邮件列表 <dev@iotdb.apache.org> 发送一封自我介绍邮件，附上你的 **Jira ID** 和 **Confluence ID**，社区 PMC 会为你开通相应权限。
+
+#### 第二步：把代码跑起来
+
+- 拉取源码、从源码编译、在 IDE 中启动并调试 IoTDB，请参考代码仓库的说明文档：
+  - [Apache IoTDB README](https://github.com/apache/iotdb/blob/master/README.md)（环境要求、编译，以及在 IDEA 中启动 DataNode/CLI、设置断点调试）
+  - [贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)（贡献流程、代码格式化、PR 规范等）
+- 想先以普通用户身份了解 IoTDB，可参考：
+  - [IoTDB 下载与安装](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+  - [IoTDB 快速上手](https://iotdb.apache.org/zh/UserGuide/latest/QuickStart/QuickStart.html)
+  - [数据模型与概念](https://iotdb.apache.org/zh/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
+  - [Java 原生 API](https://iotdb.apache.org/zh/UserGuide/latest/API/Programming-Java-Native-API.html)
+
+#### 第三步：了解内部设计
+
+- [IoTDB 设计文档（Confluence）](https://cwiki.apache.org/confluence/display/IOTDB/Home)
+
+#### 第四步：找一个任务并开始贡献
+
+- 在 Jira 上挑选并认领 issue：<https://issues.apache.org/jira/projects/IOTDB/issues> ，新手建议从标记为新手友好（newbie / good first issue）的任务入手。
+- 完整的贡献流程（认领 issue → 提交 PR → 审阅 → 合并）请见[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
+- 遇到问题，欢迎随时通过[交流与反馈](https://iotdb.apache.org/zh/Community/Feedback.html)中的邮件列表、微信群或 QQ 群提问。
 
 ## 社区公约
 
