@@ -524,7 +524,6 @@ IoTDB> select * from information_schema.keywords limit 10
 | internal\_port                             | INT32     | ATTRIBUTE       | Internal port        |
 | version                                    | STRING    | ATTRIBUTE       | Version number       |
 | build\_info                                | STRING    | ATTRIBUTE       | Commit ID            |
-| activate\_status (Enterprise Edition only) | STRING    | ATTRIBUTE       | Activation status    |
 
 * Only administrators are allowed to perform operations on this table.
 * Query example:

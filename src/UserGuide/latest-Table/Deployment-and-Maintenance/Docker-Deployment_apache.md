@@ -275,7 +275,7 @@ On each server, create two YML files: `confignode.yml` and `datanode.yml`. Examp
 version: "3"
 services:
   iotdb-confignode:
-    image: iotdb-enterprise:2.0.x-standalone #The image used
+    image: apache/iotdb:2.0.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]
@@ -310,7 +310,7 @@ services:
 version: "3"
 services:
   iotdb-datanode:
-    image: iotdb-enterprise:2.0.x-standalone #The image used
+    image: apache/iotdb:2.0.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-datanode
     command: ["bash", "-c", "entrypoint.sh datanode"]

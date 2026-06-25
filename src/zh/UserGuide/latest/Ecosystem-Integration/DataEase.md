@@ -44,12 +44,12 @@
 | :-------------------- | :----------------------------------------------------------- |
 | IoTDB                 | 版本无要求，安装请参考 IoTDB [部署指导](../QuickStart/QuickStart_apache.md) |
 | JDK                   | 建议 JDK11 及以上版本（推荐部署 JDK17 及以上版本）           |
-| DataEase              | 要求 v1 系列 v1.18 版本，安装请参考 DataEase 官网[安装指导](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)（暂不支持 v2.x，其他版本适配请联系工作人员） |
-| DataEase-IoTDB 连接器 | 请联系工作人员获取                                           |
+| DataEase              | 要求 v1 系列 v1.18 版本，安装请参考 DataEase 官网[安装指导](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)（暂不支持 v2.x） |
+| DataEase-IoTDB 连接器 | 获取安装包                                           |
 
 ## 3. 安装步骤
 
-步骤一：请联系商务获取压缩包，解压缩安装包（ iotdb-api-source-1.0.0.zip ）
+步骤一：解压缩安装包（ iotdb-api-source-1.0.0.zip ）
 
 步骤二：解压后，修改`config`文件夹中的配置文件`application.properties`
 

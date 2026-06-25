@@ -518,7 +518,6 @@ IoTDB> select * from information_schema.keywords limit 10
 | internal\_port               | INT32    | ATTRIBUTE | 内部端口      |
 | version                      | STRING   | ATTRIBUTE | 版本号        |
 | build\_info                  | STRING   | ATTRIBUTE | CommitID      |
-| activate\_status（仅企业版） | STRING   | ATTRIBUTE | 激活状态      |
 
 * 仅管理员可执行操作
 * 查询示例：

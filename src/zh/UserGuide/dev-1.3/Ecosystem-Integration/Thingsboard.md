@@ -42,13 +42,13 @@
 | :-------------------------- | :----------------------------------------------------------- |
 | JDK                         | 要求已安装 17 及以上版本，具体下载请查看 [Oracle 官网](https://www.oracle.com/java/technologies/downloads/) |
 | IoTDB                       | 要求已安装 V1.3.0 及以上版本，具体安装过程请参考[ 部署指导](../QuickStart/QuickStart_apache.md) |
-| ThingsBoard（IoTDB 适配版） | 安装包请联系商务获取，具体安装步骤参见下文                   |
+| ThingsBoard（IoTDB 适配版） | 获取安装包，具体安装步骤参见下文                   |
 
 ## 安装步骤
 
 具体安装步骤请参考 [ThingsBoard 官网](https://thingsboard.io/docs/user-guide/install/ubuntu/)。其中：
 
-- [ThingsBoard 官网](https://thingsboard.io/docs/user-guide/install/ubuntu/)中【步骤 2 ThingsBoard 服务安装】使用上方从商务获取的安装包进行安装（使用 ThingsBoard 官方安装包无法使用 iotdb）
+- [ThingsBoard 官网](https://thingsboard.io/docs/user-guide/install/ubuntu/)中【步骤 2 ThingsBoard 服务安装】使用获取的安装包进行安装（使用 ThingsBoard 官方安装包无法使用 iotdb）
 - [ThingsBoard 官网](https://thingsboard.io/docs/user-guide/install/ubuntu/)中【步骤 3 配置 ThingsBoard 数据库-ThingsBoard 配置】步骤中需要按照下方内容添加环境变量
 
 ```Bash

@@ -211,7 +211,7 @@ Total line number = 4
 It costs 0.110s
 ```
 
-7. Repeat the above steps for other nodes. It is important to note that for a new node to join the original cluster successfully, the original cluster must have sufficient allowance for additional DataNode nodes. Otherwise, you will need to contact the support team to reapply for activation code information.
+7. Repeat the above steps for other nodes. It is important to note that for a new node to join the original cluster successfully, the original cluster must have sufficient allowance for additional DataNode nodes.
 
 #### 1.3.3 Manual Load Balancing (Optional)
 

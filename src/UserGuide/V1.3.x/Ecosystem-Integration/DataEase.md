@@ -43,12 +43,12 @@
 | :-------------------- | :----------------------------------------------------------- |
 | IoTDB                 | Version not required, please refer to [Deployment Guidance](../QuickStart/QuickStart_apache.md) |
 | JDK                   | Requires JDK 11 or higher (JDK 17 or above is recommended for optimal performance)           |
-| DataEase              | Requires v1 series v1.18 version, please refer to the official [DataEase Installation Guide](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)(V2.x is currently not supported. For integration with other versions, please contact staff) |
-| DataEase-IoTDB Connector | Please contact staff for assistance                                           |
+| DataEase              | Requires v1 series v1.18 version, please refer to the official [DataEase Installation Guide](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)(V2.x is currently not supported) |
+| DataEase-IoTDB Connector | Obtain the installation package                                           |
 
 ## Installation Steps
 
-Step 1: Please contact staff to obtain the file and unzip the installation package `iotdb-api-source-1.0.0.zip`
+Step 1: Unzip the installation package `iotdb-api-source-1.0.0.zip`
 
 Step 2: After extracting the files, modify the `application.properties` configuration file in the `config` folder
 
