@@ -98,11 +98,10 @@ Referring to the Apache Software Foundation's community philosophy, our communit
 
 Becoming a Contributor requires no election: anyone who makes a valid contribution to the project is a Contributor. The following is a recommended path to start contributing to IoTDB from scratch.
 
-#### Step 1: Set up your development accounts
+#### Step 1: Join the community discussion
 
-- Create a Jira account: <https://issues.apache.org/jira/projects/IOTDB/issues>, used to claim development tasks (issues).
-- Create a Confluence account: <https://cwiki.apache.org/confluence/display/IOTDB/Home>, used to read and write design documents.
-- Once your accounts are ready, send an introduction email to the developer mailing list <dev@iotdb.apache.org> with your **Jira ID** and **Confluence ID**, and the community PMC will grant you the corresponding permissions.
+- Subscribe to the developer mailing list <dev@iotdb.apache.org>. The mailing list is the official communication channel of the Apache community, where development plans, technical discussions, and requests for help all take place. See [Communication Channels](https://iotdb.apache.org/Community/Communication-Channels.html) for how to subscribe.
+- When participating for the first time, feel free to send an email to introduce yourself. If you run into any problems during development, you can start a discussion on the mailing list.
 
 #### Step 2: Get the code running
 
@@ -110,19 +109,20 @@ Becoming a Contributor requires no election: anyone who makes a valid contributi
   - [Apache IoTDB README](https://github.com/apache/iotdb/blob/master/README.md) (environment requirements, building, and starting DataNode/CLI with breakpoint debugging in IDEA)
   - [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html) (contribution workflow, code formatting, PR conventions, etc.)
 - To get familiar with IoTDB as a user first, see:
-  - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+  - [IoTDB download and installation](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.html)
   - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
   - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
   - [Java Native API](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
 
 #### Step 3: Understand the internal design
 
-- [IoTDB Design Documentation (Confluence)](https://cwiki.apache.org/confluence/display/IOTDB/Home)
+- The design and implementation of IoTDB mainly live in the source code; reading it together with the [README](https://github.com/apache/iotdb/blob/master/README.md) is recommended.
+- If you have questions about the design, feel free to raise them on the mailing list <dev@iotdb.apache.org>, where community members will join the discussion.
 
 #### Step 4: Pick a task and start contributing
 
-- Browse and claim issues on Jira: <https://issues.apache.org/jira/projects/IOTDB/issues>. Newcomers are encouraged to start with issues labeled newbie / good first issue.
-- For the full contribution workflow (claim an issue → submit a PR → review → merge), see the [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
+- You can look for tasks that interest you on [GitHub Issues](https://github.com/apache/iotdb/issues) or [Jira](https://issues.apache.org/jira/projects/IOTDB/issues), or describe what you would like to work on via the mailing list. Newcomers are encouraged to start with issues labeled newbie / good first issue.
+- For the full contribution workflow (submit a PR → review → merge), see the [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 - If you run into problems, feel free to ask via the mailing list or the channels listed in [Communication Channels](https://iotdb.apache.org/Community/Communication-Channels.html).
 
 ## Code of Conduct in the Apache Community

@@ -102,11 +102,10 @@
 
 成为 Contributor 不需要评选，任何向项目提交了有效贡献的人都是 Contributor。下面是从零开始参与 IoTDB 开发的推荐路径。
 
-#### 第一步：准备开发平台账号
+#### 第一步：加入社区交流
 
-- 注册 Jira 账号：<https://issues.apache.org/jira/projects/IOTDB/issues> ，用于认领开发任务（issue）。
-- 注册 Confluence 账号：<https://cwiki.apache.org/confluence/display/IOTDB/Home> ，用于阅读和编写设计文档。
-- 账号注册完成后，向开发者邮件列表 <dev@iotdb.apache.org> 发送一封自我介绍邮件，附上你的 **Jira ID** 和 **Confluence ID**，社区 PMC 会为你开通相应权限。
+- 订阅开发者邮件列表 <dev@iotdb.apache.org>。邮件列表是 Apache 社区官方指定的交流渠道，开发计划、技术讨论、问题求助都在这里进行，订阅方式见[交流与反馈](https://iotdb.apache.org/zh/Community/Feedback.html)。
+- 第一次参与时，欢迎发一封邮件做个自我介绍。开发过程中遇到任何问题，都可以在邮件列表中发起讨论。
 
 #### 第二步：把代码跑起来
 
@@ -114,19 +113,20 @@
   - [Apache IoTDB README](https://github.com/apache/iotdb/blob/master/README.md)（环境要求、编译，以及在 IDEA 中启动 DataNode/CLI、设置断点调试）
   - [贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)（贡献流程、代码格式化、PR 规范等）
 - 想先以普通用户身份了解 IoTDB，可参考：
-  - [IoTDB 下载与安装](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+  - [IoTDB 下载与安装](https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.html)
   - [IoTDB 快速上手](https://iotdb.apache.org/zh/UserGuide/latest/QuickStart/QuickStart.html)
   - [数据模型与概念](https://iotdb.apache.org/zh/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
   - [Java 原生 API](https://iotdb.apache.org/zh/UserGuide/latest/API/Programming-Java-Native-API.html)
 
 #### 第三步：了解内部设计
 
-- [IoTDB 设计文档（Confluence）](https://cwiki.apache.org/confluence/display/IOTDB/Home)
+- IoTDB 的设计与实现主要体现在源码中，建议结合 [README](https://github.com/apache/iotdb/blob/master/README.md) 和源码阅读。
+- 对设计有疑问时，欢迎在邮件列表 <dev@iotdb.apache.org> 中提出，社区成员会参与讨论。
 
 #### 第四步：找一个任务并开始贡献
 
-- 在 Jira 上挑选并认领 issue：<https://issues.apache.org/jira/projects/IOTDB/issues> ，新手建议从标记为新手友好（newbie / good first issue）的任务入手。
-- 完整的贡献流程（认领 issue → 提交 PR → 审阅 → 合并）请见[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
+- 你可以在 [GitHub Issues](https://github.com/apache/iotdb/issues) 或 [Jira](https://issues.apache.org/jira/projects/IOTDB/issues) 上寻找感兴趣的任务，也可以在邮件列表中说明你想做的方向。新手建议从标记为新手友好（newbie / good first issue）的任务入手。
+- 完整的贡献流程（提交 PR → 审阅 → 合并）请见[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
 - 遇到问题，欢迎随时通过[交流与反馈](https://iotdb.apache.org/zh/Community/Feedback.html)中的邮件列表、微信群或 QQ 群提问。
 
 ## 社区公约
