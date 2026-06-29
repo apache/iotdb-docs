@@ -38,8 +38,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
-        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data_apache' },
+        { text: 'Basic Concepts', link: 'Common-Concepts_apache' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_apache' },
         { text: 'Data Type', link: 'Data-Type_apache' },
       ],
