@@ -495,7 +495,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 
 |Name| cache\_expire                                            |
 |:---:|:--------------------------------------------------------|
-|Description| Expiration time for caching customer login information  |
+|Description| Expiration time for caching customer login information. This parameter will be deprecated after V2.0.8.  |
 |Type| int32                                                   |
 |Default| 28800                                                   |
 |Effective| After restarting system                                 |
@@ -504,7 +504,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 
 |Name| cache\_max\_num |
 |:---:|:--------------|
-|Description| The maximum number of users stored in the cache  |
+|Description| The maximum number of users stored in the cache. This parameter will be deprecated after V2.0.8.  |
 |Type| int32         |
 |Default| 100           |
 |Effective| After restarting system          |
@@ -513,7 +513,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 
 |Name| cache\_init\_num |
 |:---:|:---------------|
-|Description| Initial cache capacity        |
+|Description| Initial cache capacity. This parameter will be deprecated after V2.0.8.        |
 |Type| int32          |
 |Default| 10             |
 |Effective| After restarting system           |
