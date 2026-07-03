@@ -859,7 +859,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | cache_expire_in_seconds                                      |
 | ----------- | ------------------------------------------------------------ |
-| Description | The expiration time of the user login information cache (in seconds) |
+| Description | The expiration time of the user login information cache (in seconds). This parameter will be deprecated after V2.0.8. |
 | Type        | int32                                                        |
 | Default     | 28800                                                        |
 | Effective   | Restart required.                                            |
@@ -868,7 +868,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | cache_max_num                                                |
 | ----------- | ------------------------------------------------------------ |
-| Description | The maximum number of users can be stored in the user login cache. |
+| Description | The maximum number of users can be stored in the user login cache. This parameter will be deprecated after V2.0.8. |
 | Type        | int32                                                        |
 | Default     | 100                                                          |
 | Effective   | Restart required.                                            |
@@ -877,7 +877,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | cache_init_num                                               |
 | ----------- | ------------------------------------------------------------ |
-| Description | The initial capacity of users can be stored in the user login cache. |
+| Description | The initial capacity of users can be stored in the user login cache. This parameter will be deprecated after V2.0.8. |
 | Type        | int32                                                        |
 | Default     | 10                                                           |
 | Effective   | Restart required.                                            |
