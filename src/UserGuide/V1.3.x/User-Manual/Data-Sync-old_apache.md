@@ -537,6 +537,6 @@ V1.3.0/1/2:
 | batch.enable            | Whether to enable batched log transmission mode to improve transmission throughput and reduce IOPS	       | Boolean: true, false                                         | Optional     | true         |
 | batch.max-delay-seconds | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: s)	  | Integer                                                      | Optional     | 1            |
 | batch.size-bytes        | Effective when batched log transmission mode is enabled, it represents the maximum batch size for a batch of data (unit: byte)	 | Long                                                         | Optional     | 16*1024*1024 |
-| ssl.trust-store-path    | The trust store certificate path required to connect to the target DataNode	              | String: certificate directory name, when configured as a relative directory, it is relative to the IoTDB root directory.  Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'| Required     | -            |
-| ssl.trust-store-pwd     | The trust store certificate password required to connect to the target DataNode	              | Integer                                                      | Required     | -            |
+| ssl.trust-store-path    | The trust store certificate path required to connect to the target DataNode	              | String: 'pki/trusted'| Required     | -            |
+| ssl.trust-store-pwd     | The trust store certificate password required to connect to the target DataNode	              | String: 'root'                                                      | Required     | -            |
 
