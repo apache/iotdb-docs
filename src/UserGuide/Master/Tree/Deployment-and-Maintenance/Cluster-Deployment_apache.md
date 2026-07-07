@@ -508,7 +508,15 @@ For more details on cluster maintenance, please refer to: [Cluster Maintenance](
     a. Terminate all ConfigNode Node and DataNode processes.
     ```Bash
       # 1. Stop the ConfigNode and DataNode services
+      # Unix/OS X
       sbin/stop-standalone.sh
+
+      # Windows
+      # Before V2.0.4.x
+      sbin\stop-standalone.bat
+
+      # V2.0.4.x and later
+      sbin\windows\stop-standalone.bat
 
       # 2. Check for any remaining processes
       jps
