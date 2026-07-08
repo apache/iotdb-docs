@@ -185,6 +185,7 @@ export const zhSidebar = {
           ],
         },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C原生接口', link: 'Programming-C-Native-API_apache' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },

@@ -180,6 +180,7 @@ export const enSidebar = {
       children: [
         { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C Native API', link: 'Programming-C-Native-API_apache' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_apache' },
         { text: 'GO Native API', link: 'Programming-Go-Native-API_apache' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API_apache' },

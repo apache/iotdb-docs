@@ -191,6 +191,7 @@ export const enSidebar = {
           ],
         },
         { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C Native API', link: 'Programming-C-Native-API_apache' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
