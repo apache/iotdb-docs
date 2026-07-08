@@ -195,6 +195,9 @@ showQueriesStatement
 - **datanodeid**: ID of the DataNode executing the query.
 - **elapsedtime**: Time elapsed since the query started (in seconds).
 - **statement**: The SQL statement being executed.
+- **WaitTimeInServer**: Cumulative time that the client request waits in the server for results to be returned, in seconds (supported since V2.0.10).
+- **ClientIp**: IP address of the client that initiated the query (supported since V2.0.10).
+- **Timeout**: Timeout of the query, in ms (supported since V2.0.10).
 
 **Example**:
 
@@ -205,11 +208,11 @@ IoTDB> SHOW QUERIES WHERE elapsedtime > 0.003
 **Result**:
 
 ```SQL
-+-----------------------------+-----------------------+----------+-----------+--------------------------------------+
-|                         Time|                QueryId|DataNodeId|ElapsedTime|                             Statement|
-+-----------------------------+-----------------------+----------+-----------+--------------------------------------+
-|2025-05-09T15:16:01.293+08:00|20250509_071601_00015_1|         1|      0.006|SHOW QUERIES WHERE elapsedtime > 0.003|
-+-----------------------------+-----------------------+----------+-----------+--------------------------------------+
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+----------------+---------+-------+
+|                         Time|                QueryId|DataNodeId|ElapsedTime|                             Statement|WaitTimeInServer| ClientIp|Timeout|
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+----------------+---------+-------+
+|2026-06-01T11:13:39.057+08:00|20260601_031339_00003_1|         1|      0.074|SHOW QUERIES WHERE elapsedtime > 0.003|       0.0736961|127.0.0.1|  60000|
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+----------------+---------+-------+
 ```
 
 ### 1.6 Viewing Region Information

@@ -191,17 +191,20 @@ IoTDB> select * from information_schema.regions
 | `elapsed_time` | FLOAT     | ATTRIBUTE   | Query execution duration (in seconds)                      |
 | `statement`    | STRING    | ATTRIBUTE   | SQL statement of the query                                 |
 | `user`         | STRING    | ATTRIBUTE   | User who initiated the query                               |
+| `wait_time_in_server` | FLOAT     | ATTRIBUTE   | Cumulative time that the client request waits in the server for results to be returned, in seconds (supported since V2.0.10) |
+| `client_ip`    | STRING    | ATTRIBUTE   | IP address of the client that initiated the query (supported since V2.0.10) |
+| `timeout`      | INT64     | ATTRIBUTE   | Timeout of the query, in ms (supported since V2.0.10)      |
 
 * For regular users, the query results only display the queries executed by themselves; for administrators, all queries are displayed.
 * Query Example:
 
 ```SQL
 IoTDB> select * from information_schema.queries
-+-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+
-|               query_id|                   start_time|datanode_id|elapsed_time|                               statement|user|
-+-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+
-|20250331_023242_00011_1|2025-03-31T10:32:42.360+08:00|          1|       0.025|select * from information_schema.queries|root|
-+-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+
++-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+-------------------+---------+-------+
+|               query_id|                   start_time|datanode_id|elapsed_time|                               statement|user|wait_time_in_server|client_ip|timeout|
++-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+-------------------+---------+-------+
+|20260601_032216_00018_1|2026-06-01T11:22:16.815+08:00|          1|       0.014|select * from information_schema.queries|root|          0.0158324|127.0.0.1|  60000|
++-----------------------+-----------------------------+-----------+------------+----------------------------------------+----+-------------------+---------+-------+
 ```
 
 ### 2.5 COLUMNS
