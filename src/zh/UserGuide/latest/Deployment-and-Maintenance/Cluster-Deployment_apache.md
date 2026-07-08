@@ -484,7 +484,7 @@ remove datanode [datanode_id]
 
     a. 结束所有 ConfigNode 和 DataNode 进程。
    
-```Bash
+    ```Bash
         # 1. 停止 ConfigNode 和 DataNode 服务
         # Unix/OS X
         sbin/stop-standalone.sh
@@ -506,7 +506,7 @@ remove datanode [datanode_id]
         # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
         ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
     ```
-     b.  删除 data 和 logs 目录。 
+    b.  删除 data 和 logs 目录。
 
     说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
     ```Bash
