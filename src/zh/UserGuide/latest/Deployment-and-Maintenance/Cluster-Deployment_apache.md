@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -468,7 +468,7 @@ remove datanode [datanode_id]
 
 ### 4.3 集群维护
 
-更多关于集群维护的介绍可参考：[集群维护](../User-Manual/Load-Balance.md)
+更多关于集群维护的介绍可参考：[集群维护](../User-Manual/Load-Balance_apache.md)
 
 ## 5. 常见问题
 

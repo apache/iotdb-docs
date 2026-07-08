@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -483,7 +483,7 @@ sbin\windows\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 
 ### 4.3 Cluster Maintenance
 
-For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance_apache.md)
 
 ## 5. Common Issues
 

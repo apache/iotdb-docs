@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -136,7 +136,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
-            { text: 'Cluster Maintenance', link: 'Load-Balance' },
+            { text: 'Cluster Maintenance', link: 'Load-Balance_apache' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_apache' },
             { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_apache' },
           ],
