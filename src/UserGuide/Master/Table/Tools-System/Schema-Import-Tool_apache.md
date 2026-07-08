@@ -34,7 +34,7 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 | `-h`            | `-- host`                 | Hostname                                                                 | No       | 127.0.0.1                                 |
 | `-p`            | `--port`                  | Port number                                                              | No       | 6667                                      |
 | `-u`            | `--username`              | Username                                                                 | No       | root                                      |
-| `-pw`           | `--password`              | Password. Supported for hidden input since V2.0.9-beta                                                                | No       | root                                      |
+| `-pw`           | `--password`              | Password. Supported for hidden input since V2.0.10                                                                | No       | root                                      |
 | `-sql_dialect`  | `--sql_dialect`           | Specifies whether the server uses`tree `model or`table `model            | No      | tree                                      |
 | `-db`           | `--database`              | Target database for import                                               | Yes      | -                                         |
 | `-table`        | `--table`                 | Target table for import (only applies when`-sql_dialect=table`)          | No      | -                                         |
@@ -42,9 +42,9 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 | `-fd`           | `--fail_dir`              | Directory to save failed import files                                    | No       |                                           |
 | `-lpf`          | `--lines_per_failed_file` | Maximum lines per failed file (only applies when`-sql_dialect=table`)    | No      | 100000Range：`0 to Integer.Max=2147483647` |
 | `-help`         | `--help`                  | Display help information                                                 | No       |                                           |
-| `-usessl`       | `--use_ssl`               | Use SSL protocol. Supported since V2.0.9-beta                            | No      | -                                    |
-| `-ts`           | `--trust_store`           | Trust store. Supports hidden input. Supported since V2.0.9-beta          | No      | -                                    |
-| `-tpw`          | `--trust_store_password`  | Trust store password. Supports hidden input. Supported since V2.0.9-beta | No        | -                                    |
+| `-usessl`       | `--use_ssl`               | Use SSL protocol. Supported since V2.0.10                            | No      | -                                    |
+| `-ts`           | `--trust_store`           | Trust store. Supports hidden input. Supported since V2.0.10          | No      | -                                    |
+| `-tpw`          | `--trust_store_password`  | Trust store password. Supports hidden input. Supported since V2.0.10 | No        | -                                    |
 
 ### 2.2 Command
 

@@ -36,7 +36,7 @@
 | `-h`           | `-- host`              | 主机名                                             | 否      | 127.0.0.1                             |
 | `-p`           | `--port`               | 端口号                                             | 否      | 6667                                  |
 | `-u`           | `--username`           | 用户名                                             | 否      | root                                  |
-| `-pw`          | `--password`           | 密码，自 V2.0.9-beta 起支持隐藏输入                        | 否      | root                                  |
+| `-pw`          | `--password`           | 密码                                             | 否      | root                                  |
 | `-t`           | `--target`             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                       | 是      |                                       |
 | `-path`        | `--path_pattern`       | 指定导出元数据的path  pattern                           | 是      |                                       |
 | `-pf`          | `--path_pattern_file`  | 指定导出文件的名称。                                      | 否      |                     |

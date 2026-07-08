@@ -307,7 +307,7 @@ Execution result:
 
 **Note**: Statistics are based on the actual size of data in TsFiles; therefore, deletions made via `mods` are not considered.
 
-> Supported since version 2.0.9-beta
+> Supported since version 2.0.10
 
 #### Syntax:
 ```sql
@@ -627,7 +627,7 @@ IoTDB> KILL ALL QUERIES;
 
 **Definition**: Add the `DEBUG` keyword at the beginning of an SQL query statement. During execution, debug logs will be output, including underlying file scan information involved in the query.
 
-> Supported since V2.0.9-beta
+> Supported since V2.0.10
 
 #### Syntax:
 ```sql

@@ -24,7 +24,7 @@
 
 CTE (Common Table Expressions) supports defining one or more temporary result sets (called common tables) using the `WITH` clause. These result sets can be referenced multiple times in subsequent parts of the same query. CTE provides a clean way to construct complex queries, making SQL code more readable and maintainable.
 
-> Note: This feature is available since version 2.0.9-beta.
+> Note: This feature is available since version 2.0.10.
 
 ## 2. Syntax Definition
 

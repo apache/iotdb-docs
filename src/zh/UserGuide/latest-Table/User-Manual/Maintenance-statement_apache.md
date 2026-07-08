@@ -403,7 +403,7 @@ IoTDB> SHOW SERVICES ON 1
 
 **含义**：默认返回指定节点（通过 `node_id` 指定）的配置文件中已生效的配置项；若未指定 `node_id`，则返回客户端直连的 DataNode 配置。 添加 `all` 参数返回所有配置项（未配置项的 `value` 为 `null`）；添加 `with desc` 参数返回配置项含描述信息。
 
-> V2.0.9-beta 起支持该功能
+> V2.0.10 起支持该功能
 
 #### 语法：
 
@@ -882,7 +882,7 @@ IoTDB> KILL ALL QUERIES; -- 终止所有query
 
 **​含义：​**在 SQL 查询语句开头添加 debug 关键字，执行时将输出 debug 日志，包括涉及到的底层文件 scan 信息。
 
-> V2.0.9-beta 起支持该功能
+> V2.0.10 起支持该功能
 
 #### 语法：
 

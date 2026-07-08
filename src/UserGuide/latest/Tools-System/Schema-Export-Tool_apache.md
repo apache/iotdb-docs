@@ -34,7 +34,7 @@ The schema export tool `export-schema.sh/bat` is located in the `tools` director
 | `-h`             | `--host`                 | Hostname                                                                 | No                                  | 127.0.0.1                                     |
 | `-p`             | `--port`                  | Port number                                                              | No                                  | 6667                                          |
 | `-u`             | `--username`              | Username                                                                 | No                                  | root                                          |
-| `-pw`            | `--password`              | Password. Supported for hidden input since V2.0.9-beta                   | No                                  | root                                          |
+| `-pw`            | `--password`              | Password. Supported for hidden input since V2.0.10                   | No                                  | root                                          |
 | `-sql_dialect`   | `--sql_dialect`           | Specifies whether the server uses`tree `model or`table `model            | No                                 | tree                                          |
 | `-db`            | `--database`              | Target database to export (only applies when`-sql_dialect=table`)        | Required if`-sql_dialect=table` | -                                             |
 | `-table`         | `--table`                 | Target table to export (only applies when`-sql_dialect=table`)           | No                                 | -                                             |
@@ -44,9 +44,9 @@ The schema export tool `export-schema.sh/bat` is located in the `tools` director
 | `-lpf`           | `--lines_per_file`        | Maximum lines per dump file (only applies when`-sql_dialect=tree`)       | No                                 | `10000`                                       |
 | `-timeout`       | `--query_timeout`         | Query timeout in milliseconds (`-1`= no timeout)                         | No                                  | -1Range：`-1 to Long. max=9223372036854775807` |
 | `-help`          | `--help`                  | Display help information                                                 | No                                  |                                               |
-| `-usessl`        | `--use_ssl`               | Use SSL protocol. Supported since V2.0.9-beta                            | No      | -                                    |
-| `-ts`            | `--trust_store`           | Trust store. Supports hidden input. Supported since V2.0.9-beta          | No      | -                                    |
-| `-tpw`           | `--trust_store_password`  | Trust store password. Supports hidden input. Supported since V2.0.9-beta | No        | -                                    |
+| `-usessl`        | `--use_ssl`               | Use SSL protocol. Supported since V2.0.10                            | No      | -                                    |
+| `-ts`            | `--trust_store`           | Trust store. Supports hidden input. Supported since V2.0.10          | No      | -                                    |
+| `-tpw`           | `--trust_store_password`  | Trust store password. Supports hidden input. Supported since V2.0.10 | No        | -                                    |
 
 ### 2.2 Command
 

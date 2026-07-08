@@ -161,7 +161,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                                                                    | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
 | APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                                                                               | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
 | APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）                                                         | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
-| APPROX_PERCENTILE     | APPROX_PERCENTILE 函数用于计算数据集中指定百分位数的值，帮助快速了解数据分布情况（如中位数、四分位数等），支持基于权重的百分位数计算；若百分位数不指向精确位置，返回相邻数值在该位置的线性插值。内存占用与质心数量相关，可通过 compression 参数限定最大质心数量，误差可通过经验公式预估。注意：该函数自 V2.0.9-beta 起支持 | 单权重版本：APPROX_PERCENTILE (x, percentage) <br> x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> percentage：目标分位数，DOUBLE 类型。<br> 带权重版本：APPROX_PERCENTILE (x, w, percentage) <br>x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> w：权重列，整型（与待计算列长度对齐，Null 或 0 表示该行忽略）；<br> percentage：目标分位数，DOUBLE 类型。 | 与待计算列 x 的类型相同                 |
+| APPROX_PERCENTILE     | APPROX_PERCENTILE 函数用于计算数据集中指定百分位数的值，帮助快速了解数据分布情况（如中位数、四分位数等），支持基于权重的百分位数计算；若百分位数不指向精确位置，返回相邻数值在该位置的线性插值。内存占用与质心数量相关，可通过 compression 参数限定最大质心数量，误差可通过经验公式预估。注意：该函数自 V2.0.10 起支持 | 单权重版本：APPROX_PERCENTILE (x, percentage) <br> x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> percentage：目标分位数，DOUBLE 类型。<br> 带权重版本：APPROX_PERCENTILE (x, w, percentage) <br>x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> w：权重列，整型（与待计算列长度对齐，Null 或 0 表示该行忽略）；<br> percentage：目标分位数，DOUBLE 类型。 | 与待计算列 x 的类型相同                 |
 | SUM                   | 求和。                                                                                                                                                                                 | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | AVG                   | 求平均值。                                                                                                                                                                               | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | MAX                   | 求最大值。                                                                                                                                                                               | 所有类型                                                                                    | 与输入类型一致          |
@@ -1228,7 +1228,7 @@ IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,wid
 
 ## 7. 二进制函数
 
-> V2.0.9-beta 起支持
+> V2.0.10 起支持
 
 ### 7.1 Base64 编码函数
 
@@ -1878,7 +1878,7 @@ IF 表达式有两种形式：一种仅指定真值（true\_value），另一种
 | `if(condition, true_value)`              | 若条件（condition）为真，则计算并返回`true_value`；否则返回`null`，且`true_value`不会被计算。 |                                                                                               |
 | `if(condition, true_value, false_value)` | 若条件（condition）为真，则计算并返回`true_value`；否则计算并返回`false_value`。                  | `true_value`和`false_value`的数据类型​**必须完全一致**​，不支持隐式类型转换。 |
 
-> V2.0.9-beta 版本起支持
+> V2.0.10 版本起支持
 
 **示例：**
 

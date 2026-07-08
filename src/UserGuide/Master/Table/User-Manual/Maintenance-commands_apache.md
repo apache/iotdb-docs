@@ -401,7 +401,7 @@ Execution result:
 Adding the `all` parameter returns all configuration items (the `value` of unconfigured items is `null`).
 Adding the `with desc` parameter returns configuration items with descriptions.
 
-> Supported since version 2.0.9-beta
+> Supported since version 2.0.10
 
 #### Syntax:
 ```SQL
@@ -860,7 +860,7 @@ IoTDB> KILL ALL QUERIES;
 
 **Definition**: Add the `DEBUG` keyword at the beginning of an SQL query statement. During execution, debug logs will be output, including the underlying file scan information involved in the query.
 
-> Supported since V2.0.9-beta
+> Supported since V2.0.10
 
 #### Syntax:
 ```sql
