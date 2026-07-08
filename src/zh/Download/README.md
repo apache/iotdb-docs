@@ -27,66 +27,46 @@
       <th>发布说明</th>
     </tr>
         <tr>
-      <td rowspan="2">2.0.8</td>
+      <td rowspan="1">2.0.10</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.8/apache-iotdb-2.0.8-all-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.10/apache-iotdb-2.0.10-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-all-bin.zip.sha512"
+          href="https://downloads.apache.org/iotdb/2.0.10/apache-iotdb-2.0.10-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-all-bin.zip.asc"
+          href="https://downloads.apache.org/iotdb/2.0.10/apache-iotdb-2.0.10-all-bin.zip.asc"
           >ASC</a
         >
       </td>
-      <td rowspan="2">
+      <td rowspan="1">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.8/apache-iotdb-2.0.8-source-release.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.10/apache-iotdb-2.0.10-source-release.zip"
           >源代码</a
         >
       </td>
-      <td rowspan="2">
+      <td rowspan="1">
         <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-source-release.zip.sha512"
+          href="https://downloads.apache.org/iotdb/2.0.10/apache-iotdb-2.0.10-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
-      <td rowspan="2">
+      <td rowspan="1">
         <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-source-release.zip.asc"
+          href="https://downloads.apache.org/iotdb/2.0.10/apache-iotdb-2.0.10-source-release.zip.asc"
           >ASC</a
         >
       </td>
-      <td rowspan="2">
-        <a href="https://downloads.apache.org/iotdb/2.0.8/RELEASE_NOTES.md"
+      <td rowspan="1">
+        <a href="https://downloads.apache.org/iotdb/2.0.10/RELEASE_NOTES.md"
           >release notes</a
-        >
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.8/apache-iotdb-2.0.8-ainode-bin-manylinux-arm.zip"
-          >AINode linux-aarch64</a
-        >
-      </td>
-      <td>
-        <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-ainode-bin-manylinux-arm.zip.sha512"
-          >SHA512</a
-        >
-      </td>
-      <td>
-        <a
-          href="https://downloads.apache.org/iotdb/2.0.8/apache-iotdb-2.0.8-ainode-bin-manylinux-arm.zip.asc"
-          >ASC</a
         >
       </td>
     </tr>
