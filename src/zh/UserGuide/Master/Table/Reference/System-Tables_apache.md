@@ -710,7 +710,7 @@ IoTDB> select * from information_schema.services
 
 ### 2.22 TABLE_DISK_USAGE 表
 
-> 该系统表从 V 2.0.9-beta 版本开始提供
+> 该系统表从 V2.0.10 版本开始提供
 
 用于展示指定表（不包含 view）的磁盘空间占用情况，包括 ChunkGroup 的大小和 Metadata 大小。
 

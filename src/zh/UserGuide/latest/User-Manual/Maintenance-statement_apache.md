@@ -315,7 +315,7 @@ IoTDB> SHOW SERVICES ON 1
 
 注意：统计基于 TsFile 中数据的真实大小，因此不会考虑 mods 删除的情况。
 
-> V2.0.9-beta 起支持该功能
+> V2.0.10 起支持该功能
 
 #### 语法：
 
@@ -650,7 +650,7 @@ IoTDB> KILL ALL QUERIES; -- 终止所有query
 
 **​含义：​**在 SQL 查询语句开头添加 debug 关键字，执行时将输出 debug 日志，包括涉及到的底层文件 scan 信息。
 
-> V2.0.9-beta 起支持该功能
+> V2.0.10 起支持该功能
 
 #### 语法：
 

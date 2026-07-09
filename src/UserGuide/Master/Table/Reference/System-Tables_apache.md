@@ -717,7 +717,7 @@ IoTDB> SELECT * FROM information_schema.services
 ```
 
 ### 2.22 TABLE_DISK_USAGE
-> This system table is available since version V2.0.9-beta
+> This system table is available since version V2.0.10
 
 Used to display the disk space usage of specified tables (excluding views), including the size of ChunkGroups and the size of Metadata.
 

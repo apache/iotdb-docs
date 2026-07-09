@@ -37,7 +37,7 @@
 | -h           | -- host                | 主机名                                                          | 否           | 127.0.0.1                                                                 |
 | -p           | --port                 | 端口号                                                          | 否           | 6667                                                                      |
 | -u           | --username             | 用户名                                                          | 否           | root                                                                      |
-| -pw          | --password             | 密码，自 V2.0.9-beta 起支持隐藏输入                                                             | 否           | root                                                                      |
+| -pw          | --password             | 密码，自 V2.0.10 起支持隐藏输入                                                             | 否           | root                                                                      |
 | -sql_dialect | --sql_dialect          | 选择 server 是树模型还是表模型，当前支持 tree 和 table 类型  | 否                      | tree                                                                      |
 | -db          | --database             | ​将要导出的目标数据库，只在`-sql_dialect`为 table 类型下生效。| `-sql_dialect`为 table 时必填| -                                                                         |
 | -table       | --table                | 将要导出的目标表，只在`-sql_dialect`为 table 类型下生效。如果指定了`-q`参数则此参数不生效，如果导出类型为 tsfile/sql 则此参数必填。| ​ 否        | -                                                                         |
@@ -48,9 +48,9 @@
 | -q           | --query                | 要执行的查询语句。自 V2.0.8 起，SQL 语句中的分号将被自动移除，查询执行保持正常。    | 否           | 无                                                                         |
 | -timeout     | --query\_timeout       | 会话查询的超时时间(ms)                                     | 否           | `-1`(V2.0.8 之前)<br>`Long.MAX_VALUE`(V2.0.8 及之后)<br>范围：`-1~Long.MAX_VALUE` |
 | -help        | --help                 | 显示帮助信息                                                    | 否           |                                                                           |
-| -usessl      | --use_ssl              | 使用 SSL 协议，自 V2.0.9-beta 起支持                        | 否      | -                                    |
-| -ts          | --trust_store          | 信任库。支持隐藏输入，自 V2.0.9-beta 起支持                       | 否      | -                                    |
-| -tpw         | --trust_store_password | 信任库密码。支持隐藏输入，自 V2.0.9-beta 起支持                     | 否        | -                                    |
+| -usessl      | --use_ssl              | 使用 SSL 协议，自 V2.0.10 起支持                        | 否      | -                                    |
+| -ts          | --trust_store          | 信任库。支持隐藏输入，自 V2.0.10 起支持                       | 否      | -                                    |
+| -tpw         | --trust_store_password | 信任库密码。支持隐藏输入，自 V2.0.10 起支持                     | 否        | -                                    |
 
 ### 2.2 CSV 格式
 

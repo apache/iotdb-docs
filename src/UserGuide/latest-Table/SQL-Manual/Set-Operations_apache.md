@@ -22,7 +22,7 @@
 
 IoTDB natively supports standard SQL set operations, including three core operators: **UNION**, **INTERSECT**, and **EXCEPT**. These operations enable seamless merging, comparison, and filtering of query results from multiple time-series data sources, greatly improving the flexibility and efficiency of time-series data analysis.
 
-> Note: This feature is available since version 2.0.9-beta.
+> Note: This feature is available since version 2.0.10.
 
 ## 1. UNION
 ### 1.1 Overview

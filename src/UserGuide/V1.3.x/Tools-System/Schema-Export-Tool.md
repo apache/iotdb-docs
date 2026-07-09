@@ -35,7 +35,7 @@ The metadata export tool `export-schema.sh/bat` is located in the `tools` direct
 | `-h` | `--host` | Hostname | No | 127.0.0.1 |
 | `-p` | `--port` | Port number | No | 6667 |
 | `-u` | `--username` | Username | No | root |
-| `-pw` | `--password` | Password. Hidden input is supported since V2.0.9-beta | No | root |
+| `-pw` | `--password` | Password | No | root |
 | `-t` | `--target` | Specifies the target directory for output files. The directory will be created if it does not exist | Yes | - |
 | `-path` | `--path_pattern` | Specifies the path pattern for metadata export | Yes | - |
 | `-pf` | `--path_pattern_file` | Specifies the name of the export file | No | - |
