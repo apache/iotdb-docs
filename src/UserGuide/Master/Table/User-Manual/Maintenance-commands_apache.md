@@ -289,21 +289,24 @@ showQueriesStatement
 - **elapsed_time**: Time elapsed since the query started (in seconds).
 - **statement**: The SQL statement being executed.
 - **user**: The user who initiated the query.
+- **wait_time_in_server**: Cumulative time that the client request waits in the server for results to be returned, in seconds (supported since V2.0.10).
+- **client_ip**: IP address of the client that initiated the query (supported since V2.0.10).
+- **timeout**: Timeout of the query, in ms (supported since V2.0.10).
 
 **Example**:
 
 ```SQL
-IoTDB> SHOW QUERIES WHERE elapsed_time > 30;
+IoTDB> SHOW QUERIES WHERE elapsed_time > 0.003
 ```
 
 **Result**:
 
 ```Plain
-+-----------------------+-----------------------------+-----------+------------+------------+----+
-|               query_id|                   start_time|datanode_id|elapsed_time|   statement|user|
-+-----------------------+-----------------------------+-----------+------------+------------+----+
-|20250108_101015_00000_1|2025-01-08T18:10:15.935+08:00|          1|      32.283|show queries|root|
-+-----------------------+-----------------------------+-----------+------------+------------+----+
++-----------------------+-----------------------------+-----------+------------+---------------------------------------+----+-------------------+---------+-------+
+|               query_id|                   start_time|datanode_id|elapsed_time|                              statement|user|wait_time_in_server|client_ip|timeout|
++-----------------------+-----------------------------+-----------+------------+---------------------------------------+----+-------------------+---------+-------+
+|20260601_032051_00016_1|2026-06-01T11:20:51.130+08:00|          1|       0.017|SHOW QUERIES WHERE elapsed_time > 0.003|root|          0.0190219|127.0.0.1|  60000|
++-----------------------+-----------------------------+-----------+------------+---------------------------------------+----+-------------------+---------+-------+
 ```
 
 
