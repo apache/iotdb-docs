@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -129,7 +129,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
-            { text: '集群维护', link: 'Load-Balance' },
+            { text: '集群维护', link: 'Load-Balance_apache' },
             { text: '运维语句', link: 'Maintenance-statement_apache' },
             { text: '开机自启', link: 'Auto-Start-On-Boot_apache' },
           ],

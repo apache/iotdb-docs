@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -21,15 +21,11 @@
 
 # Cluster Maintenance
 
-## 1. Cluster Scaling
+## 1. Core Concepts
 
-When an IoTDB cluster encounters resource bottlenecks such as CPU, memory, disk, or network due to a surge in data volume or access pressure, this guide can be used for horizontal scaling to enhance the overall performance and capacity of the cluster.
+Before performing cluster maintenance operations, you need to understand concepts related to the IoTDB cluster architecture, series partitions, time partitions, and other related concepts.
 
-### 1.1 Core Concepts
-
-Before performing scaling operations, it is necessary to understand concepts related to IoTDB cluster architecture, series partitioning, time partitioning, and more.
-
-#### 1.1.1 Glossary of Terms
+### 1.1 Glossary
 
 | **Term**​              | **Type**​                       | **Explanation**​                                                                                                                                                                                                      |
 | ------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -45,21 +41,21 @@ Before performing scaling operations, it is necessary to understand concepts rel
 | **SchemaRegionGroup**​ | Logical Concept (Consensus Group)      | Metadata replica group, containing the same number of SchemaRegions as the metadata replica count. It manages the same metadata, serving as backups for each other.                                                          |
 | **DataRegionGroup**​   | Logical Concept (Consensus Group)      | Data replica group, containing the same number of DataRegions as the data replica count. It manages the same data, serving as backups for each other. It is the fundamental unit of the IoTDB cluster's throughput capacity. |
 
-#### 1.1.2 Cluster Architecture
+### 1.2 Cluster Architecture
 
 The IoTDB cluster consists of management nodes (ConfigNode) and data nodes (DataNode), employing an MPP architecture to achieve large-scale parallel processing. Its core feature lies in partitioning metadata at the device level and partitioning data in two dimensions (device and time), ensuring comprehensive scalability.
 
 ![](/img/cluster-extention-1-en.png)
 
-#### 1.1.3 Partition Management
+### 1.3 Partition Management
 
-##### Cluster Consensus Groups
+#### 1.3.1 Cluster Consensus Groups
 
 In IoTDB, data partition groups (DataRegionGroup) and metadata partition groups (SchemaRegionGroup) are the smallest units for read/write load, ensuring data consistency through the **consensus group**​ mechanism. Therefore, the essence of cluster scaling is to increase data partitions to enhance concurrent processing capability and throughput.
 
 ![](/img/cluster-extention-2.png)
 
-##### Slot Mechanism for Partitioning
+#### 1.3.2 Partition Slot Mechanism
 
 To support scaling and efficient distributed management, IoTDB introduces two core slot mechanisms for partitioning and load scheduling.
 
@@ -73,7 +69,11 @@ The second is the ​**Time Partition Slot**​, used for horizontally splitting
 
 Through the combination of series partition slots and time partition slots, IoTDB can flexibly increase data partition groups during scaling, achieving balanced data distribution and efficient read/write operations, thereby enhancing the entire cluster's throughput capacity and scalability.
 
-### 1.2 Implementation Principle
+## 2. Cluster Scaling
+
+When an IoTDB cluster encounters resource bottlenecks such as CPU, memory, disk, or network due to a surge in data volume or access pressure, you can perform horizontal scaling based on this guide to improve the overall performance and capacity of the cluster.
+
+### 2.1 Implementation Principle
 
 The core of IoTDB cluster scaling is adding DataNode nodes, as DataNodes are the primary nodes handling read/write requests. The internal data partitions (DataRegions) are the key units bearing the load. The essence of scaling is to increase the cluster's concurrent processing capability and throughput by adding data partition groups.
 
@@ -85,36 +85,11 @@ After scaling, the load balancing rule for client read/write requests is that **
 
 ![](/img/cluster-extention-6-en.png)
 
-If you wish to rebalance all data (both old and new) after scaling, you need to use the manual data partition migration function (referred to as Region Migration).
+If you want to further balance historical data after scale-out, you can execute Region migration or Region rebalancing as needed. If you need to precisely specify the Region, source DataNode, and target DataNode, see [4. Manual Region Migration](#_4-manual-region-migration). If you want the system to automatically calculate the migration plan and complete the overall balancing process, see [5. Automatic Region Rebalancing](#_5-automatic-region-rebalancing).
 
-Region Migration syntax reference:
+### 2.2 Operational Steps
 
-```
--- Explanation: Migrate the data of which RegionId from which source DataNodeId to which target DataNodeId
-  migrateRegion
-      : MIGRATE REGION regionId=INTEGER_LITERAL FROM fromId=INTEGER_LITERAL TO toId=INTEGER_LITERAL
-      ;
-```
-
-During migration, the ConfigNode is responsible for overall scheduling. The source region and source DataNode provide the data to be removed, while the new region and new DataNode handle the added data.
-
-![](/img/cluster-extention-7-en.png)
-
-In the cluster composed of 3 DataNodes shown above, the region 1 replica group is distributed across DataNode 1 and DataNode 2. Assuming you want to migrate the region 1 replica from DataNode 1 to DataNode 3, the operation flow is as follows:
-
-1. Execute the following command in the CLI:
-
-```
-migrate region 1 from 1 to 3
-```
-
-2. The Region migration enters the **Region Replication**​ stage. The core task of this stage is to create a new region replica on the target node and synchronize the full data of region 1. The region status at this point is `Adding`.
-3. Next, the migration enters the **Region Removal**​ stage. Once the data on the target node is fully synchronized, the data on the old region node can be safely deleted. Therefore, the core task of this step is to remove all data from the old node to free up disk space. The region status at this point is `Removing`.
-4. After steps 2 and 3 are completed, the entire **Region migration**​ operation is finished.
-
-### 1.3 Operational Steps
-
-#### 1.3.1 Prerequisites
+#### 2.2.1 Prerequisites
 
 1. Check the server environment. It is recommended that the operating system version matches that of the original cluster.
 2. Verify the database version. It is recommended to use the same version as the original cluster.
@@ -135,7 +110,7 @@ migrate region 1 from 1 to 3
 echo "192.168.1.3  iotdb-1" >> /etc/hosts
 ```
 
-#### 1.3.2 Scaling Operation
+#### 2.2.2 Scaling Operation
 
 1. To ensure the IoTDB installation package you obtained is complete and correct, it is recommended to perform an SHA512 checksum before installation and deployment.
 2. Unzip the installation package and enter the installation directory.
@@ -213,33 +188,18 @@ It costs 0.110s
 
 7. Repeat the above steps for other nodes. It is important to note that for a new node to join the original cluster successfully, the original cluster must have sufficient allowance for additional DataNode nodes.
 
-#### 1.3.3 Manual Load Balancing (Optional)
+#### 2.2.3 Manual Load Balancing (Optional)
 
-By default, historical data is not automatically migrated after scaling. If you need to balance the data distribution across nodes, you must manually migrate Regions. The estimated migration time is: Region data volume ÷ actual data transfer rate. As shown in the figure below, assuming 80TB of data load from **existing nodes**​ needs to be balanced to ​**newly added nodes**​, if the data volume of a single Region is 1 TB and the transfer speed is 100 MB/s, the migration will take approximately 3 hours.
+By default, historical data is not automatically migrated after scale-out. If you need to further balance data distribution across nodes, you can choose one of the following methods:
 
-![](/img/cluster-extention-8-en.png)
+- Manual Region migration: suitable when the Region, source DataNode, and target DataNode to be migrated are already clear. For details, see [4. Manual Region Migration](#_4-manual-region-migration).
 
-The specific operations are as follows:
+- Automatic Region rebalancing: suitable when you want the system to automatically select the migration plan and balance historical data after scale-out. For details, see [5. Automatic Region Rebalancing](#_5-automatic-region-rebalancing).
 
-```
--- 1. Migrate the replica data of Region-1 from DataNode-2 to DataNode-4
-migrate region 1 from 2 to 4
-
--- 2. Migrate the replica data of Region-2 from DataNode-3 to DataNode-5
-migrate region 2 from 3 to 5
-
--- 3. Migrate the replica data of Region-3 from DataNode-1 to DataNode-6
-migrate region 3 from 1 to 6
-```
-
-After the migration is complete, the Region data in the system will be redistributed between the **old nodes**​ and the ​**new nodes**​, achieving balanced disk space usage and optimal resource utilization.
-
-![](/img/cluster-extention-9-en.png)
-
-## 2. Node Management
+## 3. Node Management
 Node management is mainly used to remove and add ConfigNodes and DataNodes in a cluster. It is a basic operation to ensure cluster high availability and achieve load balancing.
 
-### 2.1 ConfigNode Maintenance
+### 3.1 ConfigNode Maintenance
 ConfigNode maintenance includes two operations: adding and removing ConfigNodes. There are two common usage scenarios:
 
 - **Cluster scaling**: When there is only 1 ConfigNode in the cluster and you want to increase the high availability of ConfigNodes, you can add 2 more ConfigNodes so that the cluster has 3 ConfigNodes.
@@ -248,7 +208,7 @@ ConfigNode maintenance includes two operations: adding and removing ConfigNodes.
 > ❗️ Note: After completing ConfigNode maintenance, ensure the cluster has **1 or 3 normally running ConfigNodes**.
 > 2 ConfigNodes do not provide high availability, and more than 3 ConfigNodes will cause performance degradation.
 
-#### 2.1.1 Adding a ConfigNode
+#### 3.1.1 Adding a ConfigNode
 
 **Script commands:**
 
@@ -282,7 +242,7 @@ sbin\windows\start-confignode.bat
 | -X    | Directly pass `-XX` parameters to the JVM | No |
 | -h    | Show help | No |
 
-#### 2.1.2 Removing a ConfigNode
+#### 3.1.2 Removing a ConfigNode
 First connect to the cluster via CLI and use `show confignodes` to confirm the NodeID of the ConfigNode to be removed:
 
 ```sql
@@ -304,7 +264,7 @@ Then remove the ConfigNode using the following SQL command:
 REMOVE CONFIGNODE [confignode_id];
 ```
 
-### 2.2 DataNode Maintenance
+### 3.2 DataNode Maintenance
 There are two common scenarios for DataNode maintenance:
 
 - **Cluster scaling**: Add new DataNodes to the cluster to expand cluster capacity.
@@ -312,7 +272,7 @@ There are two common scenarios for DataNode maintenance:
 
 > ❗️ Note: To ensure normal cluster operation, during and after DataNode maintenance, the number of normally running DataNodes must **not be less than the data replication factor (usually 2) or the metadata replication factor (usually 3)**.
 
-#### 2.2.1 Adding a DataNode
+#### 3.2.1 Adding a DataNode
 
 **Script commands:**
 
@@ -348,7 +308,7 @@ sbin\windows\start-datanode.bat
 
 **Note:** After adding a DataNode, as new writes arrive (and old data expires if TTL is set), the cluster load will gradually balance toward the new DataNode, eventually achieving balanced storage and computing resources across all nodes.
 
-#### 2.2.2 Removing a DataNode
+#### 3.2.2 Removing a DataNode
 First connect to the cluster via CLI and use `show datanodes` to confirm the NodeID of the DataNode to be removed:
 
 ```sql
@@ -370,30 +330,23 @@ Then remove the DataNode using the following SQL command:
 REMOVE DATANODE [datanode_id];
 ```
 
-## 3. Load Balance
+## 4. Manual Region Migration
 
 Region migration belongs to advanced operations and maintenance functions, which have certain operational costs. It is recommended to read the entire document before using this function. If you have any questions about the solution design, please contact the IoTDB team for technical support.
 
 
-### 3.1 Feature introduction
+### 4.1 Feature Introduction
 
-IoTDB is a distributed database, and the balanced distribution of data plays an important role in load balancing the disk space and write pressure of the cluster. Region is the basic unit for distributed storage of data in IoTDB cluster, and the specific concept can be seen in [region](../Background-knowledge/Cluster-Concept.md)。
+IoTDB is a distributed database, and Region is the basic unit for distributed storage in an IoTDB cluster. When the cluster is running normally, IoTDB automatically balances newly written data. In scenarios such as adding new DataNodes to the cluster or recovering data after a disk failure on the machine where a DataNode is located, you can use manual Region migration to fine-tune cluster load and O&M behavior.
 
-Under normal operation of the cluster, IoTDB will automatically perform load balancing on data. However, in scenarios where a new DataNode node is added to the cluster or where the hard disk of the machine where the DataNode is located is damaged and data needs to be recovered, manual region migration can be used to finely adjust the cluster load and operations.
-
-Here is a schematic diagram of the region migration process :
-
-
-![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
-
-### 3.2 Notes
+### 4.2 Notes
 
 1. It is recommended to only use the Region Migration feature on IoTDB 1.3.3 and higher versions.
-2. Region migration is only supported when the consensus protocol is IoTConsus or Ratis (in iotdb system. properties, the `schema_region_consensus_protocol_class` and`data_region_consensus_protocol_class`).
+2. Region migration is only supported when the consensus protocol is IoTConsensus or Ratis (in iotdb-system.properties, the `schema_region_consensus_protocol_class` and`data_region_consensus_protocol_class`).
 3. Region migration consumes system resources such as disk space and network bandwidth. It is recommended to perform the migration during periods of low business load.
 4. Under ideal circumstances, Region migration does not affect user-side read or write operations. In special cases, Region migration may block writes. For detailed identification and handling of such situations, please refer to the user guide.
 
-### 3.3 Instructions for use
+### 4.3 Usage
 
 - **Grammar definition** :
 
@@ -453,3 +406,279 @@ Here is a schematic diagram of the region migration process :
     IoTDB> set configuration "wal_throttle_threshold_in_byte"="536870912000" 
     Msg: The statement is executed successfully.
   ```
+
+
+### 4.4 Scenario Example
+
+By default, historical data is not automatically migrated after scale-out. If you need to balance data distribution across nodes, you can manually migrate Regions. As shown in the following figure, suppose 80 TB of data load on old nodes needs to be balanced to new nodes. If each Region contains 1 TB of data and the transfer speed is 100 MB/s, each migration takes about 3 hours.
+
+![](/img/cluster-extention-8-en.png)
+
+The operations are as follows:
+
+```SQL
+-- 1. Migrate the replica data of Region-1 from DataNode-2 to DataNode-4.
+migrate region 1 from 2 to 4
+
+-- 2. Migrate the replica data of Region-2 from DataNode-3 to DataNode-5.
+migrate region 2 from 3 to 5
+
+-- 3. Migrate the replica data of Region-3 from DataNode-1 to DataNode-6.
+migrate region 3 from 1 to 6
+```
+
+After the migration is complete, Region data in the system is redistributed between old nodes and new nodes, balancing disk space usage and optimizing resource utilization.
+
+![](/img/cluster-extention-9-en.png)
+
+### 4.5 Supplementary Syntax (Not Recommended)
+
+> **Note:** `EXTEND REGION` and `REMOVE REGION` are **high-risk** O&M statements and are not recommended for routine use. Use them with caution in production environments. In general, use `MIGRATE REGION` for Region migration and `RECONSTRUCT REGION` for Region reconstruction.
+>
+>
+
+#### 4.5.1 Extend Region
+
+Extend one or more Regions to a specified DataNode.
+
+- Syntax:
+
+    ```SQL
+    extendRegion
+        : EXTEND REGION regionIds+=INTEGER_LITERAL (COMMA regionIds+=INTEGER_LITERAL)* TO targetDataNodeId=INTEGER_LITERAL
+        ;
+    ```
+
+- Example:
+
+    Extend Region 1 to DataNode 3:
+
+    ```SQL
+    IoTDB> extend region 1 to 3
+    Msg: The statement is executed successfully.
+    ```
+
+#### 4.5.2 Remove Region
+
+Remove one or more Region replicas from a specified DataNode.
+
+- Syntax:
+
+    ```SQL
+    removeRegion
+        : REMOVE REGION regionIds+=INTEGER_LITERAL (COMMA regionIds+=INTEGER_LITERAL)* FROM targetDataNodeId=INTEGER_LITERAL
+        ;
+    ```
+
+- Example:
+
+    Remove Region 1 from DataNode 2:
+
+    ```SQL
+    IoTDB> remove region 1 from 2
+    Msg: The statement is executed successfully.
+    ```
+
+## 5. Automatic Region Rebalancing
+
+Region rebalancing is an advanced O&M feature and has certain operational costs. Read this section carefully before using it. If you have any questions, contact the IoTDB team for technical support.
+
+> Supported since V2.0.10
+>
+>
+
+### 5.1 Feature Introduction
+
+Region rebalancing allows you to submit a rebalance task with a single SQL statement. The system calculates a Region migration plan in the background by using the scale-out balancing algorithm, and ConfigNode schedules the plan for execution. This feature is not limited to scale-out scenarios. You can also use it when Region sizes are uneven, disk usage is imbalanced across nodes, or write load is concentrated on only a few Regions even if no scale-out or scale-in has occurred.
+
+`LOAD BALANCE` automatically generates and executes a group of Region migration tasks, which makes it suitable for global rebalancing. `migrate region` is more suitable when you already know the exact RegionId, source DataNode, and target DataNode for fine-grained migration. After an automatic rebalance task is submitted, you can use `SHOW MIGRATIONS` to view the generated migration tasks and their execution progress.
+
+- Applicable scenarios: migrating historical Regions to newly added nodes after scale-out; obvious imbalance in disk usage across nodes; high write pressure on some DataNodes that requires global Region distribution adjustment.
+
+- Scenarios requiring caution: avoid running this feature during business peak hours or when network or disk I/O resources are tight. Evaluate the resource usage caused by migration in advance. If you need to precisely control the migration path of a specific Region, use manual Region migration instead.
+
+### 5.2 LOAD BALANCE
+
+```SQL
+-- Trigger system load balancing. The system automatically selects target nodes.
+LOAD BALANCE;
+
+-- Specify target DataNode IDs and execute load balancing.
+LOAD BALANCE TO DATANODES(*DataNodeId,DataNodeId*);
+```
+
+- **Mechanism**
+
+This statement submits an asynchronous global or partial distributed balancing task to ConfigNode. After the task is triggered, DataNodes in the cluster are divided into two role pools, and physical data migration follows a strict one-way constraint:
+
+- From nodes: the source node pool that provides Region data to be migrated.
+
+- To nodes: the target node pool that receives migrated data.
+
+- One-way migration rule: data can only be migrated from From nodes to To nodes.
+
+- **Parameters**
+
+|Parameter|Required|Description|
+|---|---|---|
+|TO DATANODES|No|Explicitly passes one or more DataNodeId values separated by commas. The specified nodes are marked as the To node pool that receives data, and all other nodes automatically become the From node pool that provides data.|
+
+- **Default behavior**
+
+|Execution mode|Behavior|
+|---|---|
+|Without parameters (`LOAD BALANCE`)|The system selects the node with the smallest current disk usage as the only To node by default.|
+|With parameters (`LOAD BALANCE TO DATANODES(...)`)|The specified nodes are forcibly marked as the To node pool, and all other nodes are marked as From nodes.|
+
+- **Expected result**
+
+After the command is executed, the console immediately returns `Msg: The statement is executed successfully.`. This only means that ConfigNode has accepted the load balancing task and enqueued the generated subtasks. Large-scale physical migration then runs asynchronously in the background.
+
+- **Configuration**
+
+In `iotdb-system.properties`, the `region_migration_speed_limit_bytes_per_second` parameter controls the Region migration transfer limit for each DataNode in bytes/s. The default value is `50331648`, about 48 MiB/s. You can lower the value during busy business periods and increase it during off-peak hours. Do not set it too low, otherwise migration may take significantly longer or even become blocked. A value less than or equal to 0 means no speed limit. This parameter only takes effect for the IoTConsensus protocol and supports hot loading.
+
+### 5.3 SHOW MIGRATIONS
+
+Because a balancing task may involve hundreds of GB of files transferred across nodes, IoTDB provides the following SQL statement to query a global view with fine-grained status indicators. The statement returns the list of background migration tasks that are currently running in the cluster and displays task status, elapsed time, and migration progress in a structured table.
+
+```SQL
+SHOW MIGRATIONS
+```
+
+- **Result set**
+
+|Column|Description|
+|---|---|
+|ProcedureId|Unique Procedure identifier.|
+|RegionId|Region ID.|
+|Type|Region type.|
+|FromNodeId|Source DataNode ID.|
+|ToNodeId|Target DataNode ID.|
+|CurrentState|Current state, such as `REGION_MIGRATE_PREPARE`, `ADD_REGION_PEER`, or `REMOVE_REGION_PEER`.|
+|ProcedureStatus|Procedure status, such as RUNNING, FINISHED, or FAILED.|
+|SubmittedTime|Task submission time.|
+|LastUpdateTime|Last update time.|
+|Duration|Elapsed time.|
+|Progress|Migration progress, shown as migrated files / total files.|
+
+Example:
+
+```SQL
+IoTDB> show migrations
++-----------+--------+----------+----------+--------+---------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+|ProcedureId|RegionId|      Type|FromNodeId|ToNodeId|         CurrentState|ProcedureStatus|          SubmittedTime|         LastUpdateTime|        Duration|                         Progress|
++-----------+--------+----------+----------+--------+---------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+|         11|       5|DataRegion|         2|       3|CHECK_ADD_REGION_PEER|        WAITING|2026-06-03T15:47:35.840|2026-06-03T15:47:35.966|31 second 169 ms|files 1/3, size 15.52 KB/15.61 KB|
++-----------+--------+----------+----------+--------+---------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+Total line number = 1
+It costs 0.004s
+```
+
+- Observing state changes with Show Regions
+
+During migration, the status of related Regions also changes. For a cluster with two replicas, when `SHOW MIGRATIONS` shows that a task is running, `show regions` can show the following state transitions for the Region:
+
+1. Stable state before migration: `Running`, `Running`.
+
+2. Replication expansion transition: `Running`, `Running`, `Adding`. The target To node creates a new Region replica and receives the snapshot. The `Adding` replica does not provide services.
+
+3. Safe removal transition: `Removing`, `Running`, `Running`. The target node has caught up and becomes `Running`, while the original From node becomes `Removing` for deletion and cleanup.
+
+4. New stable state after migration: the old Region is deleted successfully and the replicas return to `Running`, `Running`.
+
+### 5.4 Scenario Example
+
+The following example simulates a real industrial scenario. As business data continues to grow, the original two core DataNode architecture needs to be expanded to a three DataNode architecture with higher throughput and more storage headroom, while using two replicas for redundancy. In other words, the cluster is smoothly scaled from 1C2D to 1C3D. The cluster initially has one ConfigNode and two DataNodes. After DataNode 3 is added, automatic Region rebalancing lets the new node take over some historical Regions and relieves storage pressure on the existing nodes.
+
+![](/img/load-balance-en.png)
+
+The following SQL results are used only to illustrate the key process. Some outputs are abbreviated. Actual results depend on the cluster size, number of Regions, database names, time partitions, node addresses, and other factors.
+
+1. Before scale-out, use `show cluster` to view the cluster nodes. The cluster only has DataNode 1 and DataNode 2.
+
+```SQL
+IoTDB> show cluster
++------+----------+-------+---------------+------------+--------+---------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort| Version|BuildInfo|
++------+----------+-------+---------------+------------+--------+---------+
+|     0|ConfigNode|Running|   confignode-1|       10710|  2.0.10|   53e***|
+|     1|  DataNode|Running|     datanode-1|       10730|  2.0.10|   53e***|
+|     2|  DataNode|Running|     datanode-2|       10730|  2.0.10|   53e***|
++------+----------+-------+---------------+------------+--------+---------+
+```
+
+2. After scale-out, use `show cluster` to confirm that DataNode 3 has joined the cluster and is Running.
+
+```SQL
+IoTDB> show cluster
++------+----------+-------+---------------+------------+--------+---------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort| Version|BuildInfo|
++------+----------+-------+---------------+------------+--------+---------+
+|     0|ConfigNode|Running|   confignode-1|       10710|  2.0.10|   53e***|
+|     1|  DataNode|Running|     datanode-1|       10730|  2.0.10|   53e***|
+|     2|  DataNode|Running|     datanode-2|       10730|  2.0.10|   53e***|
+|     3|  DataNode|Running|     datanode-3|       10730|  2.0.10|   53e***|
++------+----------+-------+---------------+------------+--------+---------+
+```
+
+3. Execute `LOAD BALANCE` to submit the rebalance task. A successful response only means that ConfigNode has accepted the task. To explicitly use the new node as the migration target, specify the target DataNodeId with `TO DATANODES`.
+
+```SQL
+IoTDB> LOAD BALANCE;
+
+-- Or specify DataNode 3 as the target node.
+IoTDB> LOAD BALANCE TO DATANODES(3);
+```
+
+4. Use `show migrations` to observe background migration tasks. The console may show queued and running subtasks, for example multiple Region replicas being migrated from DataNode 1 and DataNode 2 to DataNode 3.
+
+```SQL
+IoTDB> show migrations
++-----------+--------+------------+----------+--------+------------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+|ProcedureId|RegionId|        Type|FromNodeId|ToNodeId|            CurrentState|ProcedureStatus|          SubmittedTime|         LastUpdateTime|        Duration|                         Progress|
++-----------+--------+------------+----------+--------+------------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+|        101|       3|  DataRegion|         1|       3|   CHECK_ADD_REGION_PEER|        WAITING|2026-06-03T16:29:25.051|2026-06-03T16:29:25.159| 2 second 897 ms|files 8/96, size 24 GB/280 GB    |
+|        102|       5|  DataRegion|         2|       3|   CHECK_ADD_REGION_PEER|        WAITING|2026-06-03T16:29:25.059|2026-06-03T16:29:25.163| 2 second 889 ms|files 5/72, size 18 GB/210 GB    |
+|        103|       4|SchemaRegion|         1|       3|CHECK_REMOVE_REGION_PEER|        WAITING|2026-06-03T16:29:25.067|2026-06-03T16:29:26.807| 2 second 876 ms|                                 |
++-----------+--------+------------+----------+--------+------------------------+---------------+-----------------------+-----------------------+----------------+---------------------------------+
+```
+
+5. During migration, use `show regions` to observe Regions on the target node entering the `Adding` state. At this point, DataNode 3 creates the corresponding Region directory in its local file system. The source DataNode packages local persistent TsFiles as a snapshot and sends it to DataNode 3 through cross-node RPC. The following output only shows the DataRegion rows related to this rebalance task.
+
+```SQL
+IoTDB> show regions
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+|RegionId|      Type| Status|      Database|SeriesSlotNum|TimeSlotNum|DataNodeId|RpcAddress|RpcPort|InternalAddress|    Role|             CreateTime|TsFileSize|CompressionRatio|
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+|       3|DataRegion|Running|root.industry|            8|          1|         1|     host1|   6667|     datanode-1|Follower|2026-06-03T16:26:45.691|    280 GB|            3.24|
+|       3|DataRegion|Running|root.industry|            8|          1|         2|     host2|   6667|     datanode-2|  Leader|2026-06-03T16:26:45.691|    280 GB|            3.24|
+|       3|DataRegion| Adding|root.industry|            8|          1|         3|     host3|   6667|     datanode-3|Follower|2026-06-03T16:26:45.691|   Unknown|             NaN|
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+```
+
+6. After DataNode 3 receives the snapshot and replays the WAL generated during migration, the new replica enters the `Running` state. At the same time, the corresponding Region replica on the original node is marked as `Removing` and is deleted. When `show migrations` returns an empty result, migration has finished and no migration tasks are running.
+
+```SQL
+IoTDB> show migrations
++-----------+--------+----+----------+--------+------------+---------------+-------------+--------------+--------+--------+
+|ProcedureId|RegionId|Type|FromNodeId|ToNodeId|CurrentState|ProcedureStatus|SubmittedTime|LastUpdateTime|Duration|Progress|
++-----------+--------+----+----------+--------+------------+---------------+-------------+--------------+--------+--------+
++-----------+--------+----+----------+--------+------------+---------------+-------------+--------------+--------+--------+
+```
+
+7. Query `show regions` again to confirm that the related Regions have been migrated to the target node and returned to the `Running` state. In this example, after some Region replicas are migrated to DataNode 3, DataNode 1, DataNode 2, and DataNode 3 all continue to host historical DataRegions. The following output still only shows the DataRegion rows related to this rebalance task.
+
+```SQL
+IoTDB> show regions
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+|RegionId|      Type| Status|      Database|SeriesSlotNum|TimeSlotNum|DataNodeId|RpcAddress|RpcPort|InternalAddress|    Role|             CreateTime|TsFileSize|CompressionRatio|
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+|       3|DataRegion|Running|root.industry|            8|          1|         2|     host2|   6667|     datanode-2|Follower|2026-06-03T16:26:45.691|    280 GB|            3.24|
+|       3|DataRegion|Running|root.industry|            8|          1|         3|     host3|   6667|     datanode-3|  Leader|2026-06-03T16:26:45.691|    280 GB|            3.24|
+|       5|DataRegion|Running|root.industry|            6|          1|         1|     host1|   6667|     datanode-1|  Leader|2026-06-03T16:26:45.698|    210 GB|            2.86|
+|       5|DataRegion|Running|root.industry|            6|          1|         3|     host3|   6667|     datanode-3|Follower|2026-06-03T16:26:45.698|    210 GB|            2.86|
+|       7|DataRegion|Running|root.industry|            7|          1|         1|     host1|   6667|     datanode-1|Follower|2026-06-03T16:26:45.717|    240 GB|            3.10|
+|       7|DataRegion|Running|root.industry|            7|          1|         2|     host2|   6667|     datanode-2|  Leader|2026-06-03T16:26:45.717|    240 GB|            3.10|
++--------+----------+-------+--------------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+----------+----------------+
+```
