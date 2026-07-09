@@ -123,7 +123,6 @@ export const enSidebar = {
       children: [
         { text: 'Data Sync(V1.3.0/1/2)', link: 'Data-Sync-old_apache' },
         { text: 'Data Sync(V1.3.3)', link: 'Data-Sync_apache' },
-        { text: 'Data Subscription', link: 'Data-subscription' },
         {
           text: 'Stream Computing',
           collapsible: true,
@@ -195,12 +194,7 @@ export const enSidebar = {
       prefix: 'API/',
       // children: 'structure',
       children: [
-        { text: 'Java Native Interface', collapsible: true,
-          children: [
-            { text: 'Java Native API', link: 'Programming-Java-Native-API' },
-            { text: 'Data Subscription API', link: 'Programming-Data-Subscription' },
-          ],
-        },
+        { text: 'Java Native API', link: 'Programming-Java-Native-API' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
