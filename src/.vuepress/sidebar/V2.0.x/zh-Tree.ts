@@ -106,7 +106,6 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
-        { text: '数据订阅', link: 'Data-subscription_apache' },
         {
           text: '流计算',
           collapsible: true,
@@ -178,12 +177,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'API/',
       children: [
-        { text: 'Java原生接口', collapsible: true,
-          children: [
-            { text: 'Java原生API', link: 'Programming-Java-Native-API_apache' },
-            { text: '数据订阅API', link: 'Programming-Data-Subscription_apache' },
-          ],
-        },
+        { text: 'Java原生接口', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API_apache' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
