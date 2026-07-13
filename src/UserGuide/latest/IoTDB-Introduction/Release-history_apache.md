@@ -20,6 +20,25 @@
 -->
 # Release History
 
+## V2.0.10
+
+> Release Date: 2026.07.08
+
+V2.0.10 enhances query capabilities, system operations, and AI model management. It adds storage space statistics, DEBUG SQL, set operations, CTE, and multiple table-model functions, provides C-language driver SDK interfaces, and improves node load balancing, cluster configuration inspection, and AINode model management. This release also delivers comprehensive improvements to database monitoring, performance, and stability. The specific release contents are as follows:
+
+* **Query Module**: Added support for schema-level and table-level storage space statistics
+* **Query Module**: Added DEBUG SQL capability and optimized the result set of Explain Analyze
+* **Query Module**: Added support for set operations (UNION/INTERSECT/EXCEPT) and Common Table Expressions (CTE) in the table model
+* **Query Module**: Added the IF scalar function, binary functions, and the APPROX_PERCENTILE aggregate function for the table model
+* **Query Module**: Optimized display fields of the show queries command by adding three columns: client IP that initiates the query, timeout threshold, and total request waiting latency
+* **Storage Module**: Provided C-language driver SDK interfaces, including parameter binding, automatic failover for multi-node switching, and other fault-tolerant capabilities
+* **System Module**: Added the capability to manually trigger node load balancing
+* **System Module**: Added progress query capability for the remove DataNode operation
+* **System Module**: Introduced the show configuration statement to view cluster configuration information
+* **AI Module**: Added two built-in models: Moirai2 and Toto
+* **AI Module**: Enabled AINode to manage multiple models under the same model_type
+* **AI Module**: Supported loading built-in models for CPU inference with isolated inference processes
+
 ## V2.0.8
 
 > Release Date: 2026.04.14
