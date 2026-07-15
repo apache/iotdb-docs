@@ -417,7 +417,7 @@ State Flow Explanation:
 
 **Viewing Example:**
 ```SQL
-IoTDB> SHOW MODELS
+IoTDB> show models
 +---------------------+--------------+--------------+-------------+
 |              ModelId|     ModelType|      Category|        State|
 +---------------------+--------------+--------------+-------------+
@@ -432,7 +432,12 @@ IoTDB> SHOW MODELS
 |               custom|              |  user_defined|       active|
 |             timer_xl|         timer|       builtin|   activating|
 |              sundial|       sundial|       builtin|       active|
+|           sundialx_1|       sundial|    fine_tuned|       active|
+|           sundialx_4|       sundial|    fine_tuned|     training|
+|           sundialx_5|       sundial|    fine_tuned|       failed|
 |             chronos2|            t5|       builtin|     inactive|
+|              moirai2|        moirai|       builtin|     inactive|
+|                 toto|          toto|       builtin|     inactive|
 +---------------------+--------------+--------------+-------------+
 ```
 
@@ -440,22 +445,24 @@ IoTDB> SHOW MODELS
 
 | Model Name                              | Core Concept                                                                 | Applicable Scenarios                                      | Key Features                                                                 |
 |-----------------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------------------------|
-| **ARIMA** (Autoregressive Integrated Moving Average) | Combines AR, differencing (I), and MA for stationary or differenced series | Univariate forecasting (stock prices, sales, economics)  | 1. For linear trends with weak seasonality2. Requires (p,d,q) tuning3. Sensitive to missing values |
-| **Holt-Winters** (Triple Exponential Smoothing) | Exponential smoothing with level, trend, and seasonal components           | Data with clear trend & seasonality (monthly sales, power demand) | 1. Handles additive/multiplicative seasonality2. Weights recent data higher3. Simple implementation |
-| **Exponential Smoothing**               | Weighted average of history with exponentially decaying weights            | Trending but non-seasonal data (short-term demand)        | 1. Few parameters, simple computation2. Suitable for stable/slow-changing series3. Extensible to double/triple smoothing |
-| **Naive Forecaster**                    | Uses last observation as next prediction (simplest baseline)               | Benchmarking or data with no clear pattern                | 1. No training needed2. Sensitive to sudden changes3. Seasonal variant uses prior season value |
-| **STL Forecaster**                      | Decomposes series into trend, seasonal, residual; forecasts components     | Complex seasonality/trends (climate, traffic)             | 1. Handles non-fixed seasonality2. Robust to outliers3. Components can use other models |
-| **Gaussian HMM**                        | Hidden states generate observations; each state follows Gaussian distribution | State sequence prediction/classification (speech, finance) | 1. Models temporal state transitions2. Observations independent per state3. Requires state count |
-| **GMM HMM**                             | Extends Gaussian HMM; each state uses Gaussian Mixture Model               | Multi-modal observation scenarios (motion recognition, biosignals) | 1. More flexible than single Gaussian2. Higher complexity3. Requires GMM component count |
-| **STRAY** (Search for Outliers using Random Projection and Adaptive Thresholding) | Uses SVD to detect anomalies in high-dimensional time series             | High-dimensional anomaly detection (sensor networks, IT monitoring) | 1. No distribution assumption2. Handles high dimensions3. Sensitive to global anomalies |
+| **ARIMA** (Autoregressive Integrated Moving Average) | Combines AR, differencing (I), and MA for stationary or differenced series | Univariate forecasting (stock prices, sales, economics)  | 1. For linear trends with weak seasonality<br>2. Requires (p,d,q) tuning<br>3. Sensitive to missing values |
+| **Holt-Winters** (Triple Exponential Smoothing) | Exponential smoothing with level, trend, and seasonal components           | Data with clear trend & seasonality (monthly sales, power demand) | 1. Handles additive/multiplicative seasonality<br>2. Weights recent data higher<br>3. Simple implementation |
+| **Exponential Smoothing**               | Weighted average of history with exponentially decaying weights            | Trending but non-seasonal data (short-term demand)        | 1. Few parameters, simple computation<br>2. Suitable for stable/slow-changing series<br>3. Extensible to double/triple smoothing |
+| **Naive Forecaster**                    | Uses last observation as next prediction (simplest baseline)               | Benchmarking or data with no clear pattern                | 1. No training needed<br>2. Sensitive to sudden changes<br>3.&nbsp;Seasonal variant uses prior season value |
+| **STL Forecaster**                      | Decomposes series into trend, seasonal, residual; forecasts components     | Complex seasonality/trends (climate, traffic)             | 1. Handles non-fixed seasonality<br>2. Robust to outliers<br>3. Components can use other models |
+| **Gaussian HMM**                        | Hidden states generate observations; each state follows Gaussian distribution | State sequence prediction/classification (speech, finance) | 1. Models temporal state transitions<br>2. Observations independent per state<br>3. Requires state count |
+| **GMM HMM**                             | Extends Gaussian HMM; each state uses Gaussian Mixture Model               | Multi-modal observation scenarios (motion recognition, biosignals) | 1. More flexible than single Gaussian<br>2. Higher complexity<br>3. Requires GMM component count |
+| **STRAY** (Search for Outliers using Random Projection and Adaptive Thresholding) | Uses SVD to detect anomalies in high-dimensional time series             | High-dimensional anomaly detection (sensor networks, IT monitoring) | 1. No distribution assumption<br>2. Handles high dimensions<br>3. Sensitive to global anomalies |
 
 **Built-in Time Series Large Models:**
 
 | Model Name      | Core Concept                                                                 | Applicable Scenarios                                      | Key Features                                                                 |
 |-----------------|------------------------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------------------------|
-| **Timer-XL**    | Long-context time series large model pretrained on massive industrial data  | Complex industrial forecasting requiring ultra-long history (energy, aerospace, transport) | 1. Supports input of tens of thousands of time points2. Covers non-stationary, multivariate, and covariate scenarios3. Pretrained on trillion-scale high-quality industrial IoT data |
-| **Timer-Sundial** | Generative foundation model with "Transformer + TimeFlow" architecture     | Zero-shot forecasting requiring uncertainty quantification (finance, supply chain, renewable energy) | 1. Strong zero-shot generalization; supports point & probabilistic forecasting2. Flexible analysis of any prediction distribution statistic3. Innovative flow-matching architecture for efficient non-deterministic sample generation |
-| **Chronos-2**   | Universal time series foundation model based on discrete tokenization       | Rapid zero-shot univariate forecasting; scenarios enhanced by covariates (promotions, weather) | 1. Powerful zero-shot probabilistic forecasting2. Unified multi-variable & covariate modeling (strict input requirements):&nbsp;&nbsp;a. Future covariate names ⊆ historical covariate names&nbsp;&nbsp;b. Each historical covariate length = target length&nbsp;&nbsp;c. Each future covariate length = prediction length3. Efficient encoder-only structure balancing performance and speed |
+| **Timer-XL**    | Long-context time series large model pretrained on massive industrial data  | Complex industrial forecasting requiring ultra-long history (energy, aerospace, transport) | 1. Supports input of tens of thousands of time points<br>2. Covers non-stationary, multivariate, and covariate scenarios<br>3. Pretrained on trillion-scale high-quality industrial IoT data |
+| **Timer-Sundial** | Generative foundation model with "Transformer + TimeFlow" architecture     | Zero-shot forecasting requiring uncertainty quantification (finance, supply chain, renewable energy) | 1. Strong zero-shot generalization; supports point & probabilistic forecasting<br>2. Flexible analysis of any prediction distribution statistic<br>3. Innovative flow-matching architecture for efficient non-deterministic sample generation |
+| **Chronos-2**   | Universal time series foundation model based on discrete tokenization       | Rapid zero-shot univariate forecasting; scenarios enhanced by covariates (promotions, weather) | 1. Powerful zero-shot probabilistic forecasting<br>2. Unified multi-variable & covariate modeling (strict input requirements):<br>&nbsp;&nbsp;a. Future covariate names ⊆ historical covariate names<br>&nbsp;&nbsp;b. Each historical covariate length = target length<br>&nbsp;&nbsp;c. Each future covariate length = prediction length<br>3. Efficient encoder-only structure balancing performance and speed |
+| **Moirai 2.0** | Lightweight decoder-only Patch Transformer with a single patch size, multi-token prediction, and multi-quantile outputs | Zero-shot univariate forecasting where model size and inference efficiency are important, such as industrial monitoring, energy load, and equipment metrics | 1. Approximately 11.4M parameters<br>2. Predicts multiple patches per decoding step to reduce autoregressive overhead for long horizons<br>3. Outputs nine quantiles (0.1–0.9) and uses the p50 median as the point forecast<br>4. Uses instance normalization to mitigate distribution shift across series<br>5. Does not support multivariate targets or covariates |
+| **Toto 2.0** | Decoder-only Patch Transformer alternating causal temporal attention and variable attention to jointly model temporal and variable dimensions | Zero-shot multivariate forecasting for observability metrics, including joint forecasting of CPU, memory, and network traffic | 1. Supports univariate and multivariate target forecasting<br>2. Outputs fixed quantiles from 0.1 to 0.9 and uses the p50 median as the point forecast<br>3. Supports cached block decoding for efficient scaling to longer forecast horizons<br>4. Covariates are not currently supported |
 
 ### 4.4 Deleting Models
 

@@ -78,7 +78,34 @@ Chronos-2 <sup><a href="#appendix4" id="ref4" style="text-decoration: none;">[4]
 
 ![](/img/timeseries-large-model-chronos2.png)
 
-## 7. 效果展示
+## 7. Moirai2 模型
+
+Moirai2<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></sup>（Moirai 2.0）是由 Salesforce AI Research 推出的通用时间序列基础模型（V2.0.10 及以后版本支持）。当前集成的是 Moirai 2.0 R-small 版本，模型参数量约为 11.4M。与采用掩码编码器架构的 Moirai 1.0 不同，Moirai 2.0 使用因果 Decoder-only Patch Transformer，并通过单一 Patch 尺寸、多 Token 预测和多分位数输出，在较小模型规模下实现高效的单变量预测。其核心特性包括：
+
+- **轻量化模型架构**：采用 Decoder-only Patch Transformer，并结合 RMSNorm、旋转位置编码和 SiLU-GLU 前馈网络，在较小参数规模下兼顾预测能力和推理效率。
+- **多 Token 预测**：每个解码步骤可同时预测多个 Patch，减少长预测范围下所需的自回归解码次数。
+- **概率性预测能力**：模型输出 0.1～0.9 共 9 个分位数，AINode 使用 p50 中位数作为点预测结果。
+- **Patch 解码**：在进入注意力模块前，将时间序列按照固定大小的 Patch 进行分组，以提高时序特征提取和解码效率。
+- **实例归一化**：在模型输入前对每条时间序列进行标准化，并在输出后执行反归一化，以缓解不同序列间的分布漂移。
+- **输入范围**：模型聚焦于单变量预测，不支持多变量目标及协变量输入。
+
+![](/img/LargeModel-moirai2.png)
+
+> 注意：Moirai 2.0 R-small 模型权重采用 CC BY-NC 4.0 许可证，仅限研究用途。
+
+## 8. Toto 模型
+
+Toto<sup><a href="#appendix6" id="ref6" style="text-decoration: none;">[6]</a></sup>（Toto 2.0）是由 Datadog 推出的新一代时间序列基础模型（V2.0.10 及以后版本支持），主要面向可观测性场景中的时间序列预测。当前集成的模型采用 2.5B 参数版本，基于 Decoder-only Patch Transformer 架构，交替使用因果时间注意力与变量注意力，对时间维度和变量维度进行联合建模。其核心特性包括：
+
+- **单变量与多变量预测**：支持单个目标变量以及多个相关目标变量的联合预测，适用于 CPU、内存、网络流量等可观测性指标的分析场景。
+- **概率性预测能力**：模型输出 0.1～0.9 的固定分位数，可刻画预测结果的不确定性；AINode 使用 p50 中位数作为点预测结果。
+- **高效块解码**：采用缓存式块解码机制，可分块生成预测结果，降低较长预测范围下的重复计算开销。
+- **大规模模型能力**：通过扩大模型参数量和预训练数据规模提升预测性能，具备良好的零样本泛化能力。
+- **协变量限制**：当前集成版本不支持历史协变量或已知未来协变量。
+
+![](/img/LargeModel-toto.png)
+
+## 9. 效果展示
 
 时序大模型能够适应多种不同领域和场景的真实时序数据，在各种任务上拥有优异的处理效果，以下是在不同数据上的真实表现：
 
@@ -100,7 +127,7 @@ Chronos-2 <sup><a href="#appendix4" id="ref4" style="text-decoration: none;">[4]
 
 ![](/img/LargeModel05.png)
 
-## 8. 部署使用
+## 10. 部署使用
 
 1. 打开 IoTDB cli 控制台，检查 ConfigNode、DataNode、AINode 节点确保均为 Running。
 
@@ -143,6 +170,8 @@ IoTDB> show models
 |             timer_xl|    timer| builtin|  active|
 |              sundial|  sundial| builtin|  active|
 |             chronos2|       t5| builtin|  active|
+|              moirai2|   moirai| builtin|  active|
+|                 toto|     toto| builtin|  active|
 +---------------------+---------+--------+--------+
 ```
 
@@ -150,8 +179,12 @@ IoTDB> show models
 
 <a id="appendix1"></a>**[1]** Timer- Generative Pre-trained Transformers Are Large Time Series Models, Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](#ref1)
 
-<a id="appendix2"></a>**[2]** TIMER-XL- LONG-CONTEXT TRANSFORMERS FOR UNIFIED TIME SERIES FORECASTING ,Yong Liu, Guo Qin, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](<u>#ref2</u>)
+<a id="appendix2"></a>**[2]** TIMER-XL: LONG-CONTEXT TRANSFORMERS FOR UNIFIED TIME SERIES FORECASTING, Yong Liu, Guo Qin, Xiangdong Huang, Jianmin Wang, Mingsheng Long. [↩ 返回](#ref2)
 
-<a id="appendix3"></a>**[3]** Sundial- A Family of Highly Capable Time Series Foundation Models, Yong Liu, Guo Qin, Zhiyuan Shi, Zhi Chen, Caiyin Yang, Xiangdong Huang, Jianmin Wang, Mingsheng Long, **ICML 2025 spotlight**. [↩ 返回](<u>#ref3</u>)
+<a id="appendix3"></a>**[3]** Sundial: A Family of Highly Capable Time Series Foundation Models, Yong Liu, Guo Qin, Zhiyuan Shi, Zhi Chen, Caiyin Yang, Xiangdong Huang, Jianmin Wang, Mingsheng Long, **ICML 2025 spotlight**. [↩ 返回](#ref3)
 
-<a id="appendix4"></a>**[4] **Chronos-2: From Univariate to Universal Forecasting, Abdul Fatir Ansari, Oleksandr Shchur, Jaris Küken, Andreas Auer, Boran Han, Pedro Mercado, Syama Sundar Rangapuram, Huibin Shen, Lorenzo Stella, Xiyuan Zhang, Mononito Goswami, Shubham Kapoor, Danielle C. Maddix, Pablo Guerron, Tony Hu, Junming Yin, Nick Erickson, Prateek Mutalik Desai, Hao Wang, Huzefa Rangwala, George Karypis, Yuyang Wang, Michael Bohlke-Schneider, **arXiv:2510.15821.**[↩ 返回](<u>#ref4</u>)
+<a id="appendix4"></a>**[4]** Chronos-2: From Univariate to Universal Forecasting, Abdul Fatir Ansari, Oleksandr Shchur, Jaris Küken, Andreas Auer, Boran Han, Pedro Mercado, Syama Sundar Rangapuram, Huibin Shen, Lorenzo Stella, Xiyuan Zhang, Mononito Goswami, Shubham Kapoor, Danielle C. Maddix, Pablo Guerron, Tony Hu, Junming Yin, Nick Erickson, Prateek Mutalik Desai, Hao Wang, Huzefa Rangwala, George Karypis, Yuyang Wang, Michael Bohlke-Schneider, **arXiv:2510.15821.** [↩ 返回](#ref4)
+
+<a id="appendix5"></a>[5] Moirai 2.0: When Less Is More for Time Series Forecasting, Salesforce AI Research, arXiv:2511.11698. [↩ 返回](#ref5)
+
+<a id="appendix6"></a>[6] Toto 2.0: Time Series Forecasting Enters the Scaling Era, Datadog, arXiv:2605.20119. [↩ 返回](#ref6)
