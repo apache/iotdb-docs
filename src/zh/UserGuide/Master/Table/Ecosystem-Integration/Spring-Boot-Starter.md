@@ -48,8 +48,8 @@ IoTDB 官方提供的 `iotdb-spring-boot-starter` 是专为 Spring Boot 生态�
 3. 在 `application.properties` 文件中进行自定义配置
 
 ```Properties
-# IoTDB 服务地址（格式：IP:Port）
-iotdb.session.url=127.0.0.1:6667
+# IoTDB 服务地址（格式：IP:Port，支持配置多个，以;分隔）
+iotdb.session.node_urls=127.0.0.1:6667
 # IoTDB 用户名
 iotdb.session.username=root
 # IoTDB 用户密码
