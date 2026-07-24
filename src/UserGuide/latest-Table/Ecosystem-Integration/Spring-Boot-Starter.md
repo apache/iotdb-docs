@@ -47,8 +47,8 @@ The officially provided iotdb-spring-boot-starter by IoTDB is a standardized int
 3. Configure custom settings in `application.properties`:
 
 ```Properties
-# IoTDB service address (format: IP:Port)
-iotdb.session.url=127.0.0.1:6667
+# IoTDB service addresses (format: IP:Port; multiple addresses are supported, separated by semicolons)
+iotdb.session.node_urls=127.0.0.1:6667
 # IoTDB username
 iotdb.session.username=root
 # IoTDB password
