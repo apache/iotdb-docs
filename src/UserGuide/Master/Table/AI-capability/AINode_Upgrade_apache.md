@@ -436,7 +436,6 @@ IoTDB> show models
 |           sundialx_4|       sundial|    fine_tuned|     training|
 |           sundialx_5|       sundial|    fine_tuned|       failed|
 |             chronos2|            t5|       builtin|     inactive|
-|              moirai2|        moirai|       builtin|     inactive|
 |                 toto|          toto|       builtin|     inactive|
 +---------------------+--------------+--------------+-------------+
 ```
@@ -461,7 +460,6 @@ IoTDB> show models
 | **Timer-XL**    | Long-context time series large model pretrained on massive industrial data  | Complex industrial forecasting requiring ultra-long history (energy, aerospace, transport) | 1. Supports input of tens of thousands of time points<br>2. Covers non-stationary, multivariate, and covariate scenarios<br>3. Pretrained on trillion-scale high-quality industrial IoT data |
 | **Timer-Sundial** | Generative foundation model with "Transformer + TimeFlow" architecture     | Zero-shot forecasting requiring uncertainty quantification (finance, supply chain, renewable energy) | 1. Strong zero-shot generalization; supports point & probabilistic forecasting<br>2. Flexible analysis of any prediction distribution statistic<br>3. Innovative flow-matching architecture for efficient non-deterministic sample generation |
 | **Chronos-2**   | Universal time series foundation model based on discrete tokenization       | Rapid zero-shot univariate forecasting; scenarios enhanced by covariates (promotions, weather) | 1. Powerful zero-shot probabilistic forecasting<br>2. Unified multi-variable & covariate modeling (strict input requirements):<br>&nbsp;&nbsp;a. Future covariate names ⊆ historical covariate names<br>&nbsp;&nbsp;b. Each historical covariate length = target length<br>&nbsp;&nbsp;c. Each future covariate length = prediction length<br>3. Efficient encoder-only structure balancing performance and speed |
-| **Moirai 2.0** | Lightweight decoder-only Patch Transformer with a single patch size, multi-token prediction, and multi-quantile outputs | Zero-shot univariate forecasting where model size and inference efficiency are important, such as industrial monitoring, energy load, and equipment metrics | 1. Approximately 11.4M parameters<br>2. Predicts multiple patches per decoding step to reduce autoregressive overhead for long horizons<br>3. Outputs nine quantiles (0.1–0.9) and uses the p50 median as the point forecast<br>4. Uses instance normalization to mitigate distribution shift across series<br>5. Does not support multivariate targets or covariates |
 | **Toto 2.0** | Decoder-only Patch Transformer alternating causal temporal attention and variable attention to jointly model temporal and variable dimensions | Zero-shot multivariate forecasting for observability metrics, including joint forecasting of CPU, memory, and network traffic | 1. Supports univariate and multivariate target forecasting<br>2. Outputs fixed quantiles from 0.1 to 0.9 and uses the p50 median as the point forecast<br>3. Supports cached block decoding for efficient scaling to longer forecast horizons<br>4. Covariates are not currently supported |
 
 ### 4.4 Deleting Models

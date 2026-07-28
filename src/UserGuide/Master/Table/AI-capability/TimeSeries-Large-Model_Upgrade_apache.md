@@ -78,24 +78,9 @@ Chronos-2<sup><a href="#appendix4" id="ref4" style="text-decoration: none;">[4]<
 
 ![](/img/timeseries-large-model-chronos2.png)
 
-## 7. Moirai2 Model
+## 7. Toto Model
 
-Moirai2<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></sup> (Moirai 2.0) is a general-purpose time series foundation model developed by Salesforce AI Research (supported in V2.0.10 and later). AINode currently integrates the Moirai 2.0 R-small variant, which has approximately 11.4M parameters. Unlike Moirai 1.0, which uses a masked encoder architecture, Moirai 2.0 uses a causal decoder-only Patch Transformer. With a single patch size, multi-token prediction, and multi-quantile outputs, it provides efficient univariate forecasting with a compact model. Its core features include:
-
-- **Lightweight Model Architecture**: Uses a decoder-only Patch Transformer with RMSNorm, rotary positional embeddings, and SiLU-GLU feed-forward networks to balance forecasting capability and inference efficiency at a small parameter scale.
-- **Multi-Token Prediction**: Predicts multiple patches at each decoding step, reducing the number of autoregressive decoding steps required for long forecast horizons.
-- **Probabilistic Forecasting**: Outputs nine quantiles from 0.1 to 0.9. AINode uses the p50 median as the point forecast.
-- **Patch Decoding**: Groups the time series into fixed-size patches before the attention module to improve temporal feature extraction and decoding efficiency.
-- **Instance Normalization**: Standardizes each time series before model input and applies denormalization after output to mitigate distribution shifts across series.
-- **Input Scope**: Focuses on univariate forecasting and does not support multivariate targets or covariates.
-
-![](/img/LargeModel-moirai2.png)
-
-> Note: The Moirai 2.0 R-small model weights are licensed under CC BY-NC 4.0 and are restricted to research use.
-
-## 8. Toto Model
-
-Toto<sup><a href="#appendix6" id="ref6" style="text-decoration: none;">[6]</a></sup> (Toto 2.0) is a next-generation time series foundation model developed by Datadog (supported in V2.0.10 and later), primarily for forecasting in observability scenarios. AINode currently integrates the 2.5B-parameter variant. It is based on a decoder-only Patch Transformer architecture that alternates causal temporal attention and variable attention to jointly model the temporal and variable dimensions. Its core features include:
+Toto<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></sup> (Toto 2.0) is a next-generation time series foundation model developed by Datadog (supported in V2.0.10 and later), primarily for forecasting in observability scenarios. AINode currently integrates the 2.5B-parameter variant. It is based on a decoder-only Patch Transformer architecture that alternates causal temporal attention and variable attention to jointly model the temporal and variable dimensions. Its core features include:
 
 - **Univariate and Multivariate Forecasting**: Supports both individual target variables and joint forecasting of multiple related target variables, making it suitable for observability metrics such as CPU, memory, and network traffic.
 - **Probabilistic Forecasting**: Outputs fixed quantiles from 0.1 to 0.9 to represent forecasting uncertainty. AINode uses the p50 median as the point forecast.
@@ -170,7 +155,6 @@ IoTDB> show models
 |             timer_xl|    timer| builtin|  active|
 |              sundial|  sundial| builtin|  active|
 |             chronos2|       t5| builtin|  active|
-|              moirai2|   moirai| builtin|  active|
 |                 toto|     toto| builtin|  active|
 +---------------------+---------+--------+--------+
 ```
@@ -185,6 +169,4 @@ IoTDB> show models
 
 <a id="appendix4"></a>**[4]** Chronos-2: From Univariate to Universal Forecasting, Abdul Fatir Ansari, Oleksandr Shchur, Jaris Küken, Andreas Auer, Boran Han, Pedro Mercado, Syama Sundar Rangapuram, Huibin Shen, Lorenzo Stella, Xiyuan Zhang, Mononito Goswami, Shubham Kapoor, Danielle C. Maddix, Pablo Guerron, Tony Hu, Junming Yin, Nick Erickson, Prateek Mutalik Desai, Hao Wang, Huzefa Rangwala, George Karypis, Yuyang Wang, Michael Bohlke-Schneider, **arXiv:2510.15821**. [↩ Back](#ref4)
 
-<a id="appendix5"></a>[5] Moirai 2.0: When Less Is More for Time Series Forecasting, Salesforce AI Research, arXiv:2511.11698. [↩ Back](#ref5)
-
-<a id="appendix6"></a>[6] Toto 2.0: Time Series Forecasting Enters the Scaling Era, Datadog, arXiv:2605.20119. [↩ Back](#ref6)
+<a id="appendix5"></a>[5] Toto 2.0: Time Series Forecasting Enters the Scaling Era, Datadog, arXiv:2605.20119. [↩ Back](#ref5)
