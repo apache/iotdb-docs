@@ -132,7 +132,7 @@ Parse error: Missing required option: t
 ```Shell
 # Valid Example
 > tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
-              -pfn export-data.tsfile -q "SELECT * FROM root.ln"  -timeout 10000
+              -pfn export-data.tsfile -q "SELECT * FROM root.ln.**"  -timeout 10000
    
 # Error Example
 > tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root

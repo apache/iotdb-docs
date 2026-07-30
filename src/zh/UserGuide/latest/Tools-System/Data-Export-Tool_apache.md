@@ -157,12 +157,12 @@ Parse error: Missing required option: t
 
 * 无
 
-#### 2.4.3 运行示例：
+#### 2.4.3 运行示例
 
 ```Shell
 # 正确示例
 > tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
-              -pfn export-data.tsfile -q "SELECT * FROM root.ln"  -timeout 10000
+              -pfn export-data.tsfile -q "SELECT * FROM root.ln.**"  -timeout 10000
    
 # 异常示例
 > tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root
