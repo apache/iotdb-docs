@@ -90,7 +90,7 @@ Toto<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></
 
 ![](/img/LargeModel-toto.png)
 
-## 9. 效果展示
+## 8. 效果展示
 
 时序大模型能够适应多种不同领域和场景的真实时序数据，在各种任务上拥有优异的处理效果，以下是在不同数据上的真实表现：
 
@@ -112,7 +112,7 @@ Toto<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></
 
 ![](/img/LargeModel05.png)
 
-## 10. 部署使用
+## 9. 部署使用
 
 1. 打开 IoTDB cli 控制台，检查 ConfigNode、DataNode、AINode 节点确保均为 Running。
 
