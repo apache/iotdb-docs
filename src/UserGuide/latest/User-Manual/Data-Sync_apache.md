@@ -365,7 +365,7 @@ In this example, we can create a synchronization task named A2B to synchronize t
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668',  -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 ```
 
 ### 3.2 Partial data synchronization
@@ -382,16 +382,23 @@ The detailed statements are as follows:
 create pipe A2B
 WITH SOURCE (
   'source'= 'iotdb-source',
-  'realtime.mode' = 'stream' -- The extraction mode for newly inserted data (after pipe creation)
-  'path' = 'root.vehicle.**',  -- Scope of Data Synchronization
-  'start-time' = '2023.08.23T08:00:00+00:00',  -- The start event time for synchronizing all data, including start-time
-  'end-time' = '2023.10.23T08:00:00+00:00'  -- The end event time for synchronizing all data, including end-time
+  'realtime.mode' = 'stream',
+  'path' = 'root.vehicle.**',
+  'start-time' = '2023.08.23T08:00:00+00:00',
+  'end-time' = '2023.10.23T08:00:00+00:00'
 ) 
 with SINK (
   'sink'='iotdb-thrift-async-sink',
-  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 )
 ```
+
+Where:
+
+- `realtime.mode`: The extraction mode for newly inserted data (after pipe creation)
+- `path`: Scope of Data Synchronization
+- `start-time`: The start event time for synchronizing all data, including start-time
+- `end-time`: The end event time for synchronizing all data, including end-time
 
 ### 3.3 Edge-cloud data transfer
 
@@ -406,12 +413,12 @@ On B IoTDB, execute the following statement to synchronize data from B to A:
 ```SQL
 create pipe BA
 with source (
-   'inclusion'='all',   -- Indicates synchronization of full data, schema , and auth
-   'path'='root.db.**', -- Limit the range
+   'inclusion'='all',
+   'path'='root.db.**',
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 )
 )
 ```
@@ -421,11 +428,11 @@ On C IoTDB, execute the following statement to synchronize data from C to A:
 ```SQL
 create pipe CA
 with source (
-   'inclusion'='all',  -- Indicates synchronization of full data, schema , and auth
-   'path'='root.db.**', -- Limit the range
+   'inclusion'='all',
+   'path'='root.db.**',
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 )
 )
 ```
@@ -435,15 +442,21 @@ On D IoTDB, execute the following statement to synchronize data from D to A:
 ```SQL
 create pipe DA
 with source (
-   'inclusion'='all',  -- Indicates synchronization of full data, schema , and auth
-   'path'='root.db.**', -- Limit the range
+   'inclusion'='all',
+   'path'='root.db.**',
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 )
 )
 ```
+
+The parameters in the preceding two examples have the same meanings as those below:
+
+- `inclusion`: Indicates synchronization of full data, schema , and auth
+- `path`: Limit the range
+- `node-urls`: The URL of the data service port of the DataNode node on the target IoTDB
 
 ### 3.4 Cascading data transfer
 
@@ -459,7 +472,7 @@ On A IoTDB, execute the following statement to synchronize data from A to B:
 create pipe AB
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6668',
 )
 )
 ```
@@ -469,15 +482,19 @@ On B IoTDB, execute the following statement to synchronize data from B to C:
 ```SQL
 create pipe BC
 with source (
-  'forwarding-pipe-requests' = 'true'   -- Whether to forward data written by other Pipes
+  'forwarding-pipe-requests' = 'true'
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6669', -- The URL of the data service port of the DataNode node on the target IoTDB
+  'node-urls' = '127.0.0.1:6669',
 )
 )
 ```
 
+The `node-urls` parameter in the preceding example has the same meaning as below:
+
+- `forwarding-pipe-requests`: Whether to forward data written by other Pipes
+- `node-urls`: The URL of the data service port of the DataNode node on the target IoTDB
 
 ### 3.5 Compression Synchronization (V1.3.3+)
 
@@ -488,10 +505,14 @@ For example, to create a synchronization task named A2B:
 ```SQL
 create pipe A2B 
 with sink (
- 'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
- 'compressor' = 'snappy,lz4'  -- Compression algorithms
+ 'node-urls' = '127.0.0.1:6668',
+ 'compressor' = 'snappy,lz4'
 )
 ```
+
+Where:
+
+- `node-urls`: The URL of the data service port of the DataNode node on the target IoTDB
 
 ### 3.6 Encrypted Synchronization (V1.3.1+)
 
@@ -503,11 +524,17 @@ For example, to create a synchronization task named A2B:
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-ssl-sink',
-  'node-urls'='127.0.0.1:6667',  -- The URL of the data service port of the DataNode node on the target IoTDB
-  'ssl.trust-store-path'='pki/trusted',  -- The trust store certificate path required to connect to the target DataNode
-  'ssl.trust-store-pwd'='root' -- The trust store certificate password required to connect to the target DataNode
+  'node-urls'='127.0.0.1:6667',
+  'ssl.trust-store-path'='pki/trusted',
+  'ssl.trust-store-pwd'='root'
 )
 ```
+
+Where:
+
+- `node-urls`: The URL of the data service port of the DataNode node on the target IoTDB
+- `ssl.trust-store-path`: The trust store certificate path required to connect to the target DataNode
+- `ssl.trust-store-pwd`: The trust store certificate password required to connect to the target DataNode
 
 ## 4. Reference: Notes
 
