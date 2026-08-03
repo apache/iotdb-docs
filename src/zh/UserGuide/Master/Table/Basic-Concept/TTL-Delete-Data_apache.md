@@ -45,7 +45,7 @@ IoTDB支持对表（table）级别设置数据保留时间（TTL），允许系�
 示例1：创建表时设置 TTL
 
 ```SQL
-CREATE TABLE test3 ("场站" string id, "温度" int32) with (TTL=3600);
+CREATE TABLE test3 ("场站" string, "温度" int32) with (TTL=3600);
 ```
 
 示例2：更改表语句设置TTL：
@@ -57,8 +57,8 @@ ALTER TABLE tableB SET PROPERTIES TTL=3600;
 示例3：不指定TTL或设为默认值，它将与数据库的TTL相同，默认情况下是'INF'（无穷大）：
 
 ```SQL
-CREATE TABLE test3 ("场站" string id, "温度" int32) with (TTL=DEFAULT);
-CREATE TABLE test3 ("场站" string id, "温度" int32);
+CREATE TABLE test3 ("场站" string, "温度" int32) with (TTL=DEFAULT);
+CREATE TABLE test3 ("场站" string, "温度" int32);
 ALTER TABLE tableB set properties TTL=DEFAULT;
 ```
 
@@ -71,7 +71,7 @@ ALTER TABLE tableB set properties TTL=DEFAULT;
 ```SQL
 CREATE DATABASE db WITH (ttl=3600000);
 use db;
-CREATE TABLE test3 ("场站" string id, "温度" int32);
+CREATE TABLE test3 ("场站" string, "温度" int32);
 ```
 
 示例5：数据库不设置ttl，将生成一个没有ttl的表:
@@ -79,7 +79,7 @@ CREATE TABLE test3 ("场站" string id, "温度" int32);
 ```SQL
 CREATE DATABASE db;
 use db;
-CREATE TABLE test3 ("场站" string id, "温度" int32);
+CREATE TABLE test3 ("场站" string, "温度" int32);
 ```
 
 示例6：数据库设置了ttl，但想显式设置没有TTL的表，可以将TTL设置为'INF'：
@@ -87,7 +87,7 @@ CREATE TABLE test3 ("场站" string id, "温度" int32);
 ```SQL
 CREATE DATABASE db WITH (ttl=3600000);
 use db;
-CREATE TABLE test3 ("场站" string id, "温度" int32) with (ttl='INF');
+CREATE TABLE test3 ("场站" string, "温度" int32) with (ttl='INF');
 ```
 
 ## 3. 取消 TTL

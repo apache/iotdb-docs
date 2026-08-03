@@ -47,7 +47,7 @@ If TTL is specified when creating a table using SQL, the table’s TTL takes pre
 Example 1: Setting TTL during table creation:
 
 ```SQL
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=3600);
+CREATE TABLE test3 ("site" string, "temperature" int32) with (TTL=3600);
 ```
 
 Example 2: Changing TTL for an existing table:
@@ -59,8 +59,8 @@ ALTER TABLE tableB SET PROPERTIES TTL=3600;
 **Example 3:** If TTL is not specified or set to the default value, it will inherit the database's TTL. By default, the database TTL is `'INF'` (infinite):
 
 ```SQL
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=DEFAULT);
-CREATE TABLE test3 ("site" string id, "temperature" int32);
+CREATE TABLE test3 ("site" string, "temperature" int32) with (TTL=DEFAULT);
+CREATE TABLE test3 ("site" string, "temperature" int32);
 ALTER TABLE tableB set properties TTL=DEFAULT;
 ```
 
@@ -73,7 +73,7 @@ Example 4: A database with TTL=3600000 creates tables inheriting this TTL:
 ```SQL
 CREATE DATABASE db WITH (ttl=3600000);
 use db;
-CREATE TABLE test3 ("site" string id, "temperature" int32);
+CREATE TABLE test3 ("site" string, "temperature" int32);
 ```
 
 Example 5: A database without a TTL setting creates tables without TTL:
@@ -81,7 +81,7 @@ Example 5: A database without a TTL setting creates tables without TTL:
 ```SQL
 CREATE DATABASE db;
 use db;
-CREATE TABLE test3 ("site" string id, "temperature" int32);
+CREATE TABLE test3 ("site" string, "temperature" int32);
 ```
 
 Example 6: Setting a table with no TTL explicitly (TTL=INF) in a database with a configured TTL:
@@ -89,7 +89,7 @@ Example 6: Setting a table with no TTL explicitly (TTL=INF) in a database with a
 ```SQL
 CREATE DATABASE db WITH (ttl=3600000);
 use db;
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (ttl='INF');
+CREATE TABLE test3 ("site" string, "temperature" int32) with (ttl='INF');
 ```
 
 ## 3. Remove TTL
