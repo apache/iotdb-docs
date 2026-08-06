@@ -63,17 +63,17 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 在流处理插件的用户编程接口中，事件是数据库数据写入操作的抽象。事件由单机流处理引擎捕获，按照流处理三个阶段的流程，依次传递至 PipeSource 插件，PipeProcessor 插件和 PipeSink 插件，并依次在三个插件中触发用户逻辑的执行。
 
-为了兼顾端侧低负载场景下的流处理低延迟和端侧高负载场景下的流处理高吞吐，流处理引擎会动态地在操作日志和数据文件中选择处理对象，因此，流处理的用户编程接口要求用户提供下列两类事件的处理逻辑：操作日志写入事件 TabletInsertionEvent 和数据文件写入事件 TsFileInsertionEvent。
+为了兼顾端侧低负载场景下的流处理低延迟和端侧高负载场景下的流处理高吞吐，流处理引擎会动态选择处理实时写入数据或数据文件。因此，流处理的用户编程接口要求用户提供下列两类事件的处理逻辑：Tablet 写入事件 `TabletInsertionEvent` 和 TsFile 写入事件 `TsFileInsertionEvent`。
 
-#### **操作日志写入事件（TabletInsertionEvent）**
+#### **Tablet 写入事件（TabletInsertionEvent）**
 
-操作日志写入事件（TabletInsertionEvent）是对用户写入请求的高层数据抽象，它通过提供统一的操作接口，为用户提供了操纵写入请求底层数据的能力。
+Tablet 写入事件（`TabletInsertionEvent`）是对用户写入请求的高层数据抽象，它通过提供统一的操作接口，为用户提供了处理写入数据的能力。
 
-对于不同的数据库部署方式，操作日志写入事件对应的底层存储结构是不一样的。对于单机部署的场景，操作日志写入事件是对写前日志（WAL）条目的封装；对于分布式部署的场景，操作日志写入事件是对单个节点共识协议操作日志条目的封装。
+自 V2.0.5 起，流处理框架会直接从写入请求中获取实时写入数据，并将其封装为 `TabletInsertionEvent`，不再从操作日志中读取数据。该变化不影响 `TabletInsertionEvent` 接口以及已有插件的使用方式。
 
-对于数据库不同写入请求接口生成的写入操作，操作日志写入事件对应的请求结构体的数据结构也是不一样的。IoTDB 提供了 InsertRecord、InsertRecords、InsertTablet、InsertTablets 等众多的写入接口，每一种写入请求都使用了完全不同的序列化方式，生成的二进制条目也不尽相同。
+对于数据库不同写入接口生成的写入操作，Tablet 写入事件对应的数据结构也是不一样的。IoTDB 提供了 `InsertRecord`、`InsertRecords`、`InsertTablet`、`InsertTablets` 等多种写入接口，不同写入请求的数据结构也不尽相同。
 
-操作日志写入事件的存在，为用户提供了一种统一的数据操作视图，它屏蔽了底层数据结构的实现差异，极大地降低了用户的编程门槛，提升了功能的易用性。
+Tablet 写入事件为用户提供了一种统一的数据操作视图，它屏蔽了底层数据结构的实现差异，极大地降低了用户的编程门槛，提升了功能的易用性。
 
 ```java
 /** TabletInsertionEvent is used to define the event of data insertion. */
@@ -97,9 +97,9 @@ public interface TabletInsertionEvent extends Event {
 }
 ```
 
-#### **数据文件写入事件（TsFileInsertionEvent）**
+#### **TsFile 写入事件（TsFileInsertionEvent）**
 
-数据文件写入事件（TsFileInsertionEvent） 是对数据库文件落盘操作的高层抽象，它是若干操作日志写入事件（TabletInsertionEvent）的数据集合。
+TsFile 写入事件（`TsFileInsertionEvent`）是对数据库文件落盘操作的高层抽象，它是若干 Tablet 写入事件（`TabletInsertionEvent`）的数据集合。
 
 IoTDB 的存储引擎是 LSM 结构的。数据写入时会先将写入操作落盘到日志结构的文件里，同时将写入数据保存在内存里。当内存达到控制上限，则会触发刷盘行为，即将内存中的数据转换为数据库文件，同时删除之前预写的操作日志。当内存中的数据转换为数据库文件中的数据时，会经过编码压缩和通用压缩两次压缩处理，因此数据库文件的数据相比内存中的原始数据占用的空间更少。
 
@@ -109,7 +109,7 @@ IoTDB 的存储引擎是 LSM 结构的。数据写入时会先将写入操作落
 
 （1）历史数据抽取：一个流处理任务开始前，所有已经落盘的写入数据都会以 TsFile 的形式存在。一个流处理任务开始后，采集历史数据时，历史数据将以 TsFileInsertionEvent 作为抽象；
 
-（2）实时数据抽取：一个流处理任务进行时，当数据流中实时处理操作日志写入事件的速度慢于写入请求速度一定进度之后，未来得及处理的操作日志写入事件会被被持久化至磁盘，以 TsFile 的形式存在，这一些数据被流处理引擎抽取到后，会以 TsFileInsertionEvent 作为抽象。
+（2）实时数据抽取：一个流处理任务运行时，实时写入的数据通常以 `TabletInsertionEvent` 的形式进行处理。当待处理的数据出现积压时，流处理引擎可以从已经落盘的 TsFile 中批量抽取数据，并以 `TsFileInsertionEvent` 的形式进行处理。
 
 ```java
 /**
