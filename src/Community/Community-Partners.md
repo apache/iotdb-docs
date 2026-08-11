@@ -53,18 +53,4 @@ Alternatively, you may leave your information on [Github](https://github.com/apa
 
 ## Commercial Support
 
-As with other Apache projects, Apache IoTDB is freely available. While community support is also free, there are no service-level-agreements, guaranteed reaction times or guarantee that an issue will be addressed.
-
-For organizations needing higher levels of availability and technical support, the following entities have commercial support offerings:
-
-### Partners
-
-| <div style="width:100px;">Cooperative Partners </div> |            Link             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| :---------------------------------------------------: | :-------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|        School of Software, Tsinghua University        |  https://github.com/thulab  | School of Software at Tsinghua University has initiated IoTDB and contributed it to the Apache Software Foundation. The professionals and software engineers continue to contribute significantly to the project through ongoing development and community support.                                                                                                                                                                                                                          |
-|                        Timecho                        |  https://www.timecho.com/   | Timecho is one of the principal contributors to Apache IoTDB, with several IoTDB PMC members and Apache board members on its team. The company is dedicated to providing time-series data solutions that maximize the value of time-series data while maintaining manageable costs. Timecho offers TimechoDB, an enterprise-level product based on Apache IoTDB, along with a suite of enterprise tools, technical support, deployment, training, data integration, and customized services. |
-|                          IGS                          | https://www.igsl-group.com/ | Exclusive reseller of TimechoDB, the enterprise edition of Apache IoTDB, in Hong Kong.                                                                                                                                                                                                                                                                                                                                                                                                       |
-
-### Product Inquiries
-
-For more information on the commercial support offerings, visit [Products](https://www.timecho-global.com/product) .
+For Apache IoTDB commercial support services, see [**Commercial Support**](../UserGuide/latest-Table/IoTDB-Introduction/Commercial-Support_apache.md).
