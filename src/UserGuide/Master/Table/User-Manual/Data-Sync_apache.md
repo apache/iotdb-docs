@@ -339,7 +339,7 @@ SQL Example:
 CREATE PIPE A2B
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6668'
 )
 ```
 
@@ -357,17 +357,24 @@ SQL Example:
 CREATE PIPE A2B
 WITH SOURCE (
   'source' = 'iotdb-source',
-  'mode.streaming' = 'true'  -- Extraction mode for newly inserted data (after the pipe is created): 
-                             -- Whether to extract data in streaming mode (if set to false, batch mode is used).
-  'database-name'='testdb.*', -- Scope of Data Synchronization
-  'start-time' = '2023.08.23T08:00:00+00:00',  -- The event time at which data synchronization starts (inclusive).
-  'end-time' = '2023.10.23T08:00:00+00:00'  -- The event time at which data synchronization ends (inclusive).
+  'mode.streaming' = 'true',
+  'database-name'='testdb.*',
+  'start-time' = '2023.08.23T08:00:00+00:00',
+  'end-time' = '2023.10.23T08:00:00+00:00'
 ) 
 WITH SINK (
   'sink' = 'iotdb-thrift-async-sink',
-  'node-urls' = '127.0.0.1:6668'  -- The URL of the DataNode's data service port in the target IoTDB instance.
+  'node-urls' = '127.0.0.1:6668'
 )
 ```
+
+Where:
+
+- `mode.streaming`: Extraction mode for newly inserted data (after the pipe is created): Whether to extract data in streaming mode (if set to false, batch mode is used).
+- `database-name`: Scope of Data Synchronization
+- `start-time`: The event time at which data synchronization starts (inclusive).
+- `end-time`: The event time at which data synchronization ends (inclusive).
+
 ### 3.3 Edge-to-Cloud Data Transmission
 
 This example demonstrates synchronizing data from multiple IoTDB clusters (B, C, D) to a central IoTDB cluster (A). The data pipeline is shown below:
@@ -381,12 +388,12 @@ SQL Example: On IoTDB B:
 ```SQL
 CREATE PIPE BA
 WITH SOURCE (
-  'database-name' = 'db_b.*',  -- Restrict the database scope
-  'table-name' = '.*'          -- Match all tables
+  'database-name' = 'db_b.*',
+  'table-name' = '.*'
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6667'
 )
 ```
 
@@ -395,12 +402,12 @@ On IoTDB C ：
 ```SQL
 CREATE PIPE CA
 WITH SOURCE (
-  'database-name' = 'db_c.*',  -- Restrict the database scope
-  'table-name' = '.*'          -- Match all tables
+  'database-name' = 'db_c.*',
+  'table-name' = '.*'
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6668'
 )
 ```
 
@@ -409,14 +416,20 @@ On IoTDB D：
 ```SQL
 CREATE PIPE DA
 WITH SOURCE (
-  'database-name' = 'db_d.*',  -- Restrict the database scope
-  'table-name' = '.*'          -- Match all tables
+  'database-name' = 'db_d.*',
+  'table-name' = '.*'
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6669' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6669'
 )
 ```
+
+The parameters in the preceding two examples have the same meanings as those below:
+
+- `database-name`: Restrict the database scope
+- `table-name`: Match all tables
+- `node-urls`: URL of the DataNode service port on the target IoTDB
 
 ### 3.4 Cascaded Data Transmission
 
@@ -424,14 +437,13 @@ This example demonstrates cascading data transmission from IoTDB A to IoTDB B an
 
 ![](/img/sync_en_04.png)
 
-
 SQL Example: On IoTDB A:
 
 ```SQL
 CREATE PIPE AB
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6668'
 )
 ```
 
@@ -443,10 +455,13 @@ WITH SOURCE (
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6669' -- URL of the DataNode service port on the target IoTDB
+  'node-urls' = '127.0.0.1:6669'
 )
 ```
 
+The parameters in the preceding example have the same meanings as those below:
+
+- `node-urls`: URL of the DataNode service port on the target IoTDB
 
 ### 3.5 Compressed Synchronization
 
@@ -457,12 +472,15 @@ IoTDB supports specifying data compression methods during synchronization. The `
 ```SQL
 CREATE PIPE A2B
 WITH SINK (
-  'node-urls' = '127.0.0.1:6668', -- URL of the DataNode service port on the target IoTDB
-  'compressor' = 'snappy,lz4',    -- Compression algorithms
-  'rate-limit-bytes-per-second' = '1048576'  -- Maximum bytes allowed per second
+  'node-urls' = '127.0.0.1:6668',
+  'compressor' = 'snappy,lz4',
+  'rate-limit-bytes-per-second' = '1048576'
 )
 ```
 
+Where:
+
+- `node-urls`: URL of the DataNode service port on the target IoTDB
 
 ### 3.6 Encrypted Synchronization
 
@@ -474,12 +492,17 @@ IoTDB supports SSL encryption during synchronization to securely transmit data b
 CREATE PIPE A2B
 WITH SINK (
   'sink' = 'iotdb-thrift-ssl-sink',
-  'node-urls' = '127.0.0.1:6667',  -- URL of the DataNode service port on the target IoTDB
-  'ssl.trust-store-path' = 'pki/trusted',  -- Path to the trust store certificate
-  'ssl.trust-store-pwd' = 'root'           -- Password for the trust store certificate
+  'node-urls' = '127.0.0.1:6667',
+  'ssl.trust-store-path' = 'pki/trusted',
+  'ssl.trust-store-pwd' = 'root'
 )
 ```
 
+Where:
+
+- `node-urls`: URL of the DataNode service port on the target IoTDB
+- `ssl.trust-store-path`: The trust store certificate path required to connect to the target DataNode
+- `ssl.trust-store-pwd`: The trust store certificate password required to connect to the target DataNode
 
 ## Reference: Notes
 

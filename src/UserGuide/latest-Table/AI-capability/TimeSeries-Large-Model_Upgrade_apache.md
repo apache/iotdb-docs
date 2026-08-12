@@ -90,7 +90,7 @@ Toto<sup><a href="#appendix5" id="ref5" style="text-decoration: none;">[5]</a></
 
 ![](/img/LargeModel-toto.png)
 
-## 9. Performance Showcase
+## 8. Performance Showcase
 
 Time Series Large Models can adapt to real time series data from various different domains and scenarios, demonstrating excellent processing capabilities across various tasks. The following shows the actual performance on different datasets:
 
@@ -112,7 +112,7 @@ Using Time Series Large Models to accurately identify outliers that deviate sign
 
 ![](/img/LargeModel05.png)
 
-## 10. Deployment and Usage
+## 9. Deployment and Usage
 
 1. Open the IoTDB CLI console and check that the ConfigNode, DataNode, and AINode nodes are all Running.
 

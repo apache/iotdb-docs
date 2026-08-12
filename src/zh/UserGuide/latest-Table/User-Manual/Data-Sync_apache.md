@@ -334,7 +334,7 @@ IoTDB> SHOW PIPEPLUGINS
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6668',
 )
 ```
 
@@ -352,16 +352,23 @@ with sink (
 create pipe A2B
 WITH SOURCE (
   'source'= 'iotdb-source',
-  'mode.streaming' = 'true'  -- 新插入数据（pipe创建后）的抽取模式：是否按流式抽取（false 时为批式）
-  'database-name'='testdb.*', -- 同步数据的范围
-  'start-time' = '2023.08.23T08:00:00+00:00',  -- 同步所有数据的开始 event time，包含 start-time
-  'end-time' = '2023.10.23T08:00:00+00:00'  -- 同步所有数据的结束 event time，包含 end-time
+  'mode.streaming' = 'true',
+  'database-name'='testdb.*',
+  'start-time' = '2023.08.23T08:00:00+00:00',
+  'end-time' = '2023.10.23T08:00:00+00:00'
 ) 
 with SINK (
   'sink'='iotdb-thrift-async-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6668',
 )
 ```
+
+其中：
+
+- `mode.streaming`: 新插入数据（pipe创建后）的抽取模式：是否按流式抽取（false 时为批式）
+- `database-name`: 同步数据的范围
+- `start-time`: 同步所有数据的开始 event time，包含 start-time
+- `end-time`: 同步所有数据的结束 event time，包含 end-time
 
 ### 3.3 边云数据传输
 
@@ -376,12 +383,12 @@ with SINK (
 ```SQL
 create pipe BA
 with source (
-   'database-name'='db_b.*', -- 限制范围
-   'table-name'='.*', -- 可选择匹配所有
+   'database-name'='db_b.*',
+   'table-name'='.*',
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6667',
 )
 ```
 
@@ -390,12 +397,12 @@ with sink (
 ```SQL
 create pipe CA
 with source (
-   'database-name'='db_c.*', -- 限制范围
-   'table-name'='.*', -- 可选择匹配所有
+   'database-name'='db_c.*',
+   'table-name'='.*',
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6668',
 )
 ```
 
@@ -404,14 +411,20 @@ with sink (
 ```SQL
 create pipe DA
 with source (
-   'database-name'='db_d.*', -- 限制范围
-   'table-name'='.*', -- 可选择匹配所有
+   'database-name'='db_d.*',
+   'table-name'='.*',
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6669', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6669',
 )
 ```
+
+前两个示例中的参数含义与此处相同：
+
+- `database-name`: 限制范围
+- `table-name`: 可选择匹配所有
+- `node-urls`: 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
 
 ### 3.4 级联数据传输
 
@@ -419,14 +432,13 @@ with sink (
 
 ![](/img/1706698610134.jpg)
 
-
 在 A IoTDB 上执行下列语句，将 A 中数据同步至 B：
 
 ```SQL
 create pipe AB
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6668',
 )
 ```
 
@@ -438,9 +450,13 @@ with source (
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6669', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6669',
 )
 ```
+
+前一个示例中的参数含义与此处相同：
+
+- `node-urls`: 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
 
 ### 3.5 压缩同步
 
@@ -451,12 +467,15 @@ IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compre
 ```SQL
 create pipe A2B 
 with sink (
- 'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
- 'compressor' = 'snappy,lz4'  -- 
- 'rate-limit-bytes-per-second'='1048576'  -- 每秒最大允许传输的byte数
+ 'node-urls' = '127.0.0.1:6668',
+ 'compressor' = 'snappy,lz4',
+ 'rate-limit-bytes-per-second'='1048576'
 )
 ```
 
+其中：
+
+- `node-urls`: 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
 
 ### 3.6 加密同步
 
@@ -468,11 +487,17 @@ IoTDB 支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实�
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-ssl-sink',
-  'node-urls'='127.0.0.1:6667',  -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
-  'ssl.trust-store-path'='pki/trusted', -- 连接目标端 DataNode 所需的 trust store 证书路径
-  'ssl.trust-store-pwd'='root' -- 连接目标端 DataNode 所需的 trust store 证书密码
+  'node-urls'='127.0.0.1:6667',
+  'ssl.trust-store-path'='pki/trusted',
+  'ssl.trust-store-pwd'='root'
 )
 ```
+
+其中：
+
+- `node-urls`: 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+- `ssl.trust-store-path`: 连接目标端 DataNode 所需的 trust store 证书路径
+- `ssl.trust-store-pwd`: 连接目标端 DataNode 所需的 trust store 证书密码
 
 ## 参考：注意事项
 
