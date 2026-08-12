@@ -18,402 +18,799 @@
     under the License.
 
 -->
+
 # Benchmark Tool
 
-## 1. **Basic Overview**
-
-IoT-benchmark is a time-series database benchmarking tool developed in Java for big data environments. It was developed and open-sourced by the School of Software, Tsinghua University. The tool is user-friendly, supports various write and query methods, allows storing test information and results for further queries or analysis, and integrates with Tableau for visualizing test results.
-
-Figure 1-1 illustrates the test benchmark process and its extended functionalities, all of which can be streamlined by IoT-benchmark. It supports a variety of workloads, including write-only, read-only, and mixed write-and-read operations. Additionally, it offers software and hardware system monitoring, performance metric measurement, automated database initialization, test data analysis, and system parameter optimization.
-
-![](/img/benchmark-English1.png)
-
-Figure 1-1 *IoT-benchmark Test Benchmark Process*
-
-IoT-benchmark adopts the modular design concept of the YCSB test tool, which separates workload generation, performance measurement, and database interface components. Its modular structure is illustrated in Figure 1-2. Unlike YCSB-based testing tools, IoT-benchmark introduces a system monitoring module that supports the persistence of both test data and system metrics. It also includes load-testing functionalities specifically designed for time-series data scenarios, such as batch writes and multiple out-of-order data insertion modes for IoT environments.
+IoT Benchmark is a benchmark testing tool for time-series databases and real-time databases in Industrial Internet of Things (IIoT) scenarios. This manual introduces the tool's main capabilities, supported databases, and basic usage. The installation, configuration, and test examples primarily use IoTDB 2\.0\.x and cover both the tree model and the table model.
 
 ![](/img/benchmark-%20English2.png)
 
-Figure 1-2 *IoT-benchmark Modular Design*
+## 1\. Basic Overview
 
-**Supported Databases**
+IoT Benchmark can generate periodic time-series data based on configuration, perform writes and queries against a database, and collect metrics such as throughput, latency, and success rate. Its main capabilities include:
 
-Currently, IoT-benchmark supports the following time series databases, versions and connection methods:
+- Cross-platform operation: supports Linux, macOS, and Windows.
 
-| Database        | Version    | Connection mmethod                                       |
-| :-------------- |:-----------| :------------------------------------------------------- |
-| IoTDB           | v1.x  v2.x | JDBC, SessionByTablet, SessionByRecord, SessionByRecords |
-| InfluxDB        | v1.x  v2.x | SDK                                                      |
-| TimescaleDB     | --         | JDBC                                                     |
-| OpenTSDB        | --         | HTTP Request                                             |
-| QuestDB         | v6.0.7     | JDBC                                                     |
-| TDengine        | v2.2.0.2   | JDBC                                                     |
-| VictoriaMetrics | v1.64.0    | HTTP Request                                             |
-| KairosDB        | --         | HTTP Request                                             |
+- Multiple workloads: supports write-only, query-only, and mixed read/write workloads.
 
+- Dataset generation: generated data can be saved to disk for repeated testing.
 
-## 2. **Installation and Operation**
+- Correctness verification: datasets can be loaded from disk to verify write and query correctness.
 
-### 2.1 **Prerequisites**
+- Multiple database support: tests can be performed against various time-series databases and real-time databases. IoTDB 2\.0\.x supports JDBC, REST, and multiple Session write methods.
 
-1. Java 8
-2. Maven 3.6+
-3. The corresponding appropriate version of the database, such as Apache IoTDB 2.0
+- Result persistence: test processes and results can be saved to files, CSV, MySQL, or IoTDB.
 
-### 2.2 **How to Obtain**
+- Test extensions: supports scenarios such as out-of-order writes, batch writes, cluster load testing, dual writes for comparison, and result visualization.
 
-- **B****inary package****:** Visit https://github.com/thulab/iot-benchmark/releases to download the installation package. Extract the compressed file into a desired folder for use.
+### 1\.1 Supported Databases, Versions, and Access Methods
 
-- **Source Code** **Compilation (for** **Apache** **IoTDB 2.0 testing):**
+IoT Benchmark supports the following databases and versions. During testing, use `DB_SWITCH` to select the corresponding database, version, and connection or write method.
 
-    - **Compile the latest IoTDB Session package:** Download the IoTDB source code from https://github.com/apache/iotdb/tree/rc/2.0.5 and run the following command in the root directory to compile the latest IoTDB Session package:
+|Database|Supported Version|`DB_SWITCH`|
+|---|---|---|
+|IoTDB|v1\.x|`IoTDB-130-JDBC`, `IoTDB-130-REST`, `IoTDB-130-SESSION_BY_TABLET`, `IoTDB-130-SESSION_BY_RECORD`, `IoTDB-130-SESSION_BY_RECORDS`|
+|IoTDB|v2\.x|`IoTDB-200-JDBC`, `IoTDB-200-REST`, `IoTDB-200-SESSION_BY_TABLET`, `IoTDB-200-SESSION_BY_RECORD`, `IoTDB-200-SESSION_BY_RECORDS`|
+|InfluxDB|v1\.x|`InfluxDB`|
+|InfluxDB|v2\.x|`InfluxDB-2.x`|
+|QuestDB|v6\.0\.7|`QuestDB`|
+|Microsoft SQL Server|2016 SP2|`MSSQLSERVER`|
+|VictoriaMetrics|v1\.64\.0|`VictoriaMetrics`|
+|SQLite|—|`SQLite`|
+|OpenTSDB|2\.4\.1|`OpenTSDB`|
+|KairosDB|—|`KairosDB`|
+|TimescaleDB|—|`TimescaleDB`|
+|TimescaleDB Cluster|Cluster|`TimescaleDB-Cluster`|
+|TDengine|2\.2\.0\.2|`TDengine`|
+|TDengine|3\.0\.1|`TDengine-3`|
+|DolphinDB|v2\.x|`DolphinDB-2-MTW`, `DolphinDB-2-PTA`|
+|DolphinDB|v3\.x|`DolphinDB-3-MTW`, `DolphinDB-3-PTA`|
+|CnosDB|—|`CnosDB`|
 
-      ```Bash
-       mvn clean package install -pl session -am -DskipTests
-       ```
+Notes:
 
-    - **Compile the IoT-benchmark test package:** Download the source code from https://github.com/thulab/iot-benchmark and run the following command in the root directory to compile the Apache IoTDB 2.0 test package:.
+- IoTDB access methods include JDBC, REST, Session by Tablet, Session by Record, and Session by Records.
 
-      ```Bash
-       mvn clean package install -pl iotdb-2.0 -am -DskipTests
-       ```
+- For DolphinDB, `MTW` means `MultithreadedTableWriter`, which buffers writes by row; `PTA` means `PartitionedTableAppender`, which appends an entire table in columnar batches.
 
-    -  The compiled test package will be located at:
+- Database versions, drivers, and servers must be compatible with one another. When using other databases, configure the corresponding connection and extension parameters.
 
-      ```Bash
-      ./iotdb-2.0/target/iotdb-2.0-0.0.1/iotdb-2.0-0.0.1
-      ```
+### 1\.2 IoTDB 2\.0\.x Access Methods
 
-### 2.3 **Test Package Structure**
+The following installation, configuration, and examples primarily use IoTDB 2\.0\.x. The supported access methods are listed below.
 
-The directory structure of the test package is shown below. The test configuration file is `conf/config.properties`, and the test startup scripts are `benchmark.sh` (Linux & MacOS) and `benchmark.bat` (Windows). The detailed usage of the files is shown in the table below.
+|Access Method|`DB_SWITCH`|Description|
+|---|---|---|
+|JDBC|`IoTDB-200-JDBC`|Performs writes and queries through JDBC|
+|REST|`IoTDB-200-REST`|Performs tests through the IoTDB REST interface|
+|Session by Tablet|`IoTDB-200-SESSION_BY_TABLET`|Uses Tablet for batch writes|
+|Session by Record|`IoTDB-200-SESSION_BY_RECORD`|Writes records one at a time|
+|Session by Records|`IoTDB-200-SESSION_BY_RECORDS`|Writes multiple records in batches|
 
-```Shell
--rw-r--r--. 1 root root  2881 Jan  10 01:36 benchmark.bat
--rwxr-xr-x. 1 root root   314 Jan  10 01:36 benchmark.sh
-drwxr-xr-x. 2 root root    24 Jan  10 01:36 bin
--rwxr-xr-x. 1 root root  1140 Jan  10 01:36 cli-benchmark.sh
-drwxr-xr-x. 2 root root   107 Jan  10 01:36 conf
-drwxr-xr-x. 2 root root  4096 Jan  10 01:38 lib
--rw-r--r--. 1 root root 11357 Jan  10 01:36 LICENSE
--rwxr-xr-x. 1 root root   939 Jan  10 01:36 rep-benchmark.sh
--rw-r--r--. 1 root root    14 Jan  10 01:36 routine
-```
+`IoTDB-200-SESSION_BY_TABLET` is suitable for batch write tests.
 
-| Name             | File              | Usage                                               |
-| :--------------- | :---------------- | :-------------------------------------------------- |
-| benchmark.bat    | -                 | Startup script on Windows                           |
-| benchmark.sh     | -                 | Startup script on Linux/Mac                         |
-| bin              | startup.sh        | Initialization script folder                        |
-| conf             | config.properties | Test scenario configuration file                    |
-| lib              | -                 | Dependency library                                  |
-| LICENSE          | -                 | License file                                        |
-| cli-benchmark.sh | -                 | One-click startup script                            |
-| routine          | -                 | Automatic execution of multiple test configurations |
-| rep-benchmark.sh | -                 | Automatic execution of multiple test scripts        |
+## 2\. Installation and Execution
 
+This chapter uses IoTDB 2\.0\.x as the database under test.
 
+### 2\.1 Prerequisites
 
-### 2.4 **Execution** **of** **Tests**
+1. Before using IoT Benchmark, prepare:
 
-1. Modify the configuration file (conf/config.properties) according to test requirements. For example, to test Apache IoTDB 2.0, set the following parameter:
+    - Java 17.
 
-   ```Bash
-      DB_SWITCH=IoTDB-200-SESSION_BY_TABLET
-      ```
+    - Maven.
 
-2. Ensure the target time-series database is running.
+    - An installed and running IoTDB 2\.0\.x instance.
 
-3. Start IoT-benchmark to execute the test. Monitor the status of both the target database and IoT-benchmark during execution.
+    - Sufficient client CPU, memory, disk, and network resources.
 
-4. Upon completion, review the results and analyze the test process.
+2. Environment notes:
 
-### 2.5 **Results Interpretation**
+    - Linux or macOS is recommended for running tests.
 
-All test log files are stored in the `logs` folder, while test results are saved in the `data/csvOutput` folder. For example, the following result matrix illustrates the test outcome:
+    - On Windows, use `benchmark.bat` in the installation package root directory to start a test.
 
-![](/img/bm4.png)
+    - On Linux and macOS, use `benchmark.sh` to start a test.
 
-- **Result Matrix:**
-    - OkOperation: Number of successful operations.
-    - OkPoint: Number of successfully written points (for write operations) or successfully queried points (for query operations).
-    - FailOperation: Number of failed operations.
-    - FailPoint: Number of failed write points.
-- **Latency (ms) Matrix:**
-    - AVG: Average operation latency.
-    - MIN: Minimum operation latency.
-    - Pn: Quantile values of the overall operation distribution (e.g., P25 represents the 25th percentile, or lower quartile).
+    - Some system information collection capabilities in CSV recording mode are supported only on Linux.
 
-## 3. **Main** **Parameters**
+> Note: Do not deploy IoT Benchmark and the IoTDB instance under test in environments where they compete for resources. For formal performance testing, use separate servers and stop unrelated services.
+>
+>
 
-### 3.1 IoTDB Service Model
+### 2\.2 Obtaining IoT Benchmark
 
-The `IoTDB_DIALECT_MODE` parameter supports two modes: `tree` and `table`. The default value is `tree`.
+1. Download a release package
 
-- **For IoTDB 2.0 and later versions**, the `IoTDB_DIALECT_MODE` parameter must be specified, and only one mode can be set for each IoTDB instance.
-- **IoTDB_DIALECT_MODE = table:**
-    - The number of devices must be an integer multiple of the number of tables.
-    - The number of tables must be an integer multiple of the number of databases.
+Download a release package matching the test target from [IoT Benchmark Releases](https://github.com/thulab/iot-benchmark/releases), and extract it for use.
 
-Key Parameters for IoTDB Service Model
+2. Build from source
 
-| **Parameter name**      | **Type** | **Example** | **System description**                                              |
-| :---------------------- | :------- | :---------- |:--------------------------------------------------------------------|
-| IoTDB_TABLE_NAME_PREFIX | String   | `table_`    | Prefix for table names when `IoTDB_DIALECT_MODE` is set to `table`. |
-| DATA_CLIENT_NUMBER      | Integer  | `10`        | Number of clients, must be an integer multiple of the table count.  |
-| SENSOR_NUMBER           | Integer  | `10`        | Controls the number of attribute columns in the table mode.         |
-| IoTDB_TABLE_NUMBER      | Integer  | `1`         | Specifies the number of tables when using the table mode.           |
-
-### 3.2 **Working** **Mode**
-
-The `BENCHMARK_WORK_MODE` parameter supports four operational modes:
-
-1. **General Test Mode (****`testWithDefaultPath`****):** Configured via the `OPERATION_PROPORTION` parameter to support write-only, read-only, and mixed read-write operations.
-2. **Data Generation Mode (****`generateDataMode`****):** Generates a reusable dataset, which is saved to `FILE_PATH` for subsequent use in the correctness write and correctness query modes.
-3. **Single Database Correctness Write Mode (****`verificationWriteMode`****):** Verifies the correctness of dataset writing by writing the dataset generated in data generation mode. This mode supports only IoTDB v1.0+ and InfluxDB v1.x.
-4. **Single Database Correctness Query Mode (****`verificationQueryMode`****):** Verifies the correctness of dataset queries after using the correctness write mode. This mode supports only IoTDB v1.0+ and InfluxDB v1.x.
-
-Mode configurations are shown in the following below:
-
-| **Mode name**                          | **BENCHMARK_WORK_MODE** | Description                                             | Required Configuration     |
-| :------------------------------------- | :---------------------- | :------------------------------------------------------ | :------------------------- |
-| General test mode                      | testWithDefaultPath     | Supports multiple read and write mixed load operations. | `OPERATION_PROPORTION`     |
-| Generate data mode                     | generateDataMode        | Generates datasets recognizable by IoT-benchmark.       | `FILE_PATH` and `DATA_SET` |
-| Single database correctness write mode | verificationWriteMode   | Writes datasets for correctness verification.           | `FILE_PATH` and `DATA_SET` |
-| Single database correctness query mode | verificationQueryMode   | Queries datasets to verify correctness.                 | `FILE_PATH` and `DATA_SET` |
-
-### 3.3 **Server** **Connection** **Information**
-
-Once the working mode is specified, the following parameters must be configured to inform IoT-benchmark of the target time-series database:
-
-| **Parameter** | **Type** | **Example**                   | D**escription**                                        |
-| :------------ | :------- | :---------------------------- | :----------------------------------------------------- |
-| DB_SWITCH     | String   | `IoTDB-200-SESSION_BY_TABLET` | Specifies the type of time-series database under test. |
-| HOST          | String   | `127.0.0.1`                   | Network address of the target time-series database.    |
-| PORT          | Integer  | `6667`                        | Network port of the target time-series database.       |
-| USERNAME      | String   | `root`                        | Login username for the time-series database.           |
-| PASSWORD      | String   | `root`                        | Password for the database login user.                  |
-| DB_NAME       | String   | `test`                        | Name of the target time-series database.               |
-| TOKEN         | String   | -                             | Authentication token (used for InfluxDB 2.0).          |
-
-### 3.4 **Write Scenario Parameters**
-
-| **Parameter**              | **Type**              | **Example**                 | D**escription**                                                                                                                                                                                                                                                                                      |
-| :------------------------- | :-------------------- | :-------------------------- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CLIENT_NUMBER              | Integer               | `100`                       | Total number of clients used for writing.                                                                                                                                                                                                                                                            |
-| GROUP_NUMBER               | Integer               | `20`                        | Number of databases (only applicable for IoTDB).                                                                                                                                                                                                                                                     |
-| DEVICE_NUMBER              | Integer               | `100`                       | Total number of devices.                                                                                                                                                                                                                                                                             |
-| SENSOR_NUMBER              | Integer               | `300`                       | Total number of sensors per device. (Control the number of attribute columns if you use the IoTDB table mode)                                                                                                                                                                                        |
-| INSERT_DATATYPE_PROPORTION | String                | `1:1:1:1:1:1:0:0:0:0`       | Ratio of data types: `BOOLEAN:INT32:INT64:FLOAT:DOUBLE:TEXT:STRING:BLOB:TIMESTAMP:DATE`.                                                                                                                                                                                                             |
-| POINT_STEP                 | Integer               | `1000`                      | Time interval (in ms) between generated data points.                                                                                                                                                                                                                                                 |
-| OP_MIN_INTERVAL            | Integer               | `0`                         | Minimum execution interval for operations (ms): if the operation takes more than the value, the next one will be executed immediately, otherwise wait (OP_MIN_INTERVAL - actual execution time) ms; if it is 0, the parameter is not effective; if it is -1, its value is consistent with POINT_STEP |
-| IS_OUT_OF_ORDER            | Boolean               | `false`                     | Specifies whether to write data out of order.                                                                                                                                                                                                                                                        |
-| OUT_OF_ORDER_RATIO         | Floating point number | `0.3`                       | Proportion of out-of-order data.                                                                                                                                                                                                                                                                     |
-| BATCH_SIZE_PER_WRITE       | Integer               | `1`                         | Number of data rows written per batch.                                                                                                                                                                                                                                                               |
-| START_TIME                 | Time                  | `2022-10-30T00:00:00+08:00` | Start timestamp for data generation.                                                                                                                                                                                                                                                                 |
-| LOOP                       | Integer               | `86400`                     | Total number of write operations: Each type of operation will be divided according to the proportion defined by `OPERATION_PROPORTION`                                                                                                                                                               |
-| OPERATION_PROPORTION       | Character             | `1:0:0:0:0:0:0:0:0:0:0`     | Ratio of operation types (write:Q1:Q2:...:Q10).                                                                                                                                                                                                                                                      |
-
-### 3.5 **Query Scenario Parameters**
-
-| Parameter            | Type      | Example                 | Description                                                  |
-| :------------------- | :-------- | :---------------------- | :----------------------------------------------------------- |
-| QUERY_DEVICE_NUM     | Integer   | `2`                     | Number of devices involved in each query statement.          |
-| QUERY_SENSOR_NUM     | Integer   | `2`                     | Number of sensors involved in each query statement.          |
-| QUERY_AGGREGATE_FUN  | Character | `count`                 | Aggregate functions used in queries (`COUNT`, `AVG`, `SUM`, etc.). |
-| STEP_SIZE            | Integer   | `1`                     | Time interval step for time filter conditions.               |
-| QUERY_INTERVAL       | Integer   | `250000`                | Time interval between query start and end times.             |
-| QUERY_LOWER_VALUE    | Integer   | `-5`                    | Threshold for conditional queries (`WHERE value > QUERY_LOWER_VALUE`). |
-| GROUP_BY_TIME_UNIT   | Integer   | `20000`                 | The size of the group in the `GROUP BY` statement            |
-| LOOP                 | Integer   | `10`                    | Total number of query operations: Each type of operation will be divided according to the proportion defined by `OPERATION_PROPORTION` |
-| OPERATION_PROPORTION | Character | `0:0:0:0:0:0:0:0:0:0:1` | Ratio of operation types (`write:Q1:Q2:...:Q10`).            |
-
-### 3.6 **Query Types and Example SQL**
-
-| Number | Query Type                     | IoTDB Sample SQL                                             |
-| :----- | :----------------------------- | :----------------------------------------------------------- |
-| Q1     | Precise Point Query            | `select v1 from root.db.d1 where time = ?`                   |
-| Q2     | Time Range Query               | `select v1 from root.db.d1 where time > ? and time < ?`      |
-| Q3     | Time Range with Value Filter   | `select v1 from root.db.d1 where time > ? and time < ? and v1 > ?` |
-| Q4     | Time Range Aggregation Query   | `select count(v1) from root.db.d1 where and time > ? and time < ?` |
-| Q5     | Full-Time Range with Filtering | `select count(v1) from root.db.d1 where v1 > ?`              |
-| Q6     | Range Aggregation with Filter  | `select count(v1) from root.db.d1 where v1 > ? and time > ? and time < ?` |
-| Q7     | Time Grouping Aggregation      | `select count(v1) from root.db.d1 group by ([?, ?), ?, ?)`   |
-| Q8     | Latest Point Query             | `select last v1 from root.db.d1`                             |
-| Q9     | Descending Range Query         | `select v1 from root.sg.d1 where time > ? and time < ? order by time desc` |
-| Q10    | Descending Range with Filter   | `select v1 from root.sg.d1 where time > ? and time < ? and v1 > ? order by time desc` |
-
-### 3.7 **Test process and test result persistence**
-
-IoT-benchmark currently supports persisting the test process and test results through configuration parameters.
-
-| **Parameter**         | **Type** | **Example** | D**escription**                                              |
-| :-------------------- | :------- | :---------- | :----------------------------------------------------------- |
-| TEST_DATA_PERSISTENCE | String   | `None`      | Specifies the result persistence method. Options: `None`, `IoTDB`, `MySQL`, `CSV`. |
-| RECORD_SPLIT          | Boolean  | `true`      | Whether to split results into multiple records. (Not supported by IoTDB currently.) |
-| RECORD_SPLIT_MAX_LINE | Integer  | `10000000`  | Maximum number of rows per record (10 million rows per database table or CSV file). |
-| TEST_DATA_STORE_IP    | String   | `127.0.0.1` | IP address of the database for result storage.               |
-| TEST_DATA_STORE_PORT  | Integer  | `6667`      | Port number of the output database.                          |
-| TEST_DATA_STORE_DB    | String   | `result`    | Name of the output database.                                 |
-| TEST_DATA_STORE_USER  | String   | `root`      | Username for accessing the output database.                  |
-| TEST_DATA_STORE_PW    | String   | `root`      | Password for accessing the output database.                  |
-
-**Result Persistence Details**
-
-- **CSV Mode:** If `TEST_DATA_PERSISTENCE` is set to `CSV`, a `data` folder is generated in the IoT-benchmark root directory during and after test execution. This folder contains:
-    - `csv` folder: Records the test process.
-    - `csvOutput` folder: Stores the test results.
-- **MySQL Mode:** If `TEST_DATA_PERSISTENCE` is set to `MySQL`, IoT-benchmark creates the following tables in the specified MySQL database:
-    - **Test Process Table:**
-        1. Created before the test starts.
-        2. Named as: `testWithDefaultPath_<database_name>_<remarks>_<test_start_time>`.
-    - **Configuration Table:**
-        1. Named `CONFIG`.
-        2. Stores the test configuration.
-        3. Created if it does not exist.
-    - **Final Result Table:**
-        1. Named `FINAL_RESULT`.
-        2. Stores the test results after test completion.
-        3. Created if it does not exist.
-
-### 3.8  Automation Script
-
-#### One-Click Script Startup
-
-The `cli-benchmark.sh` script allows one-click startup of IoTDB, IoTDB Benchmark monitoring, and IoTDB Benchmark testing. However, please note that this script will clear all existing data in IoTDB during startup, so use it with caution.
-
-**Steps to Run:**
-
-1. Edit the `IOTDB_HOME` parameter in `cli-benchmark.sh` to the local IoTDB directory.
-2. Start the test by running the following command:
+Clone the repository:
 
 ```Bash
-> ./cli-benchmark.sh
+git clone https://github.com/thulab/iot-benchmark.git
+cd iot-benchmark
 ```
 
-1. After the test completes:
-    1. Check test-related logs in the `logs` folder.
-    2. Check monitoring-related logs in the `server-logs` folder.
+Run the following command in the project root directory:
 
-#### Automatic Execution of Multiple Tests
+```Bash
+mvn clean package -Dmaven.test.skip=true
+```
 
-Single tests are often insufficient without comparative results. Therefore, IoT-benchmark provides an interface for executing multiple tests in sequence.
+After the build is complete, the IoTDB 2\.0\.x package is located at:
 
-1. **Routine Configuration:** Each line in the `routine` file specifies the parameters that change for each test. For example:
+```Plain Text
+iotdb-2.0/target/iot-benchmark-iotdb-2.0/iot-benchmark-iotdb-2.0
+```
 
-   ```Plain
-      LOOP=10 DEVICE_NUMBER=100 TEST
-      LOOP=20 DEVICE_NUMBER=50 TEST
-      LOOP=50 DEVICE_NUMBER=20 TEST
-      ```
+Enter the installation directory:
 
-In this example, three tests will run sequentially with `LOOP` values of 10, 20, and 50.
+```Bash
+cd iotdb-2.0/target/iot-benchmark-iotdb-2.0/iot-benchmark-iotdb-2.0
+```
 
-Then the test process with 3 LOOP parameters of 10, 20, and 50 is executed in sequence.
+### 2\.3 Package Structure
 
-**Important Notes:**
+Common files and directories in the installation package are listed below.
 
-- Multiple parameters can be changed in each test using the format:
+|Name|Purpose|
+|---|---|
+|`benchmark.sh`|Startup script for Linux and macOS|
+|`benchmark.bat`|Startup script for Windows|
+|`conf/config.properties`|Test scenario configuration file|
+|`lib/`|Runtime dependencies|
+|`logs/`|Test logs, generated after the first run|
+|`data/`|Dataset or persisted result directory, generated according to the work mode and persistence configuration|
 
-  ```Bash
-    LOOP=20 DEVICE_NUMBER=10 TEST
-    ```
+### 2\.4 Running a Test
 
-- Avoid unnecessary spaces.
+1. Start IoTDB
 
-- The `TEST` keyword marks the start of a new test.
+First, start the target IoTDB 2\.0\.x instance and verify that the client can access its service port. The default native interface port is `6667`.
 
-- Changed parameters persist across subsequent tests unless explicitly reset.
+2. Modify the configuration
 
-2. **Start the Test:** After configuring the `routine` file, start multi-test execution using the following command
+- Edit `conf/config.properties`.
 
-   ```Bash
-      > ./rep-benchmark.sh
-      ```
-
-Test results will be displayed in the terminal.
-
-**Important Notes:**
-
-- Closing the terminal or losing the client connection will terminate the test process.
-
-- To run the test as a background daemon, execute:
-
-  ```Bash
-    > ./rep-benchmark.sh > /dev/null 2>&1 &
-    ```
-
-- To monitor progress, check the logs:
-
-  ```Bash
-    > cd ./logs
-    > tail -f log_info.log
-    ```
-
-## 4. Test Example
-
-This example demonstrates how to configure and run an IoT-benchmark test with IoTDB 2.0 using the table mode for writing and querying.
+- Minimal connection configuration example:
 
 ```Properties
+DB_SWITCH=IoTDB-200-SESSION_BY_TABLET
+IoTDB_DIALECT_MODE=tree
+HOST=127.0.0.1
+PORT=6667
+USERNAME=root
+PASSWORD=root
+DB_NAME=test
+```
+
+- To use the table model, change the setting to:
+
+```Properties
+IoTDB_DIALECT_MODE=table
+```
+
+- If REST is selected:
+
+```Properties
+DB_SWITCH=IoTDB-200-REST
+REST_PORT=18080
+REST_AUTHORIZATION=Basic cm9vdDpyb290
+```
+
+`REST_AUTHORIZATION` configures the `Basic Authentication` information for the REST interface. The example uses the username `root` and password `root`.
+
+3. Check RPC compression compatibility
+
+IoT Benchmark 2\.0 enables IoTDB RPC compression by default:
+
+```Properties
+ENABLE_IOTDB_RPC_COMPRESSION=true
+```
+
+This feature requires IoTDB 2\.0\.6 or later. When testing an IoTDB 2\.0\.x version earlier than 2\.0\.6, set:
+
+```Properties
+ENABLE_IOTDB_RPC_COMPRESSION=false
+```
+
+Thrift compression is a separate configuration. If it is enabled:
+
+```Properties
+ENABLE_THRIFT_COMPRESSION=true
+```
+
+Also set the following in IoTDB's `iotdb-datanode.properties`:
+
+```Properties
+dn_rpc_thrift_compression_enable=true
+```
+
+4. Start Benchmark
+
+On Linux or macOS:
+
+```Bash
+./benchmark.sh
+```
+
+On Windows:
+
+```Plain Text
+benchmark.bat
+```
+
+During the test, progress is periodically printed to the terminal. When the test completes, the main configurations, execution time, result matrix, and latency matrix are displayed.
+
+### 2\.5 Understanding the Results
+
+Test execution information is written to the `logs` folder in the installation directory. Whether CSV files are generated or results are written to a result database depends on parameters such as `TEST_DATA_PERSISTENCE`.
+
+1. Result matrix
+
+The result matrix reports the following metrics by operation type:
+
+|Metric|Description|
+|---|---|
+|`okOperation`|Number of successfully executed requests or SQL statements|
+|`okPoint`|Number of successfully written data points, or data points successfully returned by queries|
+|`failOperation`|Number of failed requests or SQL statements|
+|`failPoint`|Number of data points that failed to be written; usually 0 for query operations|
+|`throughput`|Throughput, usually equal to `okPoint / Test elapsed time`|
+
+The main operation names in the output include:
+
+- `INGESTION`
+
+- `PRECISE_POINT`
+
+- `TIME_RANGE`
+
+- `VALUE_RANGE`
+
+- `AGG_RANGE`
+
+- `AGG_VALUE`
+
+- `AGG_RANGE_VALUE`
+
+- `GROUP_BY`
+
+- `LATEST_POINT`
+
+- `RANGE_QUERY_DESC`
+
+- `VALUE_RANGE_QUERY_DESC`
+
+- `GROUP_BY_DESC`
+
+- `SET_OP_QUERY`
+
+2. Latency matrix
+
+The latency matrix is measured in milliseconds. Common fields are listed below.
+
+|Metric|Description|
+|---|---|
+|`AVG`|Average latency|
+|`MIN`|Minimum latency|
+|`P10`, `P25`, `MEDIAN`|Lower percentiles and median latency|
+|`P75`, `P90`, `P95`|Higher-percentile latency|
+|`P99`, `P999`|Tail latency|
+|`MAX`|Maximum latency|
+|`SLOWEST_THREAD`|Largest cumulative operation time among client threads|
+
+The test results also report metadata creation time and `Test elapsed time`, which excludes metadata creation. When comparing tests, ensure that the hardware, data volume, number of clients, compression configuration, and cache state are consistent across runs.
+
+3. Output example
+
+After the test completes, the terminal displays the main configurations, execution time, result matrix, and latency matrix. The following is truncated output from a write-only test:
+
+```Plain Text
 ----------------------Main Configurations----------------------
 BENCHMARK_WORK_MODE=testWithDefaultPath
-IoTDB_DIALECT_MODE=TABLE
 DB_SWITCH=IoTDB-200-SESSION_BY_TABLET
-GROUP_NUMBER=1
-IoTDB_TABLE_NUMBER=1
-DEVICE_NUMBER=60
-REAL_INSERT_RATE=1.0
-SENSOR_NUMBER=10
-OPERATION_PROPORTION=1:0:0:0:0:0:0:0:0:0:0:0
-SCHEMA_CLIENT_NUMBER=10
-DATA_CLIENT_NUMBER=10
-LOOP=10
-BATCH_SIZE_PER_WRITE=10
-DEVICE_NUM_PER_WRITE=1
-START_TIME=2025-01-01T00:00:00+08:00
-POINT_STEP=1000
-INSERT_DATATYPE_PROPORTION=1:1:1:1:1:1:0:0:0:0
-VECTOR=true
-```
+HOST=[127.0.0.1]
 
-**Execution Steps:**
+GROUP_NUMBER=10
+DEVICE_NUMBER=50
+SENSOR_NUMBER=500
+SCHEMA_CLIENT_NUMBER=20
+DATA_CLIENT_NUMBER=20
 
-1. Ensure the target database (IoTDB 2.0) is running.
-2. Start IoT-benchmark using the configured parameters.
-3. Upon completion, view the test results.
+OPERATION_PROPORTION=1:0:0:0:0:0:0:0:0:0:0:0:0
+LOOP=10000
+BATCH_SIZE_PER_WRITE=100
+---------------------------------------------------------------
 
-```Shell
-Create schema cost 0.88 second
-Test elapsed time (not include schema creation): 4.60 second
+Create schema cost 0.30 second
+Test elapsed time (not include schema creation): 1238.79 second
+
 ----------------------------------------------------------Result Matrix----------------------------------------------------------
-Operation                okOperation              okPoint                  failOperation            failPoint                throughput(point/s)      
-INGESTION                600                      60000                    0                        0                        13054.42                 
-PRECISE_POINT            0                        0                        0                        0                        0.00                     
-TIME_RANGE               0                        0                        0                        0                        0.00                     
-VALUE_RANGE              0                        0                        0                        0                        0.00                     
-AGG_RANGE                0                        0                        0                        0                        0.00                     
-AGG_VALUE                0                        0                        0                        0                        0.00                     
-AGG_RANGE_VALUE          0                        0                        0                        0                        0.00                     
-GROUP_BY                 0                        0                        0                        0                        0.00                     
-LATEST_POINT             0                        0                        0                        0                        0.00                     
-RANGE_QUERY_DESC         0                        0                        0                        0                        0.00                     
-VALUE_RANGE_QUERY_DESC   0                        0                        0                        0                        0.00                     
-GROUP_BY_DESC            0                        0                        0                        0                        0.00                     
+Operation   okOperation   okPoint       failOperation   failPoint   throughput(point/s)
+INGESTION   500000        25000000000   0               0           20180954.09
 ---------------------------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------Latency (ms) Matrix--------------------------------------------------------------------------
-Operation                AVG         MIN         P10         P25         MEDIAN      P75         P90         P95         P99         P999        MAX         SLOWEST_THREAD
-INGESTION                41.77       0.95        1.41        2.27        6.76        24.14       63.42       127.18      1260.92     1265.72     1265.49     2581.91     
-PRECISE_POINT            0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-TIME_RANGE               0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-VALUE_RANGE              0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-AGG_RANGE                0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-AGG_VALUE                0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-AGG_RANGE_VALUE          0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-GROUP_BY                 0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-LATEST_POINT             0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-RANGE_QUERY_DESC         0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-VALUE_RANGE_QUERY_DESC   0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
-GROUP_BY_DESC            0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------Latency (ms) Matrix----------------------------------------------------
+Operation   AVG    MIN   P10   P25   MEDIAN   P75   P90   P95   P99      P999      MAX      SLOWEST_THREAD
+INGESTION   37.78  1.67  2.02  2.29  2.86     4.14  5.62  7.43  759.69   5799.89   8309.40  1227561.44
+---------------------------------------------------------------------------------------------------------------------------------
 ```
+
+The output shows that:
+
+- Metadata creation took `0.30` seconds, and the actual test took `1238.79` seconds.
+
+- A total of `500000` write operations successfully wrote `25000000000` data points.
+
+- Both `failOperation` and `failPoint` are `0`, indicating that no write failures were recorded during this test.
+
+- Write throughput was `20180954.09` points per second.
+
+- Average latency was `37.78` ms, P95 latency was `7.43` ms, P99 latency was `759.69` ms, and maximum latency was `8309.40` ms.
+
+- `SLOWEST_THREAD` is the cumulative operation time of the slowest client thread, not the latency of a single request.
+
+The values in this example are only intended to demonstrate the output format. Actual results depend on hardware resources, network conditions, IoTDB configuration, data scale, and test parameters.
+
+## 3\. Main Parameters
+
+### 3\.1 IoTDB Data Model
+
+IoTDB 2\.0\.x supports the tree model and the table model. Select the model using:
+
+```Properties
+IoTDB_DIALECT_MODE=tree
+```
+
+or:
+
+```Properties
+IoTDB_DIALECT_MODE=table
+```
+
+The following constraints apply:
+
+- An IoTDB instance can use only one SQL dialect in a single test.
+
+- The tree model requires `DEVICE_NUMBER >= GROUP_NUMBER`.
+
+- In the table model, the number of devices must be a multiple of the number of tables, and the number of tables must be a multiple of the number of databases.
+
+- In the table model, the number of data clients must be a multiple of the number of tables.
+
+Common model parameters:
+
+|Parameter|Example|Description|
+|---|---|---|
+|`IoTDB_DIALECT_MODE`|`tree`|`tree` or `table`|
+|`GROUP_NUMBER`|`1`|Number of databases; corresponds to the number of databases in the tree model|
+|`IoTDB_TABLE_NUMBER`|`1`|Number of tables created in the table model|
+|`IoTDB_TABLE_NAME_PREFIX`|`table_`|Table name prefix|
+|`TABLE_TIME_COLUMN`|`time`|Name of the time column in the table model|
+|`IoTDB_TABLE_WRITABLE_VIEW`|`false`|Whether to create and use writable views|
+
+### 3\.2 Work Modes
+
+Use `BENCHMARK_WORK_MODE` to select a work mode.
+
+|Mode|Configuration Value|Description|
+|---|---|---|
+|Regular test mode|`testWithDefaultPath`|Runs a write, query, or mixed workload|
+|Data generation mode|`generateDataMode`|Saves the dataset generated by Benchmark to `FILE_PATH`|
+|Correctness write mode|`verificationWriteMode`|Loads a dataset from `FILE_PATH` and writes it to the database|
+|Correctness query mode|`verificationQueryMode`|Loads a dataset and compares it with database query results|
+
+Example:
+
+```Properties
+BENCHMARK_WORK_MODE=testWithDefaultPath
+```
+
+Before using the correctness write and query modes, use `generateDataMode` to generate a reusable dataset.
+
+### 3\.3 Server Connection Information
+
+|Parameter|Example|Description|
+|---|---|---|
+|`DB_SWITCH`|`IoTDB-200-SESSION_BY_TABLET`|Database version and connection method|
+|`HOST`|`127.0.0.1`|IoTDB address; separate multiple addresses with commas|
+|`PORT`|`6667`|Native service port; the number of ports must match the number of `HOST` entries|
+|`USERNAME`|`root`|Username|
+|`PASSWORD`|`root`|Password|
+|`DB_NAME`|`test`|Name of the database used for testing|
+|`REST_PORT`|`18080`|REST service port|
+|`REST_AUTHORIZATION`|`Basic cm9vdDpyb290`|REST authorization header|
+|`ENABLE_AUTO_FETCH`|`false`|Whether Session automatically refreshes the DataNode list|
+
+Data cleanup parameters:
+
+```Properties
+IS_DELETE_DATA=false
+INIT_WAIT_TIME=1000
+```
+
+> Warning: `IS_DELETE_DATA=true` clears test data from the target database before the test starts. Enable it only in a dedicated test environment, and verify `HOST`, `PORT`, `DB_NAME`, and account permissions before execution.
+>
+>
+
+### 3\.4 Write Scenarios
+
+1. Data scale and clients
+
+|Parameter|Example|Description|
+|---|---|---|
+|`DEVICE_NUMBER`|`100`|Total number of devices|
+|`SENSOR_NUMBER`|`10`|Number of measurements per device; number of measurement columns in the table model|
+|`GROUP_NUMBER`|`1`|Number of IoTDB databases|
+|`SCHEMA_CLIENT_NUMBER`|`5`|Number of clients that register metadata|
+|`DATA_CLIENT_NUMBER`|`10`|Number of clients that perform data reads and writes|
+|`IS_CLIENT_BIND`|`true`|Whether devices are bound to clients|
+|`REAL_INSERT_RATE`|`1.0`|Proportion of devices that actually participate in writes|
+|`IS_SENSOR_TS_ALIGNMENT`|`true`|Whether measurement timestamps under the same device are aligned|
+
+2. Batch writes
+
+|Parameter|Example|Description|
+|---|---|---|
+|`BATCH_SIZE_PER_WRITE`|`100`|Number of data rows written per device in each batch|
+|`DEVICE_NUM_PER_WRITE`|`1`|Number of devices involved in each batch write|
+|`CREATE_SCHEMA`|`true`|Whether to create metadata before writing|
+|`START_TIME`|`2022-01-01T00:00:00+08:00`|Start time for generated data|
+
+The number of data points in a single batch is:
+
+```Plain Text
+DEVICE_NUM_PER_WRITE × SENSOR_NUMBER × BATCH_SIZE_PER_WRITE
+```
+
+`DEVICE_NUM_PER_WRITE` must evenly divide the number of devices assigned to a single data client. In the table model, the divisibility constraints among the number of devices, number of tables, and devices per batch must also be satisfied.
+
+3. Write pacing
+
+|Parameter|Example|Description|
+|---|---|---|
+|`POINT_STEP`|`5000`|Fixed interval between adjacent generated timestamps|
+|`OP_MIN_INTERVAL`|`0`|Minimum interval for each loop, in ms|
+|`OP_MIN_INTERVAL_RANDOM`|`false`|Whether to randomly select an interval from `[0, OP_MIN_INTERVAL)`|
+|`INTERVAL_BETWEEN_WRITE_BATCH`|`0`|Minimum interval between adjacent batches in the same loop, in ms|
+|`TIMESTAMP_PRECISION`|`ms`|Timestamp precision|
+
+Special values of `OP_MIN_INTERVAL`:
+
+- `0`: does not limit the loop interval.
+
+- `-1`: uses `POINT_STEP` as the minimum interval.
+
+- Positive integer: if the current loop takes less than this value, waits for the remaining time.
+
+4. Out-of-order writes
+
+```Properties
+IS_OUT_OF_ORDER=false
+OUT_OF_ORDER_MODE=POISSON
+OUT_OF_ORDER_RATIO=0.5
+IS_REGULAR_FREQUENCY=true
+```
+
+Supported out-of-order modes include:
+
+- `POISSON`: generates out-of-order timestamps according to a Poisson distribution.
+
+- `BATCH`: generates out-of-order data in batches.
+
+5. Data types
+
+```Properties
+INSERT_DATATYPE_PROPORTION=1:1:1:1:1:1:0:0:0:0:0
+```
+
+The order of the entries is:
+
+```Plain Text
+BOOLEAN:INT32:INT64:FLOAT:DOUBLE:TEXT:STRING:BLOB:TIMESTAMP:DATE:OBJECT
+```
+
+Each value represents the proportion of the corresponding data type.
+
+### 3\.5 Query Scenarios
+
+|Parameter|Example|Description|
+|---|---|---|
+|`QUERY_DEVICE_NUM`|`1`|Number of devices involved in each query|
+|`QUERY_SENSOR_NUM`|`1`|Number of measurements involved in each query|
+|`QUERY_AGGREGATE_FUN`|`count`|Aggregation function|
+|`STEP_SIZE`|`0`|Step by which the query start time changes, in units of `POINT_STEP`|
+|`QUERY_INTERVAL`|`250000`|Interval between query start and end times|
+|`QUERY_LOWER_VALUE`|`-5`|Lower bound of the value filter|
+|`GROUP_BY_TIME_UNIT`|`20000`|Group By window size|
+|`QUERY_SET_OP_TYPE`|`union`|Set operation type|
+|`QUERY_SET_OP_NUM`|`2`|Number of sub-sets in a set query; at least 2|
+|`IS_RECENT_QUERY`|`false`|Whether to prioritize recently written data in mixed scenarios|
+|`ENABLE_FIXED_QUERY`|`false`|Whether all query threads use the same device and measurement combinations|
+|`RESULT_ROW_LIMIT`|`-1`|Query result row limit; `-1` means no limit|
+|`ALIGN_BY_DEVICE`|`false`|Whether to use Align By Device|
+
+### 3\.6 Operation Proportions
+
+`OPERATION_PROPORTION` defines the proportions of writes and different query types. It contains 13 entries:
+
+```Plain Text
+Write:Q1:Q2:Q3:Q4:Q5:Q6:Q7:Q8:Q9:Q10:Q11:Q12
+```
+
+For example, write-only:
+
+```Properties
+OPERATION_PROPORTION=1:0:0:0:0:0:0:0:0:0:0:0:0
+```
+
+Precise point query only:
+
+```Properties
+OPERATION_PROPORTION=0:1:0:0:0:0:0:0:0:0:0:0:0
+```
+
+The operation types are listed below.
+
+|Number|Operation Type|Description|
+|---|---|---|
+|Write|Data write|Generates and writes data according to the current write configuration|
+|Q1|Precise point query|Queries specified measurements by timestamp and device|
+|Q2|Time range query|Range query restricted only by start and end times|
+|Q3|Range query with value filter|Includes both time and value filter conditions|
+|Q4|Aggregation query with time filter|Performs aggregation within a time range|
+|Q5|Aggregation query with value filter|Filters by value and aggregates over the full time range|
+|Q6|Aggregation query with time and value filters|Includes both time and value filter conditions|
+|Q7|Time-grouped aggregation query|Group By query|
+|Q8|Latest point query|Queries the latest data point of a device|
+|Q9|Descending time range query|Returns range query results in descending time order|
+|Q10|Descending range query with value filter|Filters by value and returns results in descending time order|
+|Q11|Descending time-grouped aggregation query|Descending Group By query|
+|Q12|Set operation query|Set operations such as `union`, `intersect`, or `except`|
+
+Q12 is supported only by the IoTDB 2\.0 table model. Each subquery in a set operation is a range query.
+
+### 3\.7 Test Process and Result Persistence
+
+```Properties
+TEST_DATA_PERSISTENCE=None
+```
+
+Supported values include:
+
+- `None`: does not write the test process to an external persistence medium.
+
+- `CSV`: writes to CSV files.
+
+- `MySQL`: writes to MySQL.
+
+- `IoTDB`: writes to a specified IoTDB instance.
+
+Common parameters:
+
+|Parameter|Example|Description|
+|---|---|---|
+|`TEST_DATA_PERSISTENCE`|`None`|Persistence method|
+|`RECORD_SPLIT`|`true`|Whether to split results into multiple records|
+|`RECORD_SPLIT_MAX_LINE`|`10000000`|Maximum number of records in a single table or file|
+|`TEST_DATA_STORE_IP`|`127.0.0.1`|Result database address|
+|`TEST_DATA_STORE_PORT`|`6667`|Result database port|
+|`TEST_DATA_STORE_DB`|`result`|Result database name|
+|`TEST_DATA_STORE_USER`|`root`|Result database username|
+|`TEST_DATA_STORE_PW`|`root`|Result database password|
+|`REMARK`|`write_test`|Test note used to distinguish different tests|
+|`CSV_OUTPUT`|`true`|Whether to write final results to CSV|
+
+When the persistence method is CSV, records are generated in the `data` directory after execution; test results are usually located in `data/csvOutput`. Test logs are always written to `logs`, regardless of whether persistence is enabled.
+
+The following parameters control log output frequency:
+
+```Properties
+IS_QUIET_MODE=true
+LOG_PRINT_INTERVAL=5
+RESULT_PRINT_INTERVAL=3600
+```
+
+### 3\.8 Automation and Cluster Testing
+
+1. Limit test duration
+
+```Properties
+TEST_MAX_TIME=3600000
+```
+
+The unit is milliseconds. A value of `0` means no limit. This parameter does not include the time spent pre-registering metadata.
+
+2. Multi-Benchmark cluster load testing
+
+Use the same overall data scale configuration on multiple client machines, and set:
+
+```Properties
+BENCHMARK_CLUSTER=true
+BENCHMARK_INDEX=0
+```
+
+Each Benchmark instance must use a different `BENCHMARK_INDEX`, such as `0`, `1`, and `2` in sequence. All clients should use consistent database connections, data scales, operation proportions, and other configurations.
+
+3. Dual-write testing
+
+IoT Benchmark can write the same data to two different databases for comparison:
+
+```Properties
+IS_DOUBLE_WRITE=true
+ANOTHER_DB_SWITCH=<another database type>
+ANOTHER_HOST=127.0.0.1
+ANOTHER_PORT=6667
+ANOTHER_USERNAME=root
+ANOTHER_PASSWORD=root
+ANOTHER_DB_NAME=test
+```
+
+Dual-write mode does not support comparisons between different versions of the same database, or direct comparisons between the IoTDB tree model and table model.
+
+## 4\. Examples
+
+This section uses small datasets to demonstrate the basic process. For formal performance testing, increase the number of devices, measurements, clients, and loops according to the target business model, and perform multiple warm-up and repeated test runs.
+
+### 4\.1 Write Test Example
+
+Test objective: use 10 data clients to simulate 100 devices, each containing 10 measurements, and perform a write-only test.
+
+Example configuration:
+
+```Properties
+# Database connection
+DB_SWITCH=IoTDB-200-SESSION_BY_TABLET
+IoTDB_DIALECT_MODE=tree
+HOST=127.0.0.1
+PORT=6667
+USERNAME=root
+PASSWORD=root
+DB_NAME=test
+
+# Safety setting: do not automatically delete existing data by default
+IS_DELETE_DATA=false
+
+# Work mode
+BENCHMARK_WORK_MODE=testWithDefaultPath
+OPERATION_PROPORTION=1:0:0:0:0:0:0:0:0:0:0:0:0
+
+# Data scale
+GROUP_NUMBER=1
+DEVICE_NUMBER=100
+SENSOR_NUMBER=10
+SCHEMA_CLIENT_NUMBER=5
+DATA_CLIENT_NUMBER=10
+IS_SENSOR_TS_ALIGNMENT=true
+
+# Write configuration
+CREATE_SCHEMA=true
+BATCH_SIZE_PER_WRITE=10
+DEVICE_NUM_PER_WRITE=1
+LOOP=100
+POINT_STEP=1000
+OP_MIN_INTERVAL=0
+START_TIME=2026-01-01T00:00:00+08:00
+INSERT_DATATYPE_PROPORTION=1:1:1:1:1:1:0:0:0:0:0
+
+# Can be enabled for IoTDB 2.0.6 and later
+ENABLE_IOTDB_RPC_COMPRESSION=true
+
+# Output
+TEST_DATA_PERSISTENCE=None
+CSV_OUTPUT=true
+REMARK=iotdb_2_write_test
+```
+
+Start the test:
+
+```Bash
+./benchmark.sh
+```
+
+After completion, focus on:
+
+- `okPoint` and `failPoint` for `INGESTION`.
+
+- `throughput`.
+
+- `AVG`, `P95`, `P99`, and `MAX` latency.
+
+- Whether connection timeouts, write failures, or server exceptions are present in the logs.
+
+### 4\.2 Query Test Example
+
+Before running a query test, ensure that the target database contains data matching the query configuration. It is recommended to reuse data generated by the write test and disable automatic data deletion and metadata creation.
+
+The following example runs multiple query types:
+
+```Properties
+DB_SWITCH=IoTDB-200-SESSION_BY_TABLET
+IoTDB_DIALECT_MODE=tree
+HOST=127.0.0.1
+PORT=6667
+USERNAME=root
+PASSWORD=root
+DB_NAME=test
+
+IS_DELETE_DATA=false
+CREATE_SCHEMA=false
+BENCHMARK_WORK_MODE=testWithDefaultPath
+
+GROUP_NUMBER=1
+DEVICE_NUMBER=100
+SENSOR_NUMBER=10
+SCHEMA_CLIENT_NUMBER=1
+DATA_CLIENT_NUMBER=10
+
+# Do not perform writes; Q1-Q11 have equal proportions; the tree model does not use Q12
+OPERATION_PROPORTION=0:1:1:1:1:1:1:1:1:1:1:1:0
+LOOP=100
+
+QUERY_DEVICE_NUM=2
+QUERY_SENSOR_NUM=2
+QUERY_AGGREGATE_FUN=count
+STEP_SIZE=1
+QUERY_INTERVAL=250000
+QUERY_LOWER_VALUE=-5
+GROUP_BY_TIME_UNIT=20000
+```
+
+To test set queries in the table model, switch the dialect to `table` and assign a proportion to Q12:
+
+```Properties
+IoTDB_DIALECT_MODE=table
+OPERATION_PROPORTION=0:0:0:0:0:0:0:0:0:0:0:0:1
+QUERY_SET_OP_TYPE=union
+QUERY_SET_OP_NUM=2
+```
+
+### 4\.3 Other Configuration Examples
+
+1. Simulate an actual write rate
+
+Set the minimum interval of each loop to the data timestamp interval:
+
+```Properties
+POINT_STEP=1000
+OP_MIN_INTERVAL=-1
+```
+
+To distribute write requests evenly within a loop, use:
+
+```Properties
+INTERVAL_BETWEEN_WRITE_BATCH=100
+```
+
+2. Specify test duration
+
+Test for one hour:
+
+```Properties
+TEST_MAX_TIME=3600000
+```
+
+Ensure that `LOOP` is sufficiently large; otherwise, the test may end when the loop count is exhausted.
+
+3. Control generated data patterns
+
+```Properties
+LINE_RATIO=1
+SIN_RATIO=1
+SQUARE_RATIO=1
+RANDOM_RATIO=1
+CONSTANT_RATIO=1
+DATA_SEED=666
+STRING_LENGTH=10
+DOUBLE_LENGTH=2
+```
+
+Fixing `DATA_SEED` helps generate reproducible data across multiple test runs.
+
+## 5\. References
+
+- [IoT Benchmark Documentation](https://github.com/thulab/iot-benchmark/tree/master/docs)
