@@ -73,7 +73,7 @@ export const zhSidebar = {
             ],
           },
           {
-            text: 'AI 部署',
+            text: 'AINode 部署',
             collapsible: true,
             children: [
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_apache' },
