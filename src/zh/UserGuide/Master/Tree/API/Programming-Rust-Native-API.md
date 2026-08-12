@@ -19,182 +19,149 @@
 
 -->
 
+# Rust 原生接口
 
-# Rust
+Apache IoTDB 提供官方 Rust 客户端 SDK：[apache/iotdb-client-rust](https://github.com/apache/iotdb-client-rust)。它基于 Thrift RPC 协议（默认端口 6667），同时支持 IoTDB 的两种数据模型：
 
-IoTDB 使用 Thrift 作为跨语言的 RPC 框架，因此可以通过 Thrift 提供的接口来实现对 IoTDB 的访问。本文档将介绍如何生成可访问 IoTDB 的原生 Rust 接口。
+- **树模型** — `Session` / `SessionPool`：设备/时间序列路径（`root.sg.d1.s1`），本文档主要介绍此模型
+- **表模型** — `TableSession` / `TableSessionPool`：关系型 SQL 方言
 
+## 1. 环境要求
 
-## 1. 依赖
+- Rust 1.75+
+- Apache IoTDB 2.x — 完整的服务端版本兼容矩阵见 [COMPATIBILITY.md](https://github.com/apache/iotdb-client-rust/blob/main/COMPATIBILITY.md)
 
- * JDK >= 1.8
- * Rust >= 1.0.0
- * thrift 0.14.1
- * Linux、Macos 或其他类 unix 系统
- * Windows+bash (下载 IoTDB Go client 需要 git ，通过 WSL、cygwin、Git Bash 任意一种方式均可)
+## 2. 安装
 
-必须安装 thrift（0.14.1 或更高版本）才能将 thrift 文件编译为 Rust 代码。下面是官方的安装教程，最终，您应该得到一个 thrift 可执行文件。
+发布到 crates.io 后：
 
-```
-http://thrift.apache.org/docs/install/
-```
-
-
-## 2. 编译 thrift 库，生成 Rust 原生接口
-
-1. 在 IoTDB 源代码文件夹的根目录中找到 pom.xml 文件。
-2. 打开 pom.xml 文件，找到以下内容：
-
-```xml
-<execution>
-  <id>generate-thrift-sources-java</id>
-  <phase>generate-sources</phase>
-  <goals>
-      <goal>compile</goal>
-  </goals>
-  <configuration>
-      <generator>java</generator>
-      <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-      <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-  </configuration>
-</execution>
-```
-3. 参考该设置，在 pom.xml 文件中添加以下内容，用来生成 Rust 的原生接口：
-
-```xml
-<execution>
-    <id>generate-thrift-sources-rust</id>
-    <phase>generate-sources</phase>
-    <goals>
-        <goal>compile</goal>
-    </goals>
-    <configuration>
-        <generator>rs</generator>
-        <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-        <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-        <includes>**/common.thrift,**/client.thrift</includes>
-        <outputDirectory>${project.build.directory}/generated-sources-rust</outputDirectory>
-    </configuration>
-</execution>
+```toml
+[dependencies]
+iotdb-client-rust = "0.1"
 ```
 
-4. 在 IoTDB 源代码文件夹的根目录下，运行`mvn clean generate-sources`，
+在此之前，可使用 git 依赖：
 
-这个指令将自动删除`iotdb/iotdb-protocol/thrift/target` 和 `iotdb/iotdb-protocol/thrift-commons/target`中的文件，并使用新生成的 thrift 文件重新填充该文件夹。
-
-这个文件夹在 git 中会被忽略，并且**永远不应该被推到 git 中！**
-
-**注意**不要将`iotdb/iotdb-protocol/thrift/target` 和 `iotdb/iotdb-protocol/thrift-commons/target`上传到 git 仓库中 ！
-
-## 3. 使用 Rust 原生接口
-
-将 `iotdb/iotdb-protocol/thrift/target/generated-sources-rust/` 和 `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-rust/` 中的文件复制到您的项目中，即可使用。
-
-## 4. 支持的 rpc 接口
-
+```toml
+[dependencies]
+iotdb-client = { git = "https://github.com/apache/iotdb-client-rust" }
 ```
-// 打开一个 session
-TSOpenSessionResp openSession(1:TSOpenSessionReq req);
 
-// 关闭一个 session
-TSStatus closeSession(1:TSCloseSessionReq req);
+两种方式的导入名均为 `iotdb_client`。
 
-// 执行一条 SQL 语句
-TSExecuteStatementResp executeStatement(1:TSExecuteStatementReq req);
+## 3. 快速上手
 
-// 批量执行 SQL 语句
-TSStatus executeBatchStatement(1:TSExecuteBatchStatementReq req);
+```rust
+use iotdb_client::{Result, Session, SessionConfig, TSDataType, Tablet, Value};
 
-// 执行查询 SQL 语句
-TSExecuteStatementResp executeQueryStatement(1:TSExecuteStatementReq req);
+fn main() -> Result<()> {
+    let config = SessionConfig::default().with_node_urls(&["127.0.0.1:6667"])?;
+    let mut session = Session::new(config);
+    session.open()?;
 
-// 执行插入、删除 SQL 语句
-TSExecuteStatementResp executeUpdateStatement(1:TSExecuteStatementReq req);
+    session.execute_non_query("CREATE DATABASE root.demo")?;
+    session.execute_non_query(
+        "CREATE TIMESERIES root.demo.d1.temperature WITH DATATYPE=DOUBLE, ENCODING=PLAIN",
+    )?;
 
-// 向服务器取下一批查询结果
-TSFetchResultsResp fetchResults(1:TSFetchResultsReq req)
+    // 通过列式 tablet 批量写入（允许 null）。
+    let mut tablet = Tablet::new(
+        "root.demo.d1",
+        vec!["temperature".into()],
+        vec![TSDataType::Double],
+    )?;
+    tablet.add_row(1_720_000_000_000, vec![Some(Value::Double(21.5))])?;
+    tablet.add_row(1_720_000_001_000, vec![None])?; // null 单元格
+    session.insert_tablet(&tablet)?;
 
-// 获取元数据
-TSFetchMetadataResp fetchMetadata(1:TSFetchMetadataReq req)
+    // 或通过 insertRecord 写入单行（还提供 aligned 变体以及
+    // 多行的 insert_records / insert_records_of_one_device）。
+    session.insert_record(
+        "root.demo.d1",
+        1_720_000_002_000,
+        vec!["temperature".into()],
+        &[Value::Double(22.0)],
+        false, // is_aligned
+    )?;
 
-// 取消某次查询操作
-TSStatus cancelOperation(1:TSCancelOperationReq req);
+    // 逐行迭代查询结果；dataset 在 drop 前借用 session。
+    {
+        let mut dataset = session.execute_query("SELECT temperature FROM root.demo.d1")?;
+        while let Some(row) = dataset.next_row()? {
+            println!("ts={:?} values={:?}", row.timestamp, row.values);
+        }
+    }
 
-// 关闭查询操作数据集，释放资源
-TSStatus closeOperation(1:TSCloseOperationReq req);
+    session.execute_non_query("DELETE DATABASE root.demo")?;
+    session.close()
+}
+```
 
-// 获取时区信息
-TSGetTimeZoneResp getTimeZone(1:i64 sessionId);
+## 4. 会话池
 
-// 设置时区
-TSStatus setTimeZone(1:TSSetTimeZoneReq req);
+`SessionPool` 是线程安全的会话池，适用于并发场景。`acquire()` 返回 RAII guard，drop 时自动将会话归还池中：
 
-// 获取服务端配置
-ServerProperties getProperties();
+```rust
+use std::sync::Arc;
+use iotdb_client::{Result, SessionPool, SessionPoolConfig};
 
-// 设置 database
-TSStatus setStorageGroup(1:i64 sessionId, 2:string storageGroup);
+fn main() -> Result<()> {
+    let config = SessionPoolConfig {
+        max_size: 4,
+        ..SessionPoolConfig::default()
+    }
+    .with_node_urls(&["127.0.0.1:6667"])?;
+    let pool = Arc::new(SessionPool::new(config)?);
 
-// 创建时间序列
-TSStatus createTimeseries(1:TSCreateTimeseriesReq req);
+    let handles: Vec<_> = (0..4)
+        .map(|_| {
+            let pool = Arc::clone(&pool);
+            std::thread::spawn(move || -> Result<()> {
+                let mut session = pool.acquire()?;
+                session.execute_non_query("SHOW DATABASES")?;
+                Ok(())
+            })
+        })
+        .collect();
+    for handle in handles {
+        handle.join().expect("thread panicked")?;
+    }
 
-// 创建多条时间序列
-TSStatus createMultiTimeseries(1:TSCreateMultiTimeseriesReq req);
+    pool.close();
+    Ok(())
+}
+```
 
-// 删除时间序列
-TSStatus deleteTimeseries(1:i64 sessionId, 2:list<string> path)
+## 5. TLS 与 RPC 压缩
 
-// 删除 database
-TSStatus deleteStorageGroups(1:i64 sessionId, 2:list<string> storageGroup);
+**RPC 压缩**（即 Thrift compact 协议）必须与服务端配置 `dn_rpc_thrift_compression_enable`（默认 `false`）保持一致：
 
-// 按行插入数据
-TSStatus insertRecord(1:TSInsertRecordReq req);
+```rust
+let config = SessionConfig { enable_rpc_compression: true, ..Default::default() };
+```
 
-// 按 String 格式插入一条数据
-TSStatus insertStringRecord(1:TSInsertStringRecordReq req);
+**TLS** 通过 `tls` cargo feature 启用：
 
-// 按列插入数据
-TSStatus insertTablet(1:TSInsertTabletReq req);
+```toml
+iotdb-client-rust = { version = "0.1", features = ["tls"] }
+```
 
-// 按列批量插入数据
-TSStatus insertTablets(1:TSInsertTabletsReq req);
+```rust
+let config = SessionConfig {
+    use_ssl: true,
+    ca_cert_path: Some("ca.pem".into()),  // 信任私有 CA / 自签名证书
+    accept_invalid_certs: false,          // true 跳过证书校验（仅限测试！）
+    domain_override: None,                // 按 IP 连接时指定 SNI/校验主机名
+    ..Default::default()
+};
+```
 
-// 按行批量插入数据
-TSStatus insertRecords(1:TSInsertRecordsReq req);
+## 6. 示例
 
-// 按行批量插入同属于某个设备的数据
-TSStatus insertRecordsOfOneDevice(1:TSInsertRecordsOfOneDeviceReq req);
+完整可运行示例见仓库 [`examples/`](https://github.com/apache/iotdb-client-rust/tree/main/examples) 目录：
 
-// 按 String 格式批量按行插入数据
-TSStatus insertStringRecords(1:TSInsertStringRecordsReq req);
-
-// 测试按列插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertTablet(1:TSInsertTabletReq req);
-
-// 测试批量按列插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertTablets(1:TSInsertTabletsReq req);
-
-// 测试按行插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertRecord(1:TSInsertRecordReq req);
-
-// 测试按 String 格式按行插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertStringRecord(1:TSInsertStringRecordReq req);
-
-// 测试按行插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertRecords(1:TSInsertRecordsReq req);
-
-// 测试按行批量插入同属于某个设备的数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertRecordsOfOneDevice(1:TSInsertRecordsOfOneDeviceReq req);
-
-// 测试按 String 格式批量按行插入数据的延迟，注意：该接口不真实插入数据，只用来测试网络延迟
-TSStatus testInsertStringRecords(1:TSInsertStringRecordsReq req);
-
-// 删除数据
-TSStatus deleteData(1:TSDeleteDataReq req);
-
-// 执行原始数据查询
-TSExecuteStatementResp executeRawDataQuery(1:TSRawDataQueryReq req);
-
-// 向服务器申请一个查询语句 ID
-i64 requestStatementId(1:i64 sessionId);
+```sh
+cargo run --example tree_session
+cargo run --example table_session
+cargo run --example session_pool
 ```
