@@ -448,6 +448,12 @@ The result set of a table function consists of two parts:
    * If no pass-through but PARTITION BY is specified: Only partition columns are included.
    * If neither is specified: No additional columns are added.
 
+#### 3.4.7 Built-in FFT Table Function
+
+IoTDB provides the built-in `FFT` table function for computing a fast Fourier transform of numeric columns in a table argument. The `DATA` argument must specify an ascending `ORDER BY` on the time column; `PARTITION BY` can be used to calculate each device or tag independently. See [FFT in Featured Functions](../SQL-Manual/Featured-Functions_apache.md#3-fft-function) for the complete parameter list, output schema, and examples.
+
+`FFT` supports `INT32`, `INT64`, `FLOAT`, and `DOUBLE` value columns. Numeric values cannot be `NULL`, and timestamps must be strictly ascending within each partition. FFT treats input as equally spaced samples; when `SAMPLE_INTERVAL` is omitted, the interval is inferred from the average span of each partition, so irregular timestamps produce an approximate frequency axis.
+
 ### 3.5 Complete Maven Project Example
 
 For Maven-based implementations, refer to the sample project: [udf-example](https://github.com/apache/iotdb/tree/master/example/udf).

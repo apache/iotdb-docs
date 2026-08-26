@@ -321,7 +321,84 @@ WHERE device_id = '100';
 +-----------------------------+-----------+-----------+-----------+
 ```
 
-## 3 Timeseries Windowing Functions
+## 3. `FFT` Function
+
+### 3.1 Function Description
+
+`FFT` is a table-valued function that calculates the complex discrete Fourier transform of one or more numeric columns. It processes each partition independently and returns one row for every frequency bin.
+
+### 3.2 Function Definition
+
+```sql
+FFT(
+  DATA => table_reference
+    [PARTITION BY partition_column [, ...]]
+    ORDER BY time_column,
+  [SAMPLE_INTERVAL => duration],
+  [N => positive_integer],
+  [NORM => 'backward' | 'forward' | 'ortho'],
+  [TIMECOL => 'time_column_name']
+)
+```
+
+`DATA` is a set-semantic table argument. Its `ORDER BY` clause is required and must contain exactly the time column in ascending order. `PARTITION BY` is optional; without it, all input rows are processed as one partition.
+
+### 3.3 Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `DATA` | Table | Required | Input table or query. The input must contain a `TIMESTAMP` column and at least one numeric column. |
+| `SAMPLE_INTERVAL` | Duration | Inferred | Sampling interval. If omitted, IoTDB infers the average interval from the first and last timestamps in each partition. |
+| `N` | Positive integer | Number of input rows | FFT transform length. If `N` is greater than the number of rows, the input is zero-padded; if it is smaller, only the first `N` rows are transformed. `N` cannot exceed 65,536. |
+| `NORM` | String | `'backward'` | Normalization mode: `backward` (no scaling), `forward` (divide by `N`), or `ortho` (divide by `sqrt(N)`). Values are case-insensitive. |
+| `TIMECOL` | String | `'time'` | Name of the timestamp column in `DATA`. |
+
+### 3.4 Input Requirements and Limitations
+
+* Supported FFT input types are `INT32`, `INT64`, `FLOAT`, and `DOUBLE`. Other non-partition columns are ignored.
+* Every numeric input value must be non-`NULL`.
+* Timestamps must be strictly ascending within each partition.
+* If `SAMPLE_INTERVAL` is omitted, each partition must contain at least two rows. For regularly sampled data, explicitly specifying the interval is recommended.
+* FFT assumes equally spaced samples. For irregular timestamps, the implementation uses the average interval (or the supplied interval), so the frequency axis is an approximation.
+
+### 3.5 Returned Results
+
+The result contains the following columns in order:
+
+1. Columns listed in `PARTITION BY` (if any).
+2. `frequency_index` (`INT64`): frequency-bin index from `0` to `N - 1`.
+3. `frequency` (`DOUBLE`): signed frequency in hertz; the upper half of the bins represents negative frequencies.
+4. For every numeric input column `value`, two `DOUBLE` columns: `value_real` and `value_imag`.
+
+The magnitude of a bin can be calculated as `sqrt(value_real * value_real + value_imag * value_imag)`.
+
+### 3.6 Usage Example
+
+The following query calculates a four-point FFT for each stock. The `price` values are sampled every minute and are normalized with the orthogonal convention.
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => bid PARTITION BY stock_id ORDER BY time,
+  SAMPLE_INTERVAL => 1m,
+  N => 4,
+  NORM => 'ortho'
+);
+```
+
+For a table with a timestamp column named `event_time`, specify `TIMECOL` explicitly:
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => (SELECT event_time, device_id, temperature FROM sensor_data)
+    PARTITION BY device_id ORDER BY event_time,
+  SAMPLE_INTERVAL => 1s,
+  TIMECOL => 'event_time'
+);
+```
+
+## 4 Timeseries Windowing Functions
 
 The sample data is as follows:
 
@@ -344,7 +421,7 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 3.1 HOP
+### 4.1 HOP
 
 #### Function Description
 
@@ -410,7 +487,7 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 3.2 SESSION
+### 4.2 SESSION
 
 #### Function Description
 
@@ -463,7 +540,7 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 3.3 VARIATION
+### 4.3 VARIATION
 
 #### Function Description
 
@@ -517,7 +594,7 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 3.4 CAPACITY
+### 4.4 CAPACITY
 
 #### Function Description
 
@@ -570,7 +647,7 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 3.5 TUMBLE
+### 4.5 TUMBLE
 
 #### Function Description
 
@@ -624,7 +701,7 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 3.6 CUMULATE
+### 4.6 CUMULATE
 
 #### Function Description
 
