@@ -432,7 +432,7 @@ IoTDB 中的表函数为多态表值函数，支持参数类型如下所示：
 
 #### 3.4.7 内置 FFT 表函数
 
-IoTDB 内置 `FFT` 表函数，用于对表参数中的数值列计算快速傅里叶变换。调用时必须在 `DATA` 参数上指定按时间列升序排列的 `ORDER BY`，并可使用 `PARTITION BY` 对不同设备或标签分别计算。函数的参数、输出列和数据约束请参阅 [特色函数中的 FFT 说明](../SQL-Manual/Featured-Functions_apache.md#3-fft-函数)。
+IoTDB 内置 `FFT` 表函数，用于对表参数中的数值列计算快速傅里叶变换。调用时必须在 `DATA` 参数上指定按时间列升序排列的 `ORDER BY`，并可使用 `PARTITION BY` 对不同设备或标签分别计算。函数的参数、输出列和数据约束请参阅 [特色函数中的 FFT 说明](../SQL-Manual/Featured-Functions_apache.md#4-fft-函数)。
 
 `FFT` 支持 `INT32`、`INT64`、`FLOAT` 和 `DOUBLE` 数值列，数值列不能包含 `NULL`，每个分区内的时间戳必须严格递增。FFT 将输入视为等间隔采样；省略 `SAMPLE_INTERVAL` 时按分区首尾时间戳的平均间隔计算，因此不规则时间戳只能得到近似频率结果。
 
