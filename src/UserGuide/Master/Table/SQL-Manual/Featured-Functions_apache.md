@@ -693,8 +693,6 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULAT
 |2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
 +-----------------------------+-----------------------------+--------+------------------+
 ```
-+-----------------------------+-----------------------------+--------+------------------+
-```
 
 ## 4. `FFT` Function
 
@@ -730,11 +728,12 @@ FFT(
 
 ### 4.4 Input Requirements and Limitations
 
-* Supported FFT input types are `INT32`, `INT64`, `FLOAT`, and `DOUBLE`. Other non-partition columns are ignored.
+* Supported FFT input types are `INT32`, `INT64`, `FLOAT`, and `DOUBLE`. Other non-partition, non-time columns are ignored.
 * Every numeric input value must be non-`NULL`.
 * Timestamps must be strictly ascending within each partition.
 * If `SAMPLE_INTERVAL` is omitted, each partition must contain at least two rows. For regularly sampled data, explicitly specifying the interval is recommended.
 * FFT assumes equally spaced samples. For irregular timestamps, the implementation uses the average interval (or the supplied interval), so the frequency axis is an approximation.
+* The total number of spectrum values (`2 × N × number of numeric columns`) is limited to 16,777,216 in addition to the `N <= 65,536` limit.
 
 ### 4.5 Returned Results
 
