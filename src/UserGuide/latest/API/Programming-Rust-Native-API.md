@@ -21,168 +21,147 @@
 
 # Rust Native API
 
-IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. 
-This document will introduce how to generate a native Rust interface that can access IoTDB.
+Apache IoTDB provides an official Rust client SDK: [apache/iotdb-client-rust](https://github.com/apache/iotdb-client-rust). It speaks the Thrift RPC protocol (default port 6667) and supports both IoTDB data models:
 
-## 1. Dependents
+- **Tree model** — `Session` / `SessionPool`: device/timeseries paths (`root.sg.d1.s1`), covered in this document
+- **Table model** — `TableSession` / `TableSessionPool`: relational SQL dialect
 
- * JDK >= 1.8
- * Rust >= 1.0.0
- * thrift 0.14.1
- * Linux、Macos or like unix
- * Windows+bash
+## 1. Requirements
 
-Thrift (0.14.1 or higher) must be installed to compile Thrift files into Rust code. The following is the official installation tutorial, and in the end, you should receive a Thrift executable file.
+- Rust 1.75+
+- Apache IoTDB 2.x — see [COMPATIBILITY.md](https://github.com/apache/iotdb-client-rust/blob/main/COMPATIBILITY.md) for the full server version matrix
 
+## 2. Installation
+
+Once published to crates.io:
+
+```toml
+[dependencies]
+iotdb-client-rust = "0.1"
 ```
-http://thrift.apache.org/docs/install/
+
+Until then, use a git dependency:
+
+```toml
+[dependencies]
+iotdb-client = { git = "https://github.com/apache/iotdb-client-rust" }
 ```
 
-## 2. Compile the Thrift library and generate the Rust native interface
+The import name is `iotdb_client` in both cases.
 
-1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
-2. Open the `pom.xml` file and find the following content:
-   ```xml
-                            <execution>
-                                <id>generate-thrift-sources-python</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>compile</goal>
-                                </goals>
-                                <configuration>
-                                    <generator>py</generator>
-                                    <outputDirectory>${project.build.directory}/generated-sources-python/</outputDirectory>
-                                </configuration>
-                            </execution>
-   ```
-3. Duplicate this block and change the `id`, `generator` and `outputDirectory` to this:
-   ```xml
-                            <execution>
-                                <id>generate-thrift-sources-rust</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>compile</goal>
-                                </goals>
-                                <configuration>
-                                    <generator>rs</generator>
-                                    <outputDirectory>${project.build.directory}/generated-sources-rust/</outputDirectory>
-                                </configuration>
-                            </execution>
-   ```
-4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`.
+## 3. Quick start
 
-This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
-The newly generated Rust sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-rust` in the various modules of the `iotdb-protocol` module.
+```rust
+use iotdb_client::{Result, Session, SessionConfig, TSDataType, Tablet, Value};
 
-## 3. Using the Rust native interface
+fn main() -> Result<()> {
+    let config = SessionConfig::default().with_node_urls(&["127.0.0.1:6667"])?;
+    let mut session = Session::new(config);
+    session.open()?;
 
-Copy `iotdb/iotdb-protocol/thrift/target/generated-sources-rust/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-rust/` into your project。
+    session.execute_non_query("CREATE DATABASE root.demo")?;
+    session.execute_non_query(
+        "CREATE TIMESERIES root.demo.d1.temperature WITH DATATYPE=DOUBLE, ENCODING=PLAIN",
+    )?;
 
-## 4. RPC interface
+    // Batch write via a column-major tablet (nulls allowed).
+    let mut tablet = Tablet::new(
+        "root.demo.d1",
+        vec!["temperature".into()],
+        vec![TSDataType::Double],
+    )?;
+    tablet.add_row(1_720_000_000_000, vec![Some(Value::Double(21.5))])?;
+    tablet.add_row(1_720_000_001_000, vec![None])?; // null cell
+    session.insert_tablet(&tablet)?;
 
+    // Or write a single row via insertRecord (aligned variants and
+    // multi-row insert_records / insert_records_of_one_device also exist).
+    session.insert_record(
+        "root.demo.d1",
+        1_720_000_002_000,
+        vec!["temperature".into()],
+        &[Value::Double(22.0)],
+        false, // is_aligned
+    )?;
+
+    // Query with row iteration; the dataset borrows the session until dropped.
+    {
+        let mut dataset = session.execute_query("SELECT temperature FROM root.demo.d1")?;
+        while let Some(row) = dataset.next_row()? {
+            println!("ts={:?} values={:?}", row.timestamp, row.values);
+        }
+    }
+
+    session.execute_non_query("DELETE DATABASE root.demo")?;
+    session.close()
+}
 ```
-// open a session
-TSOpenSessionResp openSession(1:TSOpenSessionReq req);
 
-// close a session
-TSStatus closeSession(1:TSCloseSessionReq req);
+## 4. Session pool
 
-// run an SQL statement in batch
-TSExecuteStatementResp executeStatement(1:TSExecuteStatementReq req);
+`SessionPool` is a thread-safe pool for concurrent workloads. `acquire()` returns an RAII guard that releases the session back to the pool on drop:
 
-// execute SQL statement in batch
-TSStatus executeBatchStatement(1:TSExecuteBatchStatementReq req);
+```rust
+use std::sync::Arc;
+use iotdb_client::{Result, SessionPool, SessionPoolConfig};
 
-// execute query SQL statement
-TSExecuteStatementResp executeQueryStatement(1:TSExecuteStatementReq req);
+fn main() -> Result<()> {
+    let config = SessionPoolConfig {
+        max_size: 4,
+        ..SessionPoolConfig::default()
+    }
+    .with_node_urls(&["127.0.0.1:6667"])?;
+    let pool = Arc::new(SessionPool::new(config)?);
 
-// execute insert, delete and update SQL statement 
-TSExecuteStatementResp executeUpdateStatement(1:TSExecuteStatementReq req);
+    let handles: Vec<_> = (0..4)
+        .map(|_| {
+            let pool = Arc::clone(&pool);
+            std::thread::spawn(move || -> Result<()> {
+                let mut session = pool.acquire()?;
+                session.execute_non_query("SHOW DATABASES")?;
+                Ok(())
+            })
+        })
+        .collect();
+    for handle in handles {
+        handle.join().expect("thread panicked")?;
+    }
 
-// fetch next query result
-TSFetchResultsResp fetchResults(1:TSFetchResultsReq req)
+    pool.close();
+    Ok(())
+}
+```
 
-// fetch meta data
-TSFetchMetadataResp fetchMetadata(1:TSFetchMetadataReq req)
+## 5. TLS & RPC compression
 
-// cancel a query 
-TSStatus cancelOperation(1:TSCancelOperationReq req);
+**RPC compression** (the Thrift compact protocol) must match the server setting `dn_rpc_thrift_compression_enable` (default `false`):
 
-// close a query dataset
-TSStatus closeOperation(1:TSCloseOperationReq req);
+```rust
+let config = SessionConfig { enable_rpc_compression: true, ..Default::default() };
+```
 
-// get time zone
-TSGetTimeZoneResp getTimeZone(1:i64 sessionId);
+**TLS** is behind the `tls` cargo feature:
 
-// set time zone
-TSStatus setTimeZone(1:TSSetTimeZoneReq req);
+```toml
+iotdb-client-rust = { version = "0.1", features = ["tls"] }
+```
 
-// get server's properties
-ServerProperties getProperties();
+```rust
+let config = SessionConfig {
+    use_ssl: true,
+    ca_cert_path: Some("ca.pem".into()),  // trust a private CA / self-signed cert
+    accept_invalid_certs: false,          // true skips verification (tests only!)
+    domain_override: None,                // SNI/validation hostname when connecting by IP
+    ..Default::default()
+};
+```
 
-// CREATE DATABASE
-TSStatus setStorageGroup(1:i64 sessionId, 2:string storageGroup);
+## 6. Examples
 
-// create timeseries
-TSStatus createTimeseries(1:TSCreateTimeseriesReq req);
+Full runnable examples live in the repository's [`examples/`](https://github.com/apache/iotdb-client-rust/tree/main/examples) directory:
 
-// create multi timeseries
-TSStatus createMultiTimeseries(1:TSCreateMultiTimeseriesReq req);
-
-// delete timeseries
-TSStatus deleteTimeseries(1:i64 sessionId, 2:list<string> path)
-
-// delete sttorage groups
-TSStatus deleteStorageGroups(1:i64 sessionId, 2:list<string> storageGroup);
-
-// insert record
-TSStatus insertRecord(1:TSInsertRecordReq req);
-
-// insert record in string format
-TSStatus insertStringRecord(1:TSInsertStringRecordReq req);
-
-// insert tablet
-TSStatus insertTablet(1:TSInsertTabletReq req);
-
-// insert tablets in batch
-TSStatus insertTablets(1:TSInsertTabletsReq req);
-
-// insert records in batch
-TSStatus insertRecords(1:TSInsertRecordsReq req);
-
-// insert records of one device
-TSStatus insertRecordsOfOneDevice(1:TSInsertRecordsOfOneDeviceReq req);
-
-// insert records in batch as string format
-TSStatus insertStringRecords(1:TSInsertStringRecordsReq req);
-
-// test the latency of innsert tablet，caution：no data will be inserted, only for test latency
-TSStatus testInsertTablet(1:TSInsertTabletReq req);
-
-// test the latency of innsert tablets，caution：no data will be inserted, only for test latency
-TSStatus testInsertTablets(1:TSInsertTabletsReq req);
-
-// test the latency of innsert record，caution：no data will be inserted, only for test latency
-TSStatus testInsertRecord(1:TSInsertRecordReq req);
-
-// test the latency of innsert record in string format，caution：no data will be inserted, only for test latency
-TSStatus testInsertStringRecord(1:TSInsertStringRecordReq req);
-
-// test the latency of innsert records，caution：no data will be inserted, only for test latency
-TSStatus testInsertRecords(1:TSInsertRecordsReq req);
-
-// test the latency of innsert records of one device，caution：no data will be inserted, only for test latency
-TSStatus testInsertRecordsOfOneDevice(1:TSInsertRecordsOfOneDeviceReq req);
-
-// test the latency of innsert records in string formate，caution：no data will be inserted, only for test latency
-TSStatus testInsertStringRecords(1:TSInsertStringRecordsReq req);
-
-// delete data
-TSStatus deleteData(1:TSDeleteDataReq req);
-
-// execute raw data query
-TSExecuteStatementResp executeRawDataQuery(1:TSRawDataQueryReq req);
-
-// request a statement id from server
-i64 requestStatementId(1:i64 sessionId);
+```sh
+cargo run --example tree_session
+cargo run --example table_session
+cargo run --example session_pool
 ```
