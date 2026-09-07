@@ -166,7 +166,28 @@ SHOW DATABASES DETAILS;
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
 ```
 
-### 2.5 Update a Database
+### 2.5 Count Databases
+
+Counts the total number of databases. This syntax is supported starting from V2.0.11.
+
+**Syntax:**
+
+```SQL
+COUNT DATABASES
+```
+
+**Example:**
+
+```shell
+TimechoDB> COUNT DATABASES
++-----+
+|count|
++-----+
+|    2|
++-----+
+```
+
+### 2.6 Update a Database
 
 Modifies supported database properties.
 
@@ -187,7 +208,7 @@ ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ALTER DATABASE database1 SET PROPERTIES MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=4;
 ```
 
-### 2.6 Delete a Database
+### 2.7 Delete a Database
 
 Deletes a database.
 
