@@ -18,8 +18,6 @@
 
 # Release version
 
-<a href="/guide.md">Installation guide for AI agents (Markdown)</a>: install the latest stable release with JDK 17 or later.
-
 <table>
   <tbody>
     <tr>
