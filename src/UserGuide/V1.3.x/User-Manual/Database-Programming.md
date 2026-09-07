@@ -136,7 +136,7 @@ SELECT max_value(temperature)
 END
 ```
 
-`cq1` calculates the 10-second average of `temperature` sensor under the `root.ln` prefix path and stores the results in the `temperature_max` sensor using the same prefix path as the corresponding sensor.
+`cq1` calculates the 10-second maximum of `temperature` sensor under the `root.ln` prefix path and stores the results in the `temperature_max` sensor using the same prefix path as the corresponding sensor.
 
 `cq1` executes at 20-second intervals, the same interval as the `EVERY` interval. Every 20 seconds, `cq1` runs a single query that covers the time range for the current time bucket, that is, the 20-second time bucket that intersects with `now()`.
 
