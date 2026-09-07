@@ -18,6 +18,8 @@
 
 # 发行版本
 
+<a href="/guide.md">面向 AI Agent 的安装指南（英文 Markdown）</a>：使用 JDK 17 或以上版本，安装最新正式发行版。
+
 <table>
   <tbody>
     <tr>
