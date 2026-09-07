@@ -28,6 +28,14 @@ This document will guide you through methods to get started quickly with IoTDB.
 
 This guide will assist you in quickly installing and deploying IoTDB. You can quickly navigate to the content you need to review through the following document links:
 
+Copy the prompt below to your AI assistant (Claude Code, Codex, DSH, Qoder, etc.), and it will automatically complete the installation for you.
+
+Prompt:
+
+```text
+Help me install Apache IoTDB: https://iotdb.apache.org/guide.md
+```
+
 1.  Prepare the necessary machine resources: The deployment and operation of IoTDB require consideration of various aspects of machine resource configuration. For specific resource configurations, please refer to [Database Resource](../Deployment-and-Maintenance/Database-Resources.md)
 
 2. Complete system configuration preparations: IoTDB's system configuration involves multiple aspects. For an introduction to key system configurations, please see [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md)
