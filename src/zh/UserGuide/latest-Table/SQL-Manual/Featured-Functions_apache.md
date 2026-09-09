@@ -695,3 +695,80 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
+## 4. `FFT` 函数
+
+### 4.1 功能概述
+
+`FFT` 是一个表值函数，用于对一个或多个数值列计算复数离散傅里叶变换。函数会分别处理每个分区，并为每个频率箱返回一行结果。
+
+### 4.2 函数定义
+
+```sql
+FFT(
+  DATA => table_reference
+    [PARTITION BY partition_column [, ...]]
+    ORDER BY time_column,
+  [SAMPLE_INTERVAL => duration],
+  [N => positive_integer],
+  [NORM => 'backward' | 'forward' | 'ortho'],
+  [TIMECOL => 'time_column_name']
+)
+```
+
+`DATA` 是组语义表参数，必须指定 `ORDER BY`，且该子句只能包含升序排列的时间列。`PARTITION BY` 为可选项；未指定时，所有输入行作为一个分区处理。
+
+### 4.3 参数说明
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `DATA` | 表 | 必填 | 输入表或查询。输入必须包含一个 `TIMESTAMP` 列以及至少一个数值列。 |
+| `SAMPLE_INTERVAL` | 时间间隔 | 自动推断 | 采样间隔。省略时，IoTDB 根据每个分区的首尾时间戳计算平均间隔。 |
+| `N` | 正整数 | 输入行数 | FFT 变换长度。`N` 大于输入行数时使用零填充；小于输入行数时只对前 `N` 行进行变换。`N` 不能超过 65,536。 |
+| `NORM` | 字符串 | `'backward'` | 归一化模式：`backward`（不缩放）、`forward`（除以 `N`）或 `ortho`（除以 `sqrt(N)`）。值不区分大小写。 |
+| `TIMECOL` | 字符串 | `'time'` | `DATA` 中时间戳列的名称。 |
+
+### 4.4 输入要求与限制
+
+* 支持的 FFT 输入类型为 `INT32`、`INT64`、`FLOAT` 和 `DOUBLE`，其他非分区、非时间列会被忽略。
+* 所有数值输入都不能为 `NULL`。
+* 每个分区内的时间戳必须严格递增。
+* 省略 `SAMPLE_INTERVAL` 时，每个分区至少需要两行数据。对于等间隔采样数据，建议显式指定采样间隔。
+* FFT 假设样本等间隔。对于时间戳不规则的数据，函数使用平均间隔（或用户提供的间隔），因此频率轴结果是近似值。
+* 除了 `N <= 65,536` 的限制外，频谱值总数（`2 × N × 数值列数`）不能超过 16,777,216。
+
+### 4.5 返回结果
+
+返回列按以下顺序排列：
+
+1. `PARTITION BY` 中指定的列（如果指定）。
+2. `frequency_index`（`INT64`）：从 `0` 到 `N - 1` 的频率箱索引。
+3. `frequency`（`DOUBLE`）：以赫兹为单位的有符号频率，后半部分频率箱表示负频率。
+4. 对每个数值输入列 `value`，返回两个 `DOUBLE` 列：`value_real` 和 `value_imag`。
+
+频率箱的幅值可以通过 `sqrt(value_real * value_real + value_imag * value_imag)` 计算。
+
+### 4.6 使用示例
+
+以下查询按股票分别计算 4 点 FFT。`price` 每分钟采样一次，并使用正交归一化方式。
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => bid PARTITION BY stock_id ORDER BY time,
+  SAMPLE_INTERVAL => 1m,
+  N => 4,
+  NORM => 'ortho'
+);
+```
+
+如果表中的时间戳列名为 `event_time`，可以显式指定 `TIMECOL`：
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => (SELECT event_time, device_id, temperature FROM sensor_data)
+    PARTITION BY device_id ORDER BY event_time,
+  SAMPLE_INTERVAL => 1s,
+  TIMECOL => 'event_time'
+);
+```

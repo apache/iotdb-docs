@@ -693,3 +693,81 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULAT
 |2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
 +-----------------------------+-----------------------------+--------+------------------+
 ```
+
+## 4. `FFT` Function
+
+### 4.1 Function Description
+
+`FFT` is a table-valued function that calculates the complex discrete Fourier transform of one or more numeric columns. It processes each partition independently and returns one row for every frequency bin.
+
+### 4.2 Function Definition
+
+```sql
+FFT(
+  DATA => table_reference
+    [PARTITION BY partition_column [, ...]]
+    ORDER BY time_column,
+  [SAMPLE_INTERVAL => duration],
+  [N => positive_integer],
+  [NORM => 'backward' | 'forward' | 'ortho'],
+  [TIMECOL => 'time_column_name']
+)
+```
+
+`DATA` is a set-semantic table argument. Its `ORDER BY` clause is required and must contain exactly the time column in ascending order. `PARTITION BY` is optional; without it, all input rows are processed as one partition.
+
+### 4.3 Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `DATA` | Table | Required | Input table or query. The input must contain a `TIMESTAMP` column and at least one numeric column. |
+| `SAMPLE_INTERVAL` | Duration | Inferred | Sampling interval. If omitted, IoTDB infers the average interval from the first and last timestamps in each partition. |
+| `N` | Positive integer | Number of input rows | FFT transform length. If `N` is greater than the number of rows, the input is zero-padded; if it is smaller, only the first `N` rows are transformed. `N` cannot exceed 65,536. |
+| `NORM` | String | `'backward'` | Normalization mode: `backward` (no scaling), `forward` (divide by `N`), or `ortho` (divide by `sqrt(N)`). Values are case-insensitive. |
+| `TIMECOL` | String | `'time'` | Name of the timestamp column in `DATA`. |
+
+### 4.4 Input Requirements and Limitations
+
+* Supported FFT input types are `INT32`, `INT64`, `FLOAT`, and `DOUBLE`. Other non-partition, non-time columns are ignored.
+* Every numeric input value must be non-`NULL`.
+* Timestamps must be strictly ascending within each partition.
+* If `SAMPLE_INTERVAL` is omitted, each partition must contain at least two rows. For regularly sampled data, explicitly specifying the interval is recommended.
+* FFT assumes equally spaced samples. For irregular timestamps, the implementation uses the average interval (or the supplied interval), so the frequency axis is an approximation.
+* The total number of spectrum values (`2 × N × number of numeric columns`) is limited to 16,777,216 in addition to the `N <= 65,536` limit.
+
+### 4.5 Returned Results
+
+The result contains the following columns in order:
+
+1. Columns listed in `PARTITION BY` (if any).
+2. `frequency_index` (`INT64`): frequency-bin index from `0` to `N - 1`.
+3. `frequency` (`DOUBLE`): signed frequency in hertz; the upper half of the bins represents negative frequencies.
+4. For every numeric input column `value`, two `DOUBLE` columns: `value_real` and `value_imag`.
+
+The magnitude of a bin can be calculated as `sqrt(value_real * value_real + value_imag * value_imag)`.
+
+### 4.6 Usage Example
+
+The following query calculates a four-point FFT for each stock. The `price` values are sampled every minute and are normalized with the orthogonal convention.
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => bid PARTITION BY stock_id ORDER BY time,
+  SAMPLE_INTERVAL => 1m,
+  N => 4,
+  NORM => 'ortho'
+);
+```
+
+For a table with a timestamp column named `event_time`, specify `TIMECOL` explicitly:
+
+```sql
+SELECT *
+FROM FFT(
+  DATA => (SELECT event_time, device_id, temperature FROM sensor_data)
+    PARTITION BY device_id ORDER BY event_time,
+  SAMPLE_INTERVAL => 1s,
+  TIMECOL => 'event_time'
+);
+```
