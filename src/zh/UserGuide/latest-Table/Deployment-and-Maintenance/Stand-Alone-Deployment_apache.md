@@ -154,18 +154,18 @@ DataNode 配置
 
 ```shell
 # Unix/OS X
-./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
+./start-datanode.sh -d    #“-d”参数将在后台进行启动
 
 # Windows
 # V2.0.4.x 版本之前
-.\sbin\start-datanode.bat
+.\start-datanode.bat
 
 # V2.0.4.x 版本及之后
-.\sbin\windows\start-datanode.bat
+.\windows\start-datanode.bat
 ```
 ### 2.6 启动 CLI
 
-表模型 CLI 进入命令：
+ 进入iotdb的sbin目录下，启动表模型 CLI ：
 
 ```SQL
 # Linux或MACOS系统
