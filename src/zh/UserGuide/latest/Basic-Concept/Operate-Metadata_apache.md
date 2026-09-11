@@ -646,21 +646,28 @@ drop timeseries root.ln.wf02.*;
 
 ### 3.4 查看时间序列
 
-* SHOW LATEST? TIMESERIES pathPattern? timeseriesWhereClause? limitClause?
+#### 1. 语法定义
 
-  SHOW TIMESERIES 中可以有四种可选的子句，查询结果为这些时间序列的所有信息
+```sql
+// ---- Show Timeseries
+showTimeseries
+    : SHOW LATEST? TIMESERIES prefixPath? timeseriesWhereClause? timeConditionClause? orderByTimeseriesClause? rowPaginationClause?
+    ;
+// order by timeseries for SHOW TIMESERIES
+orderByTimeseriesClause
+    : ORDER BY TIMESERIES (ASC | DESC)?
+    ;
+```
 
-时间序列信息具体包括：时间序列路径名，database，Measurement 别名，数据类型，编码方式，压缩方式，属性和标签。
+时间序列查询结果具体包括：时间序列路径名，database，Measurement 别名，数据类型，编码方式，压缩方式，属性和标签等。
 
-示例：
+> 注意：V2.0.11 起支持查询结果按时间序列名称排序。
 
-* SHOW TIMESERIES
+#### 2. 使用介绍
 
-  展示系统中所有的时间序列信息
+* **`SHOW TIMESERIES`**：展示系统中所有的时间序列信息
 
-* SHOW TIMESERIES <`Path`>
-
-  返回给定路径的下的所有时间序列信息。其中 `Path` 需要为一个时间序列路径或路径模式。例如，分别查看`root`路径和`root.ln`路径下的时间序列，SQL 语句如下所示：
+* **`SHOW TIMESERIES <Path>`**：返回给定路径的下的所有时间序列信息。其中 `Path` 需要为一个时间序列路径或路径模式。例如，分别查看`root`路径和`root.ln`路径下的时间序列，SQL 语句如下所示：
 
 ```sql
 show timeseries root.**;
@@ -696,17 +703,13 @@ Total line number = 4
 It costs 0.004s
 ```
 
-* SHOW TIMESERIES LIMIT INT OFFSET INT
-
-  只返回从指定下标开始的结果，最大返回条数被 LIMIT 限制，用于分页查询。例如：
+* **`SHOW TIMESERIES LIMIT INT OFFSET INT`**：只返回从指定下标开始的结果，最大返回条数被 LIMIT 限制，用于分页查询。例如：
 
 ```sql
 show timeseries root.ln.** limit 10 offset 10;
 ```
 
-* SHOW TIMESERIES WHERE TIMESERIES contains 'containStr'
-
-  对查询结果集根据 timeseries 名称进行字符串模糊匹配过滤。例如：
+* **`SHOW TIMESERIES WHERE TIMESERIES contains 'containStr'`**：对查询结果集根据 timeseries 名称进行字符串模糊匹配过滤。例如：
 
 ```sql
 show timeseries root.ln.** where timeseries contains 'wf01.wt';
@@ -725,9 +728,7 @@ Total line number = 2
 It costs 0.016s
 ```
 
-* SHOW TIMESERIES WHERE DataType=type
-
-  对查询结果集根据时间序列数据类型进行过滤。例如：
+* **`SHOW TIMESERIES WHERE DataType=type`**：对查询结果集根据时间序列数据类型进行过滤。例如：
 
 ```sql
 show timeseries root.ln.** where dataType=FLOAT;
@@ -749,10 +750,7 @@ It costs 0.016s
 ```
 
 
-* SHOW TIMESERIES WHERE TAGS(KEY) = VALUE
-* SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE
-
-  对查询结果集根据标签进行过滤。例如：
+* **`SHOW TIMESERIES WHERE TAGS(KEY) = VALUE`** / **`SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE`**：对查询结果集根据标签进行过滤。例如：
 
 ```sql
 show timeseries root.ln.** where TAGS(unit)='c';
@@ -779,12 +777,57 @@ Total line number = 1
 It costs 0.004s
 ```
 
-* SHOW LATEST TIMESERIES
+* **`SHOW LATEST TIMESERIES`**：表示查询出的时间序列需要按照最近插入时间戳降序排列。需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
 
-  表示查询出的时间序列需要按照最近插入时间戳降序排列
+* **`SHOW INVALID TIMESERIES`**：自 V2.0.8 版本起，支持该 SQL 语句，用于展示修改全路径名称成功后的作废时间序列。
 
+```sql
+show invalid timeSeries
+```
 
-需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
+```shell
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+```
+
+说明：返回结果中的最后一列 NewPath，展示作废序列对应的新序列，以服务于视图构建、集群迁移（Load+改名）等场景。
+
+* **`SHOW TIMESERIES ORDER BY TIMESERIES (ASC | DESC)`**：自 V2.0.11 版本起，支持查询结果按照序列名称排序。
+
+```sql
+-- 按序列名称倒序排序
+show timeseries root.ln.** order by timeseries desc
+```
+
+```shell
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|     root.ln.wf02.wt02.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf02.wt02.hardware| null| root.ln|    TEXT|   PLAIN|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|     root.ln.wf01.wt01.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
+
+```sql
+--按序列名称正序排序
+show timeseries root.ln.** order by timeseries asc
+```
+
+```shell
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|     root.ln.wf01.wt01.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf02.wt02.hardware| null| root.ln|    TEXT|   PLAIN|        LZ4|null|      null|    null|              null|    BASE|
+|     root.ln.wf02.wt02.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
 
 ### 3.5 统计时间序列总数
 

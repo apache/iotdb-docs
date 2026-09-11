@@ -656,21 +656,28 @@ drop timeseries root.ln.wf02.*;
 
 ### 3.4 Show Timeseries
 
-* SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
+#### 1. Grammar
 
-    There are four optional clauses added in SHOW TIMESERIES, return information of time series 
+```sql
+// ---- Show Timeseries
+showTimeseries
+    : SHOW LATEST? TIMESERIES prefixPath? timeseriesWhereClause? timeConditionClause? orderByTimeseriesClause? rowPaginationClause?
+    ;
+// order by timeseries for SHOW TIMESERIES
+orderByTimeseriesClause
+    : ORDER BY TIMESERIES (ASC | DESC)?
+    ;
+```
 
-Timeseries information includes: timeseries path, alias of measurement, database it belongs to, data type, encoding type, compression type, tags and attributes.
+The timeseries query results include: timeseries path, database, alias of measurement, data type, encoding, compression, tags and attributes, etc.
 
-Examples:
+> Note: Since V2.0.11, the query results can be sorted by timeseries name.
 
-* SHOW TIMESERIES
+#### 2. Usage
 
-    presents all timeseries information in JSON form
+* **`SHOW TIMESERIES`**: presents all timeseries information in the system
 
-* SHOW TIMESERIES <`PathPattern`> 
-
-    returns all timeseries information matching the given <`PathPattern`>. SQL statements are as follows:
+* **`SHOW TIMESERIES <Path>`**: returns all timeseries information under the given path. The `Path` should be a timeseries path or a path pattern. For example, to view the timeseries under the `root` path and the `root.ln` path respectively, the SQL statements are as follows:
 
 ```sql
 show timeseries root.**;
@@ -706,17 +713,13 @@ Total line number = 4
 It costs 0.004s
 ```
 
-* SHOW TIMESERIES LIMIT INT OFFSET INT
-
-    returns all the timeseries information start from the offset and limit the number of series returned. For example,
+* **`SHOW TIMESERIES LIMIT INT OFFSET INT`**: returns all the timeseries information start from the offset and limit the number of series returned. For example,
 
 ```sql
 show timeseries root.ln.** limit 10 offset 10
 ```
 
-* SHOW TIMESERIES WHERE TIMESERIES contains 'containStr'
-
-    The query result set is filtered by string fuzzy matching based on the names of the timeseries. For example:
+* **`SHOW TIMESERIES WHERE TIMESERIES contains 'containStr'`**: The query result set is filtered by string fuzzy matching based on the names of the timeseries. For example:
 
 ```sql
 show timeseries root.ln.** where timeseries contains 'wf01.wt'
@@ -735,9 +738,7 @@ Total line number = 2
 It costs 0.016s
 ```
 
-* SHOW TIMESERIES WHERE DataType=type
-
-    The query result set is filtered by data type. For example:
+* **`SHOW TIMESERIES WHERE DataType=type`**: The query result set is filtered by data type. For example:
 
 ```sql
 show timeseries root.ln.** where dataType=FLOAT
@@ -758,10 +759,7 @@ It costs 0.016s
 
 ```
 
-* SHOW TIMESERIES WHERE TAGS(KEY) = VALUE
-* SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE
-
-  The query result set is filtered by tags. For example:
+* **`SHOW TIMESERIES WHERE TAGS(KEY) = VALUE`** / **`SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE`**: The query result set is filtered by tags. For example:
 
 ```sql
 show timeseries root.ln.** where TAGS(unit)='c';
@@ -790,11 +788,57 @@ It costs 0.004s
 ```
 
 
-* SHOW LATEST TIMESERIES
+* **`SHOW LATEST TIMESERIES`**: the returned timeseries are sorted in descending order of the last insertion timestamp. Note that when the queried path does not exist, the system will return 0 timeseries.
 
-    all the returned timeseries information should be sorted in descending order of the last timestamp of timeseries
+* **`SHOW INVALID TIMESERIES`**: Since V2.0.8, this SQL statement is supported to show the invalidated timeseries after a full path rename succeeds.
 
-It is worth noting that when the queried path does not exist, the system will return no timeseries.  
+```sql
+show invalid timeSeries
+```
+
+```
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+```
+
+Note: The last column `NewPath` in the result shows the new timeseries corresponding to the invalidated one, which serves scenarios such as view construction and cluster migration (Load + rename).
+
+* **`SHOW TIMESERIES ORDER BY TIMESERIES (ASC | DESC)`**: Since V2.0.11, the query results can be sorted by timeseries name.
+
+```sql
+-- Sort by timeseries name in descending order
+show timeseries root.ln.** order by timeseries desc
+```
+
+```
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|     root.ln.wf02.wt02.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf02.wt02.hardware| null| root.ln|    TEXT|   PLAIN|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|     root.ln.wf01.wt01.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
+
+```sql
+-- Sort by timeseries name in ascending order
+show timeseries root.ln.** order by timeseries asc
+```
+
+```
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|     root.ln.wf01.wt01.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf02.wt02.hardware| null| root.ln|    TEXT|   PLAIN|        LZ4|null|      null|    null|              null|    BASE|
+|     root.ln.wf02.wt02.status| null| root.ln| BOOLEAN|     RLE|        LZ4|null|      null|    null|              null|    BASE|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
 
 
 ### 3.5 Count Timeseries
