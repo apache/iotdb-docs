@@ -115,7 +115,7 @@ export const enSidebar = {
           ],
           badge: ['hot'],
         },
-        { text: 'UDF', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function_apache' },
         {
           text: 'Security Management',
           collapsible: true,

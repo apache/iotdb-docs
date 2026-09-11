@@ -115,7 +115,7 @@ export const zhSidebar = {
           ],
           badge: ['hot'],
         },
-        { text: 'UDF', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function_apache' },
         {
           text: '安全管理',
           collapsible: true,

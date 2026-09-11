@@ -448,6 +448,186 @@ The result set of a table function consists of two parts:
    * If no pass-through but PARTITION BY is specified: Only partition columns are included.
    * If neither is specified: No additional columns are added.
 
-### 3.5 Complete Maven Project Example
+### 3.5 Accessing IoTDB from UDFs
+
+Starting from **V2.0.11**, table-model UDFs can use `IoTDBLocal` to execute SQL queries and write logs during data processing. `IoTDBLocal` is supplied by the framework. Queries reuse the permissions of the current connection user and return streaming result sets. This capability is included in `udf-api`; no additional dependency is required.
+
+Existing methods without an `IoTDBLocal` parameter remain available. Implement the overloads with an `IoTDBLocal` parameter only when the UDF needs to query IoTDB or write logs.
+
+#### 3.5.1 API Reference
+
+`IoTDBLocal` is in the `org.apache.iotdb.udf.api` package and provides the following capabilities:
+
+| API | Description |
+|---|---|
+| `UDFResultSet query(String sql) throws UDFException` | Executes SQL and returns the query result as a streaming result set. The query uses the current connection user's permissions. |
+| `info(...)` | Writes an INFO-level log message. Message arguments and exception objects are supported. |
+| `warn(...)` | Writes a WARN-level log message. Message arguments and exception objects are supported. |
+| `error(...)` | Writes an ERROR-level log message. Message arguments and exception objects are supported. |
+
+The `UDFResultSet` returned by `query` implements `AutoCloseable` and provides the following methods for reading rows:
+
+| API | Description |
+|---|---|
+| `boolean hasNext() throws UDFException` | Checks whether another row is available. |
+| `Record next() throws UDFException` | Returns the next row. Throws `NoSuchElementException` when no more rows are available. |
+| `void close() throws IoTDBLocalException` | Closes the result set and releases resources. |
+
+Use try-with-resources to close result sets promptly. Even if a result set is not closed manually, the framework releases any result sets that remain open after the current UDF execution finishes.
+
+The following table-model UDF methods can receive `IoTDBLocal`:
+
+| UDF type | Supported methods |
+|---|---|
+| Scalar function (UDSF) | `beforeStart`, `evaluate`, `beforeDestroy` |
+| Aggregate function (UDAF) | `beforeStart`, `addInput`, `combineState`, `outputFinal`, `beforeDestroy` |
+| Table function (UDTF) | `beforeStart`, `process`, `finish`, and `beforeDestroy` of `TableFunctionDataProcessor`; `beforeStart`, `process`, and `beforeDestroy` of `TableFunctionLeafProcessor` |
+
+For example, a scalar function can implement the following overloads as needed:
+
+```Java
+default void beforeStart(FunctionArguments arguments, IoTDBLocal local)
+    throws UDFException;
+
+default Object evaluate(Record input, IoTDBLocal local)
+    throws UDFException;
+
+default void beforeDestroy(IoTDBLocal local);
+```
+
+#### 3.5.2 Example
+
+The following example queries device names and temperature limits in `beforeStart` and caches the results in memory. If the UDF only needs device names, keep the first query. If it needs to combine multiple data sources, call `query` multiple times as shown here. For reference data that does not change during one UDF execution, query it during initialization instead of executing the same SQL for every row in `evaluate`.
+
+1. Create the sample tables and insert data.
+
+```SQL
+CREATE TABLE readings (
+  device_id STRING TAG,
+  temperature DOUBLE FIELD
+);
+
+CREATE TABLE device_info (
+  device_id STRING TAG,
+  device_name STRING FIELD
+);
+
+CREATE TABLE device_limits (
+  device_id STRING TAG,
+  max_temp DOUBLE FIELD
+);
+
+INSERT INTO device_info(time, device_id, device_name)
+VALUES (1, 'd1', 'Workshop 1 temperature sensor'),
+       (1, 'd2', 'Workshop 2 temperature sensor');
+
+INSERT INTO device_limits(time, device_id, max_temp)
+VALUES (1, 'd1', 30.0),
+       (1, 'd2', 35.0);
+
+INSERT INTO readings(time, device_id, temperature)
+VALUES (1000, 'd1', 25.5),
+       (1001, 'd2', 32.0),
+       (1002, 'd3', 20.0);
+```
+
+2. Implement the scalar function.
+
+```Java
+public class DeviceSummaryFunction implements ScalarFunction {
+
+  private Map<String, String> idToName = Map.of();
+  private Map<String, Double> idToMaxTemp = Map.of();
+
+  @Override
+  public ScalarFunctionAnalysis analyze(FunctionArguments arguments)
+      throws UDFArgumentNotValidException {
+    return new ScalarFunctionAnalysis.Builder()
+        .outputDataType(Type.STRING)
+        .build();
+  }
+
+  @Override
+  public void beforeStart(FunctionArguments arguments, IoTDBLocal local)
+      throws UDFException {
+    local.info("DeviceSummaryFunction: loading reference data");
+
+    // Keep only this block when a single query is needed.
+    Map<String, String> names = new HashMap<>();
+    try (UDFResultSet resultSet =
+        local.query("SELECT device_id, device_name FROM device_info")) {
+      while (resultSet.hasNext()) {
+        Record row = resultSet.next();
+        names.put(row.getString(0), row.getString(1));
+      }
+    }
+
+    // Execute additional queries when multiple data sources are needed.
+    Map<String, Double> limits = new HashMap<>();
+    try (UDFResultSet resultSet =
+        local.query("SELECT device_id, max_temp FROM device_limits")) {
+      while (resultSet.hasNext()) {
+        Record row = resultSet.next();
+        limits.put(row.getString(0), row.getDouble(1));
+      }
+    }
+
+    idToName = names;
+    idToMaxTemp = limits;
+    local.info(
+        "DeviceSummaryFunction: loaded {} names and {} limits",
+        idToName.size(),
+        idToMaxTemp.size());
+  }
+
+  @Override
+  public Object evaluate(Record input) throws UDFException {
+    return summarize(input);
+  }
+
+  @Override
+  public Object evaluate(Record input, IoTDBLocal local)
+      throws UDFException {
+    return summarize(input);
+  }
+
+  private Binary summarize(Record input) {
+    String deviceId = input.getString(0);
+    String name = idToName.getOrDefault(deviceId, "Unknown device");
+    Double maxTemp = idToMaxTemp.get(deviceId);
+
+    String result =
+        String.format(
+            "%s (limit: %s)",
+            name,
+            maxTemp == null ? "unknown" : maxTemp);
+    return new Binary(result, TSFileConfig.STRING_CHARSET);
+  }
+}
+```
+
+3. Register and use the function.
+
+```SQL
+CREATE FUNCTION device_summary
+AS 'org.apache.iotdb.udf.demo.DeviceSummaryFunction';
+
+SELECT time,
+       device_id,
+       temperature,
+       device_summary(device_id) AS summary
+FROM readings;
+```
+
+The query returns results similar to the following:
+
+```SQL
+d1  25.5  Workshop 1 temperature sensor (limit: 30.0)
+d2  32.0  Workshop 2 temperature sensor (limit: 35.0)
+d3  20.0  Unknown device (limit: unknown)
+```
+
+
+### 3.6 Complete Maven Project Example
 
 For Maven-based implementations, refer to the sample project: [udf-example](https://github.com/apache/iotdb/tree/master/example/udf).

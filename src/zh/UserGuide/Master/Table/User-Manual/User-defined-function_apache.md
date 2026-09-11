@@ -432,6 +432,186 @@ IoTDB 中的表函数为多态表值函数，支持参数类型如下所示：
 
 
 
-### 3.5 完整Maven项目示例
+### 3.5 在 UDF 中访问 IoTDB
+
+自 **V2.0.11** 起，表模型 UDF 可以通过 `IoTDBLocal` 在数据处理过程中执行 SQL 查询和记录日志。`IoTDBLocal` 由框架传入，查询会复用当前连接用户的权限，并以流式结果集返回数据。该功能包含在 `udf-api` 中，无需引入其他依赖。
+
+原有不带 `IoTDBLocal` 参数的接口仍然可用。仅当 UDF 需要查询 IoTDB 或记录日志时，才需要实现带 `IoTDBLocal` 参数的重载方法。
+
+#### 3.5.1 接口说明
+
+`IoTDBLocal` 位于 `org.apache.iotdb.udf.api` 包中，提供以下能力：
+
+|接口|说明|
+|---|---|
+|`UDFResultSet query(String sql) throws UDFException`|执行一条 SQL，并以流式结果集返回查询结果。查询使用当前连接用户的权限。|
+|`info(...)`|记录 INFO 级别日志，支持消息、格式化参数或异常对象。|
+|`warn(...)`|记录 WARN 级别日志，支持消息、格式化参数或异常对象。|
+|`error(...)`|记录 ERROR 级别日志，支持消息、格式化参数或异常对象。|
+
+`query` 返回的 `UDFResultSet` 实现了 `AutoCloseable`，通过以下方法逐行读取结果：
+
+|接口|说明|
+|---|---|
+|`boolean hasNext() throws UDFException`|判断结果集中是否还有下一行。|
+|`Record next() throws UDFException`|获取下一行；没有更多数据时抛出 `NoSuchElementException`。|
+|`void close() throws IoTDBLocalException`|关闭结果集并释放资源。|
+
+建议使用 `try-with-resources` 及时关闭结果集。即使没有手动关闭，框架也会在本次 UDF 执行结束后释放仍未关闭的结果集。
+
+不同类型的表模型 UDF 可以在以下方法中获取 `IoTDBLocal`：
+
+|UDF 类型|支持的方法|
+|---|---|
+|标量函数（UDSF）|`beforeStart`、`evaluate`、`beforeDestroy`|
+|聚合函数（UDAF）|`beforeStart`、`addInput`、`combineState`、`outputFinal`、`beforeDestroy`|
+|表函数（UDTF）|`TableFunctionDataProcessor` 的 `beforeStart`、`process`、`finish`、`beforeDestroy`；<br>`TableFunctionLeafProcessor` 的 `beforeStart`、`process`、`beforeDestroy`|
+
+例如，标量函数可以按需实现以下重载方法：
+
+```Java
+default void beforeStart(FunctionArguments arguments, IoTDBLocal local)
+    throws UDFException;
+
+default Object evaluate(Record input, IoTDBLocal local)
+    throws UDFException;
+
+default void beforeDestroy(IoTDBLocal local);
+```
+
+#### 3.5.2 使用示例
+
+以下示例在 `beforeStart` 中查询设备名称和温度上限，并将结果缓存在内存中。如果 UDF 只需要设备名称，保留第一条查询即可；如果需要组合多个数据源，则可以像本例一样多次调用 `query`。对于不会在一次 UDF 执行期间变化的参考数据，建议在初始化阶段集中查询，避免在 `evaluate` 中对每一行重复执行 SQL。
+
+1. 创建示例表并写入数据。
+
+```SQL
+CREATE TABLE readings (
+  device_id STRING TAG,
+  temperature DOUBLE FIELD
+);
+
+CREATE TABLE device_info (
+  device_id STRING TAG,
+  device_name STRING FIELD
+);
+
+CREATE TABLE device_limits (
+  device_id STRING TAG,
+  max_temp DOUBLE FIELD
+);
+
+INSERT INTO device_info(time, device_id, device_name)
+VALUES (1, 'd1', '一号车间温度传感器'),
+       (1, 'd2', '二号车间温度传感器');
+
+INSERT INTO device_limits(time, device_id, max_temp)
+VALUES (1, 'd1', 30.0),
+       (1, 'd2', 35.0);
+
+INSERT INTO readings(time, device_id, temperature)
+VALUES (1000, 'd1', 25.5),
+       (1001, 'd2', 32.0),
+       (1002, 'd3', 20.0);
+```
+
+2. 实现标量函数。
+
+```Java
+public class DeviceSummaryFunction implements ScalarFunction {
+
+  private Map<String, String> idToName = Map.of();
+  private Map<String, Double> idToMaxTemp = Map.of();
+
+  @Override
+  public ScalarFunctionAnalysis analyze(FunctionArguments arguments)
+      throws UDFArgumentNotValidException {
+    return new ScalarFunctionAnalysis.Builder()
+        .outputDataType(Type.STRING)
+        .build();
+  }
+
+  @Override
+  public void beforeStart(FunctionArguments arguments, IoTDBLocal local)
+      throws UDFException {
+    local.info("DeviceSummaryFunction: loading reference data");
+
+    // 单条查询场景只需保留这一段。
+    Map<String, String> names = new HashMap<>();
+    try (UDFResultSet resultSet =
+        local.query("SELECT device_id, device_name FROM device_info")) {
+      while (resultSet.hasNext()) {
+        Record row = resultSet.next();
+        names.put(row.getString(0), row.getString(1));
+      }
+    }
+
+    // 需要组合多个数据源时，可以继续执行其他查询。
+    Map<String, Double> limits = new HashMap<>();
+    try (UDFResultSet resultSet =
+        local.query("SELECT device_id, max_temp FROM device_limits")) {
+      while (resultSet.hasNext()) {
+        Record row = resultSet.next();
+        limits.put(row.getString(0), row.getDouble(1));
+      }
+    }
+
+    idToName = names;
+    idToMaxTemp = limits;
+    local.info(
+        "DeviceSummaryFunction: loaded {} names and {} limits",
+        idToName.size(),
+        idToMaxTemp.size());
+  }
+
+  @Override
+  public Object evaluate(Record input) throws UDFException {
+    return summarize(input);
+  }
+
+  @Override
+  public Object evaluate(Record input, IoTDBLocal local)
+      throws UDFException {
+    return summarize(input);
+  }
+
+  private Binary summarize(Record input) {
+    String deviceId = input.getString(0);
+    String name = idToName.getOrDefault(deviceId, "未知设备");
+    Double maxTemp = idToMaxTemp.get(deviceId);
+
+    String result =
+        String.format(
+            "%s（上限：%s）",
+            name,
+            maxTemp == null ? "未知" : maxTemp);
+    return new Binary(result, TSFileConfig.STRING_CHARSET);
+  }
+}
+```
+
+3. 注册并使用该函数。
+
+```SQL
+CREATE FUNCTION device_summary
+AS 'org.apache.iotdb.udf.demo.DeviceSummaryFunction';
+
+SELECT time,
+       device_id,
+       temperature,
+       device_summary(device_id) AS summary
+FROM readings;
+```
+
+上述查询将会返回类似如下结果：
+
+```SQL
+d1  25.5  一号车间温度传感器（上限：30.0）
+d2  32.0  二号车间温度传感器（上限：35.0）
+d3  20.0  未知设备（上限：未知）
+```
+
+
+### 3.6 完整Maven项目示例
 
 如果使用 [Maven](http://search.maven.org/)，可以参考示例项目[udf-example](https://github.com/apache/iotdb/tree/master/example/udf)。
