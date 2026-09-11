@@ -102,6 +102,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'Repair Data Partition Table', link: 'Repair-Data-Partition_apache' },
           ],
         },
       ],
