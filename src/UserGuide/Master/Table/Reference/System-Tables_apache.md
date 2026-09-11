@@ -77,27 +77,29 @@ IoTDB> show tables from information_schema
 * Contains information about all databases in the cluster.
 * Table structure is as follows:
 
-| Column Name                     | Data Type | Column Type | Description                    |
-| --------------------------------- | ----------- | ------------- | -------------------------------- |
-| `database`                  | STRING    | TAG         | Database name                  |
-| `ttl(ms)`                   | STRING    | ATTRIBUTE   | Data retention time            |
-| `schema_replication_factor` | INT32     | ATTRIBUTE   | Schema replica count           |
-| `data_replication_factor`   | INT32     | ATTRIBUTE   | Data replica count             |
-| `time_partition_interval`   | INT64     | ATTRIBUTE   | Time partition interval        |
-| `schema_region_group_num`   | INT32     | ATTRIBUTE   | Number of schema region groups |
-| `data_region_group_num`     | INT32     | ATTRIBUTE   | Number of data region groups   |
+| Column Name | Data Type | Column Type | Description |
+| --- | --- | --- | --- |
+| `database` | STRING | TAG | Database name |
+| `ttl(ms)` | STRING | ATTRIBUTE | Data retention time |
+| `schema_replication_factor` | INT32 | ATTRIBUTE | Number of schema replicas |
+| `data_replication_factor` | INT32 | ATTRIBUTE | Number of data replicas |
+| `time_partition_interval` | INT64 | ATTRIBUTE | Time partition interval |
+| `schema_region_group_num` | INT32 | ATTRIBUTE | Number of schema regions |
+| `max_schema_region_group_num` | INT32 | ATTRIBUTE | Maximum number of schema regions to which the database can expand. Supported starting from V2.0.11. |
+| `data_region_group_num` | INT32 | ATTRIBUTE | Number of data regions |
+| `max_data_region_group_num` | INT32 | ATTRIBUTE | Maximum number of data regions to which the database can expand. Supported starting from V2.0.11. |
 
 * The query results only display the collection of databases for which you have any permission on the database itself or any table within the database.
 * Query Example:
 
 ```sql
 IoTDB> select * from information_schema.databases
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
-|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|data_region_group_num|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
-|information_schema|    INF|                     null|                   null|                   null|                   null|                 null|
-|         database1|    INF|                        1|                      1|              604800000|                      0|                    0|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
+|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
+|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|
+|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
 ```
 
 ### 2.2 TABLES

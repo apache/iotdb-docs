@@ -277,23 +277,17 @@ show devices;
 
 目前支持的数据库异构参数有：
 
-| 参数名                       | 参数类型    | 参数描述                      |
-|---------------------------|---------|---------------------------|
-| TTL                       | Long    | 数据库的 TTL                  |
-| SCHEMA_REPLICATION_FACTOR | Integer | 数据库的元数据副本数                |
-| DATA_REPLICATION_FACTOR   | Integer | 数据库的数据副本数                 |
-| SCHEMA_REGION_GROUP_NUM   | Integer | 数据库的 SchemaRegionGroup 数量 |
-| DATA_REGION_GROUP_NUM     | Integer | 数据库的 DataRegionGroup 数量   |
+| 参数名 | 参数类型 | 参数描述 |
+| --- | --- | --- |
+| TTL | Long | 数据库的 TTL，此值需要为正整数 |
+| TIME_PARTITION_INTERVAL | Long | 数据库的时间分区间隔，此值需要为正整数 |
+| MAX_SCHEMA_REGION_GROUP_NUM | Integer | 数据库自动扩展 SchemaRegionGroup 时允许达到的最大 SchemaRegionGroup 数量，此值需要为正整数 |
+| MAX_DATA_REGION_GROUP_NUM | Integer | 数据库自动扩展 DataRegionGroup 时允许达到的最大 DataRegionGroup 数量，此值需要为正整数 |
 
-用户在配置异构参数时需要注意以下三点：
-+ TTL 和 TIME_PARTITION_INTERVAL 必须为正整数。
-+ SCHEMA_REPLICATION_FACTOR 和 DATA_REPLICATION_FACTOR 必须小于等于已部署的 DataNode 数量。
-+ SCHEMA_REGION_GROUP_NUM 和 DATA_REGION_GROUP_NUM 的功能与 iotdb-system.properties 配置文件中的 
-`schema_region_group_extension_policy` 和 `data_region_group_extension_policy` 参数相关，以 DATA_REGION_GROUP_NUM 为例：
-若设置 `data_region_group_extension_policy=CUSTOM`，则 DATA_REGION_GROUP_NUM 将作为 Database 拥有的 DataRegionGroup 的数量；
-若设置 `data_region_group_extension_policy=AUTO`，则 DATA_REGION_GROUP_NUM 将作为 Database 拥有的 DataRegionGroup 的配额下界，即当该 Database 开始写入数据时，将至少拥有此数量的 DataRegionGroup。
+用户在配置异构参数时需要注意：
 
-用户可以在创建 Database 时设置任意异构参数，或在单机/分布式 IoTDB 运行时调整部分异构参数。
++ 仅当 `iotdb-common.properties` 配置文件中的 `schema_region_group_extension_policy` 和 `data_region_group_extension_policy` 参数设置为 `CUSTOM` 策略时，才支持通过 SQL 在创建或修改数据库时设置或调整 schema/data region group 最大配额，即 `maxSchemaRegionGroupNum` 和 `maxDataRegionGroupNum`。
++ `MAX_SCHEMA_REGION_GROUP_NUM` 和 `MAX_DATA_REGION_GROUP_NUM` 自 V2.0.11 版本起支持。
 
 #### 创建 Database 时设置异构参数
 
@@ -305,7 +299,7 @@ CREATE DATABASE prefixPath (WITH databaseAttributeClause (COMMA? databaseAttribu
 
 例如：
 ```sql
-CREATE DATABASE root.db WITH SCHEMA_REPLICATION_FACTOR=1, DATA_REPLICATION_FACTOR=3, SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
+CREATE DATABASE root.db WITH TTL=360000, MAX_SCHEMA_REGION_GROUP_NUM=1, MAX_DATA_REGION_GROUP_NUM=2;
 ```
 
 #### 运行时调整异构参数
@@ -318,12 +312,12 @@ ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttribute
 
 例如：
 ```sql
-ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
+ALTER DATABASE root.db WITH MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=3;
 ```
 
 注意，运行时只能调整下列异构参数：
-+ SCHEMA_REGION_GROUP_NUM
-+ DATA_REGION_GROUP_NUM
++ MAX_SCHEMA_REGION_GROUP_NUM
++ MAX_DATA_REGION_GROUP_NUM
 
 #### 查看异构数据库
 
@@ -339,28 +333,22 @@ SHOW DATABASES DETAILS prefixPath?
 SHOW DATABASES DETAILS;
 ```
 ```shell
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-|Database|     TTL|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MinSchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MinDataRegionGroupNum|MaxDataRegionGroupNum|
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-|root.db1|    null|                      1|                    3|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-|root.db2|86400000|                      1|                    1|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-|root.db3|    null|                      1|                    1|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-Total line number = 3
-It costs 0.058s
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
+|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
 ```
 
 各列查询结果依次为：
 + 数据库名称
-+ 数据库的 TTL
 + 数据库的元数据副本数
 + 数据库的数据副本数
++ 数据库的时间分区原点
 + 数据库的时间分区间隔
 + 数据库当前拥有的 SchemaRegionGroup 数量
-+ 数据库需要拥有的最小 SchemaRegionGroup 数量
 + 数据库允许拥有的最大 SchemaRegionGroup 数量
 + 数据库当前拥有的 DataRegionGroup 数量
-+ 数据库需要拥有的最小 DataRegionGroup 数量
 + 数据库允许拥有的最大 DataRegionGroup 数量
 
 

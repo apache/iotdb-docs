@@ -154,102 +154,7 @@ Total line number = 1
 It costs 0.002s
 ```
 
-### 1.5 Setting up heterogeneous databases (Advanced operations)
-
-Under the premise of familiar with IoTDB metadata modeling, 
-users can set up heterogeneous databases in IoTDB to cope with different production needs.
-
-Currently, the following database heterogeneous parameters are supported:
-
-| Parameter                 | Type    | Description                                   |
-| ------------------------- | ------- | --------------------------------------------- |
-| TTL                       | Long    | TTL of the Database                           |
-| SCHEMA_REPLICATION_FACTOR | Integer | The schema replication number of the Database |
-| DATA_REPLICATION_FACTOR   | Integer | The data replication number of the Database   |
-| SCHEMA_REGION_GROUP_NUM   | Integer | The SchemaRegionGroup number of the Database  |
-| DATA_REGION_GROUP_NUM     | Integer | The DataRegionGroup number of the Database    |
-
-Note the following when configuring heterogeneous parameters:
-
-+ TTL and TIME_PARTITION_INTERVAL must be positive integers.
-+ SCHEMA_REPLICATION_FACTOR and DATA_REPLICATION_FACTOR must be smaller than or equal to the number of deployed DataNodes.
-+ The function of SCHEMA_REGION_GROUP_NUM and DATA_REGION_GROUP_NUM are related to the parameter `schema_region_group_extension_policy` and `data_region_group_extension_policy` in iotdb-system.properties configuration file. Take DATA_REGION_GROUP_NUM as an example:
-    If `data_region_group_extension_policy=CUSTOM` is set, DATA_REGION_GROUP_NUM serves as the number of DataRegionGroups owned by the Database.
-    If `data_region_group_extension_policy=AUTO`, DATA_REGION_GROUP_NUM is used as the lower bound of the DataRegionGroup quota owned by the Database. That is, when the Database starts writing data, it will have at least this number of DataRegionGroups.
-
-Users can set any heterogeneous parameters when creating a Database, or adjust some heterogeneous parameters during a stand-alone/distributed IoTDB run.
-
-#### Set heterogeneous parameters when creating a Database
-
-The user can set any of the above heterogeneous parameters when creating a Database. The SQL statement is as follows:
-
-```sql
-CREATE DATABASE prefixPath (WITH databaseAttributeClause (COMMA? databaseAttributeClause)*)?
-```
-
-For example:
-
-```sql
-CREATE DATABASE root.db WITH SCHEMA_REPLICATION_FACTOR=1, DATA_REPLICATION_FACTOR=3, SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
-```
-
-#### Adjust heterogeneous parameters at run time
-
-Users can adjust some heterogeneous parameters during the IoTDB runtime, as shown in the following SQL statement:
-
-```sql
-ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttributeClause)*
-```
-
-For example:
-
-```sql
-ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
-```
-
-Note that only the following heterogeneous parameters can be adjusted at runtime:
-
-+ SCHEMA_REGION_GROUP_NUM
-+ DATA_REGION_GROUP_NUM
-
-#### Show heterogeneous databases
-
-The user can query the specific heterogeneous configuration of each Database, and the SQL statement is as follows:
-
-```sql
-SHOW DATABASES DETAILS prefixPath?
-```
-
-For example:
-
-```sql
-SHOW DATABASES DETAILS
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-|Database|     TTL|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MinSchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MinDataRegionGroupNum|MaxDataRegionGroupNum|
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-|root.db1|    null|                      1|                    3|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-|root.db2|86400000|                      1|                    1|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-|root.db3|    null|                      1|                    1|            604800000|                   0|                      1|                      1|                 0|                    2|                    2|
-+--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
-Total line number = 3
-It costs 0.058s
-```
-
-The query results in each column are as follows:
-
-+ The name of the Database
-+ The TTL of the Database
-+ The schema replication number of the Database
-+ The data replication number of the Database
-+ The time partition interval of the Database
-+ The current SchemaRegionGroup number of the Database
-+ The required minimum SchemaRegionGroup number of the Database
-+ The permitted maximum SchemaRegionGroup number of the Database
-+ The current DataRegionGroup number of the Database
-+ The required minimum DataRegionGroup number of the Database
-+ The permitted maximum DataRegionGroup number of the Database
-
-### 1.6 TTL
+### 1.5 TTL
 
 IoTDB supports setting data retention time (TTL) at the device level, allowing the system to automatically and periodically delete old data to effectively control disk space and maintain high query performance and low memory usage. TTL is set in milliseconds by default. Once data expires, it cannot be queried or written, but physical deletion is delayed until compaction. Please note that changes to TTL may temporarily affect data queryability, and if TTL is reduced or removed, previously invisible data due to TTL may reappear.
 
@@ -359,6 +264,91 @@ show devices
 +---------------+---------+---------+
 ```
 All devices will definitely have a TTL, meaning it cannot be null. INF represents infinity.
+
+### 1.6 Setting Up Heterogeneous Databases (Advanced Operations)
+
+With a solid understanding of IoTDB metadata modeling, users can configure heterogeneous databases in IoTDB to meet different production requirements.
+
+The following heterogeneous database parameters are supported:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| TTL | Long | TTL of the database. The value must be a positive integer. |
+| TIME_PARTITION_INTERVAL | Long | Time partition interval of the database. The value must be a positive integer. |
+| MAX_SCHEMA_REGION_GROUP_NUM | Integer | Maximum number of SchemaRegionGroups to which the database can automatically expand. The value must be a positive integer. |
+| MAX_DATA_REGION_GROUP_NUM | Integer | Maximum number of DataRegionGroups to which the database can automatically expand. The value must be a positive integer. |
+
+Note the following when configuring heterogeneous parameters:
+
++ The maximum schema/data region group quotas, `maxSchemaRegionGroupNum` and `maxDataRegionGroupNum`, can be set or adjusted through SQL when creating or modifying a database only when `schema_region_group_extension_policy` and `data_region_group_extension_policy` in `iotdb-common.properties` are set to `CUSTOM`.
++ `MAX_SCHEMA_REGION_GROUP_NUM` and `MAX_DATA_REGION_GROUP_NUM` are supported starting from V2.0.11.
+
+#### Set Heterogeneous Parameters When Creating a Database
+
+You can set any of the preceding heterogeneous parameters when creating a database. The SQL statement is as follows:
+
+```sql
+CREATE DATABASE prefixPath (WITH databaseAttributeClause (COMMA? databaseAttributeClause)*)?
+```
+
+For example:
+
+```sql
+CREATE DATABASE root.db WITH TTL=360000, MAX_SCHEMA_REGION_GROUP_NUM=1, MAX_DATA_REGION_GROUP_NUM=2;
+```
+
+#### Adjust Heterogeneous Parameters at Runtime
+
+You can adjust some heterogeneous parameters while IoTDB is running. The SQL statement is as follows:
+
+```sql
+ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttributeClause)*
+```
+
+For example:
+
+```sql
+ALTER DATABASE root.db WITH MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=3;
+```
+
+Only the following heterogeneous parameters can be adjusted at runtime:
+
++ MAX_SCHEMA_REGION_GROUP_NUM
++ MAX_DATA_REGION_GROUP_NUM
+
+#### Show Heterogeneous Databases
+
+You can query the heterogeneous configuration of each database. The SQL statement is as follows:
+
+```sql
+SHOW DATABASES DETAILS prefixPath?
+```
+
+For example:
+
+```sql
+SHOW DATABASES DETAILS;
+```
+
+```shell
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
+|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
+```
+
+The columns in the query result are, in order:
+
++ Database name
++ Number of schema replicas for the database
++ Number of data replicas for the database
++ Time partition origin of the database
++ Time partition interval of the database
++ Number of SchemaRegionGroups currently owned by the database
++ Maximum number of SchemaRegionGroups allowed for the database
++ Number of DataRegionGroups currently owned by the database
++ Maximum number of DataRegionGroups allowed for the database
 
 ## 2. Device Template
 
