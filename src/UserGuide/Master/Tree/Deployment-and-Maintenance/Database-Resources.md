@@ -146,7 +146,7 @@
 </tbody>
 </table>
 
-> Flexible memory configuration options are provided. Users can adjust them in the datanode-env file. For details and configuration guidelines, please refer to [datanode-env](../Reference/DataNode-Config-Manual.md#_2-environment-configuration-file-datanode-env-sh-bat)
+> Flexible memory configuration options are provided. Users can adjust them in the datanode-env file.
 
 
 ## 3. Storage (Disk)

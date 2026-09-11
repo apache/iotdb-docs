@@ -294,18 +294,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Reference/',
       children: [
-        {
-          text: 'Config Manual',
-          collapsible: true,
-          children: [
-            { text: 'Common Config Manual', link: 'Common-Config-Manual' },
-            {
-              text: 'ConfigNode Config Manual',
-              link: 'ConfigNode-Config-Manual',
-            },
-            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
-          ],
-        },
+        { text: 'Config Manual', link: 'System-Config-Manual_apache' },
         { text: 'Status Codes', link: 'Status-Codes' },
       ],
     },

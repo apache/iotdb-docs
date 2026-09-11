@@ -1034,7 +1034,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | datanode_memory_proportion                           |
 | ------------ | ---------------------------------------------------- |
-| 描述         | 存储引擎、查询引擎、元数据、共识、流处理引擎和空闲内存比例 |
+| 描述         | 存储引擎、查询引擎、元数据、共识、流处理引擎和空闲内存的分配比例。自 V2.0.11 起，空闲内存的一半将作为 RPC 层 AutoResizingBuffer 的总内存预算，用于限制 framed transport 读写及压缩、解压缓冲区的总体内存占用。 |
 | 类型         | Ratio                                                |
 | 默认值       | 3:3:1:1:1:1                                          |
 | 改后生效方式 | 重启服务生效                                             |
@@ -1438,9 +1438,9 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | chunk_timeseriesmeta_free_memory_proportion                  |
 | ------------ | ------------------------------------------------------------ |
-| 描述         | 读取内存分配比例，BloomFilterCache、ChunkCache、TimeseriesMetadataCache、数据集查询的内存和可用内存的查询。参数形式为a : b : c : d : e，其中a、b、c、d、e为整数。 例如“1 : 1 : 1 : 1 : 1” ，“1 : 100 : 200 : 300 : 400” 。 |
+| 描述         | 读取内存分配比例：BloomFilterCache : ChunkCache : TimeSeriesMetadataCache : Coordinator : Operators : DataExchange : TsFileResourceList 中的 timeIndex : 其他。参数形式为 a:b:c:d:e:f:g:h，其中 a、b、c、d、e、f、g、h 为整数。例如“1:1:1:1:1:1:1:1”，“1:100:200:50:200:200:200:50”。 |
 | 类型         | String                                                       |
-| 默认值       | 1 : 100 : 200 : 300 : 400                                    |
+| 默认值       | 1 : 100 : 200 : 50 : 200 : 200 : 200 : 50                    |
 | 改后生效方式 | 重启服务生效                                                     |
 
 - enable_last_cache
