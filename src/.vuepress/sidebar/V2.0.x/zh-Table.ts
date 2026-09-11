@@ -59,7 +59,7 @@ export const zhSidebar = {
               { text: '部署形态', link: 'Deployment-form_apache' },
               { text: '安装包获取', link: 'IoTDB-Package_apache' },
               { text: '资源规划', link: 'Database-Resources_apache' },
-              { text: '环境配置', link: 'Environment-Requirements' },
+              { text: '环境配置', link: 'Environment-Requirements_apache' },
             ],
           },
           {

@@ -28,7 +28,7 @@
 
 ## 1. 注意事项
 
-1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
+1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements_apache.md)准备完成。
    
 2. 推荐使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在服务器上配`/etc/hosts`，如本机ip是11.101.17.224，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、`dn_internal_address`。
 
@@ -56,7 +56,7 @@
 ## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
-2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
+2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements_apache.md)）
 
 
 ### 2.1 前置检查

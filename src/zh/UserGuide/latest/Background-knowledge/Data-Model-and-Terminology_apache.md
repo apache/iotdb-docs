@@ -163,7 +163,7 @@ config = TableSessionPoolConfig(
 session_pool = TableSessionPool(config)
 ```
 
-* [C++ 原生接口](../API/Programming-Cpp-Native-API.md)
+* [C++ 原生接口](../API/Programming-Cpp-Native-API_apache.md)
 
 ```C++
 // 树模型

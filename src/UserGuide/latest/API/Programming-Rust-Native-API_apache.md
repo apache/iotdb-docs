@@ -26,7 +26,7 @@ This document will introduce how to generate a native Rust interface that can ac
 
 ## 1. Dependents
 
- * JDK >= 1.8
+ * `JDK >= 17` (before V2.0.11, `JDK > 1.8`)
  * Rust >= 1.0.0
  * thrift 0.14.1
  * Linux、Macos or like unix

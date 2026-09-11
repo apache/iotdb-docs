@@ -27,7 +27,7 @@ IoTDB 使用 Thrift 作为跨语言的 RPC 框架，因此可以通过 Thrift �
 
 ## 1. 依赖
 
- * JDK >= 1.8
+ * `JDK >= 17`（V2.0.11 之前为 `JDK > 1.8`）
  * Rust >= 1.0.0
  * thrift 0.14.1
  * Linux、Macos 或其他类 unix 系统

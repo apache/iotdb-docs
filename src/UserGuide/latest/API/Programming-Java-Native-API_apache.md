@@ -36,7 +36,7 @@ This section provides an overview of the core development process and does not d
 
 ### 2.1 Create a Maven Project
 
-Create a Maven project and add the following dependencies to the pom.xml file (JDK >= 1.8, Maven >= 3.6):
+Create a Maven project and add the following dependencies to the pom.xml file. The environment requires `JDK >= 17` (before V2.0.11, `JDK > 1.8`) and `Maven >= 3.6`:
 
 ```xml
 <dependencies>

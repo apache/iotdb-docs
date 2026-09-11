@@ -182,7 +182,7 @@ ulimit -n
 ```
 ## 3. Software Dependence
 
-Install the Java runtime environment (Java version >= 1.8). Ensure that jdk environment variables are set. (It is recommended to deploy JDK17 for V1.3.2.2 or later. In some scenarios, the performance of JDK of earlier versions is compromised, and Datanodes cannot be stopped.)
+Install the Java runtime environment. Use `JDK >= 17` (before V2.0.11, `JDK > 1.8`) and ensure that JDK environment variables are set.
 
 ```Bash
 # The following is an example of installing in centos7 using JDK-17:

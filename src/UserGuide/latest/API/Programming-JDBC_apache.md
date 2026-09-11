@@ -26,7 +26,7 @@ PLEASE USE [Java Native API](./Programming-Java-Native-API_apache) INSTEAD*
 
 ## 1. Dependencies
 
-* JDK >= 1.8+
+* `JDK >= 17` (before V2.0.11, `JDK > 1.8`)
 * Maven >= 3.9+
 
 ## 2. Installation

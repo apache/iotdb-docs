@@ -133,7 +133,7 @@ Refer to [ Python Data Manipulation Interface (DML) ](../API/Programming-Python-
 
 #### C++ 
 
-Refer to [ C++ Data Manipulation Interface (DML) ](../API/Programming-Cpp-Native-API.md#insert)
+Refer to [ C++ Data Manipulation Interface (DML) ](../API/Programming-Cpp-Native-API_apache.md#insert)
 
 #### Go
 

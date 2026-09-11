@@ -23,7 +23,7 @@
 
 ## 1. Dependencies
 
-- Java 8+
+- `JDK >= 17` (before V2.0.11, `JDK > 1.8`)
 - Flex
 - Bison 2.7+
 - Boost 1.56+

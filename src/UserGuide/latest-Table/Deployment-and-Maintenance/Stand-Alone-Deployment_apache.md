@@ -24,7 +24,7 @@ This guide introduces how to set up a standalone IoTDB instance, which includes 
 
 ## 1. Prerequisites
 
-1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
+1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements_apache.md).
 
 2. **IP Configuration**: It is recommended to use hostnames for IP configuration to prevent issues caused by IP address changes. Set the hostname by editing the `/etc/hosts` file. For example, if the local IP is `192.168.1.3` and the hostname is `iotdb-1`, run:
 

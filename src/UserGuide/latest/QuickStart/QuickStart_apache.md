@@ -38,7 +38,7 @@ Help me install Apache IoTDB: https://iotdb.apache.org/guide.md
 
 1.  Prepare the necessary machine resources: The deployment and operation of IoTDB require consideration of various aspects of machine resource configuration. For specific resource configurations, please refer to [Database Resource](../Deployment-and-Maintenance/Database-Resources.md)
 
-2. Complete system configuration preparations: IoTDB's system configuration involves multiple aspects. For an introduction to key system configurations, please see [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md)
+2. Complete system configuration preparations: IoTDB's system configuration involves multiple aspects. For an introduction to key system configurations, please see [System Requirements](../Deployment-and-Maintenance/Environment-Requirements_apache.md)
 
 3. Obtain the installation package: You can obtain the IoTDB installation package on the [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/).For the specific structure of the installation package, please refer to[Obtain IoTDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
 
@@ -73,7 +73,7 @@ Help me install Apache IoTDB: https://iotdb.apache.org/guide.md
 
    - Authority Management:[Authority Management](../User-Manual/Authority-Management_apache.md)
 
-5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API_apache.md)、[C++ Native API](../API/Programming-Cpp-Native-API.md) ,For more API, please refer to the official website 【API】 and other chapters
+5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API_apache.md)、[C++ Native API](../API/Programming-Cpp-Native-API_apache.md) ,For more API, please refer to the official website 【API】 and other chapters
 
 ## 3. What other convenient tools are available?
 

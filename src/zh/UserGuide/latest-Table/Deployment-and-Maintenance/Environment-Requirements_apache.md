@@ -153,7 +153,7 @@ lsof -i:10710  或  netstat -tunp | grep 10710
 lsof -i:10720  或  netstat -tunp | grep 10720
 #如果命令有输出，则表示该端口已被占用。
 ```
-若执行命令后提示 lsof 相关错误（如命令缺失、版本不兼容等），可参考[lsof 异常处理方式](../FAQ/Frequently-asked-questions.md#_1-11-部署-iotdb-时提示-lsof-相关错误-如命令缺失、版本不兼容等-如何正确安装、验证或卸载-lsof)
+若执行命令后提示 lsof 相关错误（如命令缺失、版本不兼容等），可参考[lsof 异常处理方式](../FAQ/Frequently-asked-questions.md#_1-8-部署-iotdb-时提示-lsof-相关错误-如命令缺失、版本不兼容等-如何正确安装、验证或卸载-lsof)
 
 （2）集群部署工具占用端口的检查：使用集群管理工具opskit安装部署集群时，需打开SSH远程连接服务配置，并开放22号端口。
 
@@ -166,7 +166,7 @@ systemctl start sshd                  #启用22号端口
 
 ### 2.4 其他配置
 
-1. 将系统 swap 优先级降至最低
+1. 关闭系统 swap 内存
 
 ```Bash
 echo "vm.swappiness = 0">> /etc/sysctl.conf
@@ -175,7 +175,7 @@ echo "vm.swappiness = 0">> /etc/sysctl.conf
 swapoff -a && swapon -a
 # 在不重启的情况下使配置生效。
 sysctl -p
-# swap的已使用内存变为0
+# 检查内存分配，预期 swap 为 0
 free -m
 ```
 
@@ -195,7 +195,7 @@ ulimit -n
 
 ## 3. 软件依赖
 
-安装 Java 运行环境 ，Java 版本 >= 1.8，请确保已设置 jdk 环境变量。（V1.3.2.2 及之上版本推荐直接部署JDK17，老版本JDK部分场景下性能有问题，且datanode会出现stop不掉的问题）
+安装 Java 运行环境，要求 `JDK >= 17`（V2.0.11 之前为 `JDK > 1.8`），并确保已设置 JDK 环境变量。
 
 ```Bash
  #下面以在centos7，使用JDK-17安装为例：

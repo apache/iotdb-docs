@@ -59,7 +59,7 @@ export const zhSidebar = {
               { text: '部署形态', link: 'Deployment-form_apache' },
               { text: '安装包获取', link: 'IoTDB-Package_apache' },
               { text: '资源规划', link: 'Database-Resources_apache' },
-              { text: '环境配置', link: 'Environment-Requirements' },
+              { text: '环境配置', link: 'Environment-Requirements_apache' },
             ],
           },
           {
@@ -180,11 +180,11 @@ export const zhSidebar = {
         { text: 'Java原生接口', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API_apache' },
         { text: 'C原生接口', link: 'Programming-C-Native-API_apache' },
-        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API_apache' },
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
-        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
+        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT协议', link: 'Programming-MQTT_apache' },
         {

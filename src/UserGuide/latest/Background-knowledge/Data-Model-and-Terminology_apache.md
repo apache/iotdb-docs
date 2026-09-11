@@ -164,7 +164,7 @@ config = TableSessionPoolConfig(
 session_pool = TableSessionPool(config)
 ```
 
-* [C++ Native API](../API/Programming-Cpp-Native-API.md)
+* [C++ Native API](../API/Programming-Cpp-Native-API_apache.md)
 
 ```cpp
 // Tree model

@@ -188,7 +188,7 @@ Recommended disk partitioning is as follows:
 
 ## 3. Software Dependencies
 
-Install Java Runtime Environment, Java version >= 1.8. Ensure JDK environment variables are set. (For versions V1.3.2.2 and later, it is recommended to directly deploy JDK17. Older JDK versions may have performance issues in some scenarios, and DataNode may fail to stop.)
+Install the Java runtime environment. Use `JDK >= 17` (before V2.0.11, `JDK > 1.8`) and ensure that JDK environment variables are set.
 
   ```Bash
    # Example of installing JDK-17 on CentOS7:
