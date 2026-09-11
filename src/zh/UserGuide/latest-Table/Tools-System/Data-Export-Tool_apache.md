@@ -2,32 +2,38 @@
 
 ## 1. 功能概述
 
-数据导出工具 `export-data.sh/bat` 位于 `tools` 目录下，能够将指定 SQL 的查询结果导出为 CSV、SQL 及 TsFile（开源时间序列文件格式）格式。具体功能如下：
+IoTDB 支持两种方式进行数据导出：
+
+* 数据导出工具 ：`export-data.sh/bat` 位于 `tools `目录下，能够将指定 SQL 的查询结果导出为 CSV、SQL 及 TsFile （开源时间序列文件格式）格式。
+* Copy SQL 导出 TsFile：通过 SQL 将查询结果写回到指定路径的 TsFile 中。
 
 <table style="text-align: left;">
   <tbody>
      <tr>   <th>文件格式</th>
-            <th>IoTDB工具</th>        
+            <th>IoTDB工具</th>
             <th>具体介绍</th>
       </tr>
       <tr>
-            <td>CSV</td>  
-            <td rowspan="3">export-data.sh/bat</td> 
-            <td>纯文本格式，存储格式化数据，需按照下文指定 CSV 格式进行构造</td> 
+            <td>CSV</td>
+            <td rowspan="3">export-data.sh/bat</td>
+            <td>纯文本格式，存储格式化数据，需按照下文指定 CSV 格式进行构造</td>
       </tr>
       <tr>
-            <td>SQL</td>   
-            <td>包含自定义 SQL 语句的文件</td> 
+            <td>SQL</td>
+            <td>包含自定义 SQL 语句的文件</td>
       </tr>
        <tr>
-            <td >TsFile</td> 
+            <td rowspan="2">TsFile</td>
             <td>开源时序数据文件格式</td>
-      </tr> 
+      </tr>
+      <tr>
+            <td>Copy SQL</td>
+            <td>开源时序数据文件格式</td>
+      </tr>
 </tbody>
 </table>
 
-
-## 2. 功能详解
+## 2. 数据导出工具
 
 ### 2.1 公共参数
 
@@ -176,4 +182,132 @@ Parse error: Missing required option: db
 # 异常示例
 > /tools/export-data.sh -ft tsfile -sql_dialect table -t /path/export/dir -start_time 0
 Parse error: Missing required option: db
+```
+
+## 3. Copy SQL
+
+> **注意：该功能自 V2.0.11 版本起支持。**
+
+### 3.1 运行命令
+
+```SQL
+// ---------------------------------------- Copy Statement ---------------------------------------------------------
+copyToStatement
+    : COPY '(' query ')' TO fileName=string ((WITH)? copyToStatementOptions)?
+    | COPY tableName=qualifiedName ('(' tableColumns=identifierList ')')? TO fileName=string ((WITH)? copyToStatementOptions)?
+    ;
+
+copyToStatementOptions
+    : '(' copyToStatementOption (',' copyToStatementOption)* ')'
+    ;
+
+copyToStatementOption
+    : FORMAT identifier
+    | TABLE identifier
+    | TAGS '(' identifierList ')'
+    | TIME identifier
+    | MEMORY_THRESHOLD memory=INTEGER_VALUE
+    ;
+```
+
+#### 参数介绍
+
+| 名称 | 说明 | 默认值 |
+|---|---|---|
+| FORMAT | 导出格式，当前仅有 TsFile | TsFile |
+| TABLE | 指定生成的 TsFile 中的 Table 名称 | 如果查询 SQL 仅涉及一个 table，使用这个 table 名，否则使用 `default` |
+| TIME | 指定使用结果集中的哪一列作为 TIME 列。<br>手动指定时：列类型非 TIMESTAMP、找不到指定列均会报错；<br>未手动指定时：若存在列名 time 但类型非 TIMESTAMP 也会报错。<br>按以下优先级构造 time 列：<br>1. 查询仅涉及的一个 table 中的 time 列名称相同的列<br>2. 寻找列名为 "time" 且类型为 TIMESTAMP 的列作为时间列<br>3. 使用对应 device 写入的当前行数作为 time 生成时间列，列名为 "time" | - |
+| TAGS | 指定哪些列为 TAG 列，有多个 TAG 列时，最终生成的 table 内的顺序和指定的顺序一致。<br>手动指定时：列不存在、列类型非 STRING、存在重复列名均会报错。<br>如果查询仅涉及一个 table，且 table 所有 tag 列在查询结果集中可以找到，则推断为这个 table 的 tag 列，否则默认值为空列表，即除了 TIME 列以外其余所有列都被视为 FIELD 列 | 空列表 |
+| MEMORY_THRESHOLD | 用于在生成 TsFile 时进行内存控制（单位：byte），手动指定数值小于等于 0 时将报错 | 32MB |
+
+#### 结果集说明
+
+| 列名 | 数据类型 | 说明 |
+|---|---|---|
+| path | STRING | 生成的目标文件的绝对路径 |
+| row_count | INT64 | 总写入行数 |
+| device_count | INT64 | 生成的设备数量 |
+| size_in_bytes | INT64 | 生成的目标文件大小 |
+| table_name | STRING | 目标文件中的表名，如果是自动生成的，会通过 `(auto_gen)` 进行标记 |
+| time_column | STRING | 目标文件中的表的 time 列名，如果是自动生成的，会通过 `(auto_gen)` 进行标记 |
+| tag_columns | STRING | 目标文件中的表的 tag 列名，以 `,` 分隔 |
+
+#### 其他注意事项
+
+* 对于文件生成位置：
+  * 如果指定的是文件名，生成的 TsFile 保存在客户端直连的 DataNode 的 `${dn_data_dirs}/copy_to` 下，配置多个目录时，按照配置项 `dn_multi_dir_strategy` 的策略生成；
+  * 如果指定的是一个路径，则放在指定的路径下。
+* 执行过程中可能出现的异常：
+  * 按照给定的 schema 写入 TsFile，存在乱序时间戳时报错
+  * 非法文件名或目标文件已存在时报错
+  * 查询结果中存在重复列名
+  * 磁盘空间不足
+
+### 3.2 运行示例
+
+以[示例数据](../Reference/Sample-Data.md)中 table1 为例
+
+1. 通过 select 语句将 table1 中的全部数据导出到文件 copysql1.tsfile
+
+```SQL
+IoTDB:database1> copy (select * from table1) to 'copysql1.tsfile'
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+|                                                 path|row_count|device_count|size_in_bytes|table_name|time_column|                  tag_columns|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+|    /iotdb/data/datanode/data/copy_to/copysql1.tsfile|       18|           6|         4636|    table1|       time|[region, plant_id, device_id]|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+Total line number = 1
+It costs 0.336s
+```
+
+2. 通过表名将 table1 中的全部数据导出到文件 copysql2.tsfile
+
+```SQL
+IoTDB:database1> copy table1 to 'copysql2.tsfile'
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+|                                                 path|row_count|device_count|size_in_bytes|table_name|time_column|                  tag_columns|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+|    /iotdb/data/datanode/data/copy_to/copysql2.tsfile|       18|           6|         4636|    table1|       time|[region, plant_id, device_id]|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-----------------------------+
+Total line number = 1
+It costs 0.048s
+```
+
+3. 通过表名(列)的方式将 table1 中的部分数据导出到文件 copysql3.tsfile
+
+```SQL
+IoTDB:database1> copy table1 (device_id,temperature) to 'copysql3.tsfile'
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+|                                                 path|row_count|device_count|size_in_bytes|table_name|   time_column|tag_columns|
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+|    /iotdb/data/datanode/data/copy_to/copysql3.tsfile|       18|           1|          558|    table1|time(auto_gen)|         []|
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+Total line number = 1
+It costs 0.064s
+```
+
+4. 通过 select 语句将 table1 中部分数据的聚合结果导出到文件 copysql4.tsfile
+
+```SQL
+IoTDB:database1> copy (select count(temperature), count(humidity) from table1 group by device_id) to 'copysql4.tsfile'
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+|                                                 path|row_count|device_count|size_in_bytes|table_name|   time_column|tag_columns|
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+|    /iotdb/data/datanode/data/copy_to/copysql4.tsfile|        2|           1|          543|    table1|time(auto_gen)|         []|
++-----------------------------------------------------+---------+------------+-------------+----------+--------------+-----------+
+Total line number = 1
+It costs 0.155s
+```
+
+5. 通过 select 语句将 table1 中的部分数据导出到文件 copysql5.tsfile ，并指定目标表、time列及 tag 列
+
+```SQL
+IoTDB:database1> copy (select time,region,device_id,temperature from table1 order by time) to 'copysql5.tsfile' (TABLE copytable, TIME time, TAGS (region,device_id))
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-------------------+
+|                                                 path|row_count|device_count|size_in_bytes|table_name|time_column|        tag_columns|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-------------------+
+|    /iotdb/data/datanode/data/copy_to/copysql5.tsfile|       18|           4|         1199| copytable|       time|[region, device_id]|
++-----------------------------------------------------+---------+------------+-------------+----------+-----------+-------------------+
+Total line number = 1
+It costs 0.047s
 ```
