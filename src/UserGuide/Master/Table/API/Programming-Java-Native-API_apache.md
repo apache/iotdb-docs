@@ -141,11 +141,19 @@ The `TableSessionBuilder` class is a builder for configuring and creating instan
 
 #### 3.2.2 Parameter Configuration
 
+The following table lists the available configuration options and their default values in the `TableSessionBuilder` class:
+
+Since V2.0.11, `TableSessionBuilder` supports configuring the RPC compression method for Tablets and the encoding method for each data type:
+
+- enableCompression(boolean enableCompression) enables or disables RPC compression;
+- withCompressionType(CompressionType compressionType) specifies the compression method for Tablets;
+- The withXxxEncoding(TSEncoding tsEncoding) methods specify the encoding method for the corresponding data types.
+
 | **Parameter**                                       | **Description**                                              | **Default Value**                                 |
 |-----------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------- |
 | nodeUrls(List\<String> nodeUrls)                    | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("``localhost:6667``")` |
 | username(String username)                           | Sets the username for the connection.                        | `"root"`                                          |
-| password(String password)                           | Sets the password for the connection.                        | `"root"`                                          |
+| password(String password)                           | Sets the password for the connection.                        | `"TimechoDB@2021"` (the default password is `root` before V2.0.6.x) |
 | database(String database)                           | Sets the target database name.                               | `null`                                            |
 | queryTimeoutInMs(long queryTimeoutInMs)             | Sets the query timeout in milliseconds.                      | `60000` (1 minute)                                |
 | fetchSize(int fetchSize)                            | Sets the fetch size for query results.                       | `5000`                                            |
@@ -159,7 +167,19 @@ The `TableSessionBuilder` class is a builder for configuring and creating instan
 | useSSL(boolean useSSL)                              | Enables or disables SSL for secure connections.              | `false`                                           |
 | trustStore(String keyStore)                         | Sets the path to the trust store for SSL connections.        | `null`                                            |
 | trustStorePwd(String keyStorePwd)                   | Sets the password for the SSL trust store.                   | `null`                                            |
-| enableCompression(boolean enableCompression)        | Enables or disables RPC compression for the connection.      | `false`                                           |
+| enableCompression(boolean enableCompression)        | Enables or disables RPC compression for the connection.      | `true`                                            |
+| tabletCompressionMinRowSize(int rowSize)            | Sets the minimum number of Tablet rows required to enable RPC compression. | `10`                                |
+| withCompressionType(CompressionType compressionType) | Sets the compression type for Tablets sent by this session. | `CompressionType.UNCOMPRESSED`                    |
+| withTimeStampEncoding(TSEncoding tsEncoding)        | Sets the encoding for TIMESTAMP values.                      | `TSEncoding.TS_2DIFF`                             |
+| withBooleanEncoding(TSEncoding tsEncoding)          | Sets the encoding for BOOLEAN values.                        | `TSEncoding.RLE`                                  |
+| withInt32Encoding(TSEncoding tsEncoding)            | Sets the encoding for INT32 values.                          | `TSEncoding.TS_2DIFF`                             |
+| withInt64Encoding(TSEncoding tsEncoding)            | Sets the encoding for INT64 values.                          | `TSEncoding.TS_2DIFF`                             |
+| withFloatEncoding(TSEncoding tsEncoding)            | Sets the encoding for FLOAT values.                          | `TSEncoding.GORILLA`                              |
+| withDoubleEncoding(TSEncoding tsEncoding)           | Sets the encoding for DOUBLE values.                         | `TSEncoding.GORILLA`                              |
+| withStringEncoding(TSEncoding tsEncoding)           | Sets the encoding for STRING values.                         | `TSEncoding.PLAIN`                                |
+| withTextEncoding(TSEncoding tsEncoding)             | Sets the encoding for TEXT values.                           | `TSEncoding.PLAIN`                                |
+| withBlobEncoding(TSEncoding tsEncoding)             | Sets the encoding for BLOB values.                           | `TSEncoding.PLAIN`                                |
+| withDateEncoding(TSEncoding tsEncoding)             | Sets the encoding for DATE values.                           | `TSEncoding.TS_2DIFF`                             |
 | connectionTimeoutInMs(int connectionTimeoutInMs)    | Sets the connection timeout in milliseconds.                 | `0` (no timeout)                                  |
 
 #### 3.2.3 Sample Code
@@ -206,7 +226,7 @@ public class TableSessionBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //the default password is root before V2.0.6.x
      */
     public TableSessionBuilder password(String password);
 
@@ -335,6 +355,102 @@ public class TableSessionBuilder {
      * @defaultValue false
      */
     public TableSessionBuilder enableCompression(boolean enableCompression);
+
+    /**
+     * Sets the minimum number of Tablet rows required to enable RPC compression.
+     *
+     * @param tabletCompressionMinRowSize the minimum number of rows.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder tabletCompressionMinRowSize(int tabletCompressionMinRowSize);
+
+    /**
+     * Sets the compression type for tablets sent by this session.
+     *
+     * @param compressionType the compression type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withCompressionType(CompressionType compressionType);
+
+    /**
+     * Sets the encoding type for TIMESTAMP values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withTimeStampEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for BOOLEAN values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withBooleanEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for INT32 values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withInt32Encoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for INT64 values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withInt64Encoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for FLOAT values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withFloatEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for DOUBLE values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withDoubleEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for STRING values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withStringEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for TEXT values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withTextEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for BLOB values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withBlobEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for DATE values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withDateEncoding(TSEncoding tsEncoding);
 
     /**
      * Sets the connection timeout in milliseconds.
