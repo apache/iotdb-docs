@@ -19,34 +19,32 @@
 
 -->
 
-# GROUP BY Clause
+# GROUP BY 子句
 
-## 1. Syntax Overview
+## 1. 语法概览
 
 ```sql
 GROUP BY expression (',' expression)*
 ```
 
-- The `GROUP BY` clause is used to group the result set of a `SELECT` statement based on the specified column values. The values of the grouping columns remain unchanged in the results, while other columns with the same grouping column values are calculated using specified aggregate functions (e.g., `COUNT`, `AVG`).
+- GROUP BY 子句用于将 SELECT 语句的结果集按指定的列值进行分组计算。这些分组列的值在结果中保持原样，其他列中具备相同分组列值的所有记录通过指定的聚合函数（例如 COUNT、AVG）进行计算。
 
 ![](/img/groupby01.png)
 
 
-## 2. Notes
+## 2. 注意事项
 
-#### 2.1 Items in the `SELECT` Clause 
+- 在 SELECT 子句中的项必须包含聚合函数或由出现在 GROUP BY 子句中的列组成。
 
-Items in the `SELECT` clause must either include aggregate functions or consist of columns specified in the `GROUP BY` clause.
-
-Valid Example:
+合法示例：
 
 ```sql
 SELECT concat(device_id, model_id), avg(temperature) 
   FROM table1 
-  GROUP BY device_id, model_id; -- valid
+  GROUP BY device_id, model_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----+-----+
@@ -63,48 +61,46 @@ Total line number = 6
 It costs 0.094s
 ```
 
-Invalid Example 1:
+不合法示例1：
 
 ```sql
 SELECT device_id, temperature  
   FROM table1  
-  GROUP BY device_id;-- invalid
+  GROUP BY device_id;
 ```
 
-Error Message:
+执行结果如下：
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
   'temperature' must be an aggregate expression or appear in GROUP BY clause
 ```
 
-Invalid Example 2:
+不合法示例2：
 
 ```sql
 SELECT device_id, avg(temperature) 
   FROM table1  
-  GROUP BY model; -- invalid
+  GROUP BY model;
 ```
 
-Error Message:
+执行结果如下：
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
   Column 'model' cannot be resolved
 ```
 
-#### 2.2 Without a `GROUP BY` Clause
+- 如果没有 GROUP BY 子句，则 SELECT 子句中的所有项要么都包含聚合函数，要么都不包含聚合函数。
 
-If there is no `GROUP BY` clause, all items in the `SELECT` clause must either include aggregate functions or exclude them entirely.
-
-Valid Example:
+合法示例：
 
 ```sql
 SELECT COUNT(*), avg(temperature) 
-  FROM table1; -- valid
+  FROM table1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----+-----------------+
@@ -116,24 +112,20 @@ Total line number = 1
 It costs 0.094s
 ```
 
-Invalid Example:
+不合法示例：
 
 ```sql
-SELECT humidity, avg(temperature) FROM table1;   -- invalid
+SELECT humidity, avg(temperature) FROM table1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: 
   'humidity' must be an aggregate expression or appear in GROUP BY clause
 ```
 
-#### 2.3 Using Constant Integers in `GROUP BY` Clause
-
-The `GROUP BY` clause supports referencing `SELECT` items using constant integers starting from 1. If the constant is less than 1 or exceeds the size of the `SELECT` item list, an error will occur.
-
-Example:
+- group by子句可以使用从 1 开始的常量整数来引用 SELECT 子句中的项，如果常量整数小于1或大于选择项列表的大小，则会抛出错误。
 
 ```sql
 SELECT date_bin(1h, time), device_id, avg(temperature)
@@ -142,7 +134,7 @@ SELECT date_bin(1h, time), device_id, avg(temperature)
   GROUP BY 1, device_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----------------------------+---------+-----+
@@ -158,11 +150,7 @@ Total line number = 5
 It costs 0.092s
 ```
 
-#### 2.4 Alias Restrictions in `GROUP BY` Clause 
-
-Aliases from `SELECT` items cannot be used in the `GROUP BY` clause. Use the original expression instead.
-
-Example:
+- 在 V2.0.11 之前的版本中，不支持在 group by 子句中使用 select item 的别名，需要使用完整的表达式（或 select item 的常量序号）代替，如下 SQL 所示：
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
@@ -171,7 +159,7 @@ SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
   GROUP BY date_bin(1h, time), device_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----------------------------+---------+-----+
@@ -187,17 +175,71 @@ Total line number = 5
 It costs 0.092s
 ```
 
-#### 2.5 Using Aggregate Functions with `\*` 
+- 自 V2.0.11 起，GROUP BY 子句支持引用 SELECT 子句中显式定义的别名。
+  - 该能力仅适用于直接引用别名本身的场景；带表名前缀的名称（例如 GROUP BY table1.hour_time）不按 SELECT 别名展开，仍按普通表达式解析。
+  - GROUP BY 中引用的名称会优先解析为当前查询的输入列；只有无法解析为输入列时，才会继续解析为 SELECT 别名。如果 SELECT 列表中存在多个同名别名，引用该别名时会抛出歧义错误。
+  - GROUP BY 别名解析后，仍然执行已有的 GROUP BY 校验规则。例如，分组键不能包含聚合函数、窗口函数或 grouping 函数。
 
-Only the `COUNT` function can be used with `*` to calculate the total number of rows. Using `*` with other aggregate functions will result in an error.
+合法示例：
 
-Example:
+```sql
+SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
+  GROUP BY hour_time, device_id;
+```
+
+执行结果如下：
+
+```sql
++-----------------------------+---------+-----+
+|                    hour_time|device_id|_col2|
++-----------------------------+---------+-----+
+|2024-11-28T08:00:00.000+08:00|      100| 85.0|
+|2024-11-28T09:00:00.000+08:00|      100| null|
+|2024-11-28T10:00:00.000+08:00|      100| 85.0|
+|2024-11-28T11:00:00.000+08:00|      100| 88.0|
+|2024-11-27T16:00:00.000+08:00|      101| 85.0|
++-----------------------------+---------+-----+
+Total line number = 5
+It costs 0.228s
+```
+
+不合法示例1:同一语句中包含同名别名
+
+```sql
+SELECT temperature AS value, humidity AS value
+  FROM table1
+  GROUP BY value;
+```
+
+执行结果如下：
+
+```sql
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Column alias 'value' is ambiguous at positions 1, 2
+```
+
+不合法示例2：分组键包含聚合函数
+
+```sql
+SELECT AVG(temperature) AS avg_temperature
+  FROM table1
+  GROUP BY avg_temperature;
+```
+
+执行结果如下：
+
+```sql
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: GROUP BY clause cannot contain aggregations, window functions or grouping operations: [AVG(temperature)]
+```
+
+- 只有 COUNT 函数可以与星号（*）一起使用，用于计算表中的总行数。其他聚合函数与`*`一起使用，将抛出错误。
 
 ```sql
 SELECT count(*) FROM table1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----+
@@ -209,13 +251,13 @@ Total line number = 1
 It costs 0.047s
 ```
 
-## 3. Sample Data and Usage Examples
+## 3. 示例数据
 
-The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
+在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
-#### Example 1: Downsampling Time-Series Data
+#### 示例 1：降采样时间序列数据
 
-Downsample the temperature of device `101` over the specified time range, returning one average temperature per hour:
+对设备 101 下述时间范围的温度进行降采样，每小时返回一个平均温度。
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
@@ -225,7 +267,17 @@ SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
   GROUP BY 1;
 ```
 
-Result:
+自 V2.0.11 起，GROUP BY 项可以直接引用 SELECT 子句中显式定义的别名，因此上述 SQL 可以写为
+
+```sql
+SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-30 00:00:00
+  AND device_id='101'
+  GROUP BY hour_time;
+```
+
+执行结果如下：
 
 ```sql
 +-----------------------------+---------------+
@@ -238,7 +290,7 @@ Total line number = 2
 It costs 0.054s
 ```
 
-Downsample the temperature of all devices over the past day, returning one average temperature per hour for each device:
+对每个设备过去一天的温度进行降采样，每小时返回一个平均温度。
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, device_id, AVG(temperature) AS avg_temperature
@@ -247,7 +299,7 @@ SELECT date_bin(1h, time) AS hour_time, device_id, AVG(temperature) AS avg_tempe
   GROUP BY 1, device_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----------------------------+---------+---------------+
@@ -266,10 +318,9 @@ Total line number = 8
 It costs 0.081s
 ```
 
+有关date_bin函数的更多详细信息可以参见 [date_bin （时间分桶规整）函数](../SQL-Manual/Featured-Functions.md#_1-1-降采样函数)功能定义
 
-For more details on the `date_bin` function, refer to the **[Definition of Date Bin (Time Bucketing)](../SQL-Manual/Featured-Functions.md#_1-1-date-bin-function)** feature documentation.
-
-#### Example 2: Query the Latest Data Point for Each Device
+#### 示例 2：查询每个设备的最新数据点
 
 ```sql
 SELECT device_id, LAST(temperature), LAST_BY(time, temperature)
@@ -277,7 +328,7 @@ SELECT device_id, LAST(temperature), LAST_BY(time, temperature)
   GROUP BY device_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +---------+-----+-----------------------------+
@@ -290,15 +341,15 @@ Total line number = 2
 It costs 0.078s
 ```
 
-#### Example 3: Count Total Rows
+#### 示例 3：计算总行数
 
-Count the total number of rows for all devices:
+计算所有设备的总行数：
 
 ```sql
 SELECT COUNT(*) FROM table1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----+
@@ -310,7 +361,7 @@ Total line number = 1
 It costs 0.060s
 ```
 
-Count the total number of rows for each device:
+计算每个设备的总行数：
 
 ```sql
 SELECT device_id, COUNT(*) AS total_rows
@@ -318,7 +369,7 @@ SELECT device_id, COUNT(*) AS total_rows
   GROUP BY device_id;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +---------+----------+
@@ -331,16 +382,16 @@ Total line number = 2
 It costs 0.060s
 ```
 
-#### Example 4: Aggregate without a `GROUP BY` Clause
+#### 示例 4：没有 group by 子句的聚合
 
-Query the maximum temperature across all devices:
+查询所有设备中的最大温度：
 
 ```sql
 SELECT MAX(temperature)
 FROM table1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +-----+
@@ -352,9 +403,9 @@ Total line number = 1
 It costs 0.086s
 ```
 
-#### Example 5: Aggregate Results from a Subquery
+#### 示例 5：对子查询的结果进行聚合
 
-Query the combinations of plants and devices where the average temperature exceeds 80.0 over a specified time range and has at least two records:
+查询在指定时间段内平均温度超过 80.0 且至少有两次记录的设备和工厂组合：
 
 ```sql
 SELECT plant_id, device_id 
@@ -367,7 +418,7 @@ GROUP BY plant_id, device_id
 HAVING COUNT(*) > 1;
 ```
 
-Result:
+执行结果如下：
 
 ```sql
 +--------+---------+

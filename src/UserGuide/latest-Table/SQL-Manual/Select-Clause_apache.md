@@ -119,7 +119,7 @@ It costs 0.653s
 
 #### 3.1.2 Aggregate Functions
 
-Aggregate functions summarize multiple rows into a single value. When aggregate functions are present in the `SELECT` clause, the query is treated as an **aggregate query**. All expressions in the query must either be part of an aggregate function or specified in the [GROUP BY clause](../SQL-Manual/GroupBy-Clause.md).
+Aggregate functions summarize multiple rows into a single value. When aggregate functions are present in the `SELECT` clause, the query is treated as an **aggregate query**. All expressions in the query must either be part of an aggregate function or specified in the [GROUP BY clause](../SQL-Manual/GroupBy-Clause_apache.md).
 
 **Example 1**: Total number of rows in a table.
 

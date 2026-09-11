@@ -37,6 +37,7 @@ fillClause
 fillMethod
     : LINEAR timeColumnClause? fillGroupClause?                           #linearFill
     | PREVIOUS timeBoundClause? timeColumnClause? fillGroupClause?        #previousFill
+    | NEXT timeBoundClause? timeColumnClause? fillGroupClause?            #nextFill
     | CONSTANT literalExpression                                          #valueFill
     ;
 
@@ -62,28 +63,30 @@ intervalField
 
 ### 2.1 填充方式
 
-IoTDB 支持以下三种空值填充方式：
+IoTDB 支持以下四种空值填充方式：
 
-1. **`PREVIOUS`填充**：使用该列前一个非空值进行填充，V2.0.8 版本起仅该方式支持支持 OBJECT 类型。
-2. **`LINEAR`填充**：使用该列前一个非空值和下一个非空值的线性插值进行填充。
-3. **`Constant`填充**：使用指定的常量值进行填充。
+1. **`PREVIOUS` 填充**：使用该列前一个非空值进行填充。
+2. **`NEXT` 填充**：使用该列后一个非空值进行填充。
+3. **`LINEAR` 填充**：使用该列前一个非空值和下一个非空值的线性插值进行填充。
+4. **`CONSTANT` 填充**：使用指定的常量值进行填充。
 
 只能指定一种填充方法，且该方法会作用于结果集的全部列。
 
 ### 2.2 数据类型与支持的填充方法
 
-| Data Type | Previous | Linear | Constant |
-| :-------- | :------- | :----- | :------- |
-| boolean   | √        | -      | √        |
-| int32     | √        | √      | √        |
-| int64     | √        | √      | √        |
-| float     | √        | √      | √        |
-| double    | √        | √      | √        |
-| text      | √        | -      | √        |
-| string    | √        | -      | √        |
-| blob      | √        | -      | √        |
-| timestamp | √        | √      | √        |
-| date      | √        | √      | √        |
+| Data Type | Previous | Next | Linear | Constant |
+| :-------- | :------- | :--- | :----- | :------- |
+| boolean   | √        | √    | -      | √        |
+| int32     | √        | √    | √      | √        |
+| int64     | √        | √    | √      | √        |
+| float     | √        | √    | √      | √        |
+| double    | √        | √    | √      | √        |
+| text      | √        | √    | -      | √        |
+| string    | √        | √    | -      | √        |
+| blob      | √        | √    | -      | √        |
+| timestamp | √        | √    | √      | √        |
+| date      | √        | √    | √      | √        |
+| OBJECT    | √        | √    | -      | -        |
 
 注意：对于数据类型不支持指定填充方法的列，既不进行填充，也不抛出异常，只是保持原样。
 
@@ -173,7 +176,7 @@ SELECT time, temperature, status
   FROM table1 
   WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
       AND plant_id='1001' and device_id='101'
-  FILL METHOD PREVIOUS        1m TIME_COLUMN 1;
+  FILL METHOD PREVIOUS TIME_BOUND 1m TIME_COLUMN 1;
 ```
 
 查询结果：
@@ -194,23 +197,132 @@ Total line number = 7
 It costs 0.075s
 ```
 
-### 3.2 LINEAR 填充
+### 3.2 NEXT 填充
+
+对于查询结果集中的空值，使用该列的后一个非空值进行填充。（自 V2.0.11 起支持）
+
+#### 3.2.1 参数介绍
+
+- **TIME_BOUND（可选）**：向后查看的时间阈值。如果当前空值的时间戳与后一个非空值的时间戳之间的间隔超过了此阈值，则不会进行填充。如果指定了该参数，系统会自动选取 `SELECT` 子句中第一个返回值类型为 `TIMESTAMP` 的列作为判断是否超过阈值的时间列。
+- **FILL_GROUP（可选）**：指定分组列，填充只会发生在同一分组内。如果指定了该参数，系统会自动选取 `SELECT` 子句中第一个返回值类型为 `TIMESTAMP` 的列作为组内排序的时间列。
+- **TIME_COLUMN（可选）**：若需手动指定用于判断时间阈值的 `TIMESTAMP` 列，可通过在 `TIME_COLUMN` 参数后指定数字（从 1 开始）来确定该列在 `SELECT` 列表中的位置。
+
+**注意：**
+
+- 如果没有指定 `TIME_BOUND` 或 `FILL_GROUP` 参数，但指定了 `TIME_COLUMN`，系统将抛出语法错误。
+- 如果指定了 `TIME_BOUND` 或 `FILL_GROUP` 参数，但没有指定 `TIME_COLUMN`，且 `SELECT` 子句中不存在 `TIMESTAMP` 类型的列，系统将抛出异常。
+- 如果指定的 `TIME_COLUMN` 列不是 `TIMESTAMP` 类型，或指定的位置不在 `SELECT` 列表范围内，系统将抛出异常。
+
+#### 3.2.2 示例
+
+不使用任何填充方法：
+
+```sql
+SELECT time, temperature, status
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00 and time <= 2024-11-29 00:00:00
+    AND plant_id='1001' and device_id='101';
+```
+
+查询结果：
+
+```sql
++-----------------------------+-----------+------+
+|                         time|temperature|status|
++-----------------------------+-----------+------+
+|2024-11-27T16:38:00.000+08:00|       null|  true|
+|2024-11-27T16:39:00.000+08:00|       85.0|  null|
+|2024-11-27T16:40:00.000+08:00|       85.0|  null|
+|2024-11-27T16:41:00.000+08:00|       85.0|  null|
+|2024-11-27T16:42:00.000+08:00|       null| false|
+|2024-11-27T16:43:00.000+08:00|       null| false|
+|2024-11-27T16:44:00.000+08:00|       null| false|
++-----------------------------+-----------+------+
+Total line number = 7
+It costs 0.061s
+```
+
+使用 `NEXT` 填充方法（结果将使用后一个非空值填充 NULL 值）：
+
+```sql
+SELECT time, temperature, status
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00 and time <= 2024-11-29 00:00:00
+    AND plant_id='1001' and device_id='101'
+  FILL METHOD NEXT;
+```
+
+查询结果：
+
+```sql
++-----------------------------+-----------+------+
+|                         time|temperature|status|
++-----------------------------+-----------+------+
+|2024-11-27T16:38:00.000+08:00|       85.0|  true|
+|2024-11-27T16:39:00.000+08:00|       85.0| false|
+|2024-11-27T16:40:00.000+08:00|       85.0| false|
+|2024-11-27T16:41:00.000+08:00|       85.0| false|
+|2024-11-27T16:42:00.000+08:00|       null| false|
+|2024-11-27T16:43:00.000+08:00|       null| false|
+|2024-11-27T16:44:00.000+08:00|       null| false|
++-----------------------------+-----------+------+
+Total line number = 7
+It costs 0.033s
+```
+
+使用 `NEXT` 填充方法（指定时间阈值）：
+
+```sql
+-- 不指定时间列
+SELECT time, temperature, status
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00 and time <= 2024-11-29 00:00:00
+    AND plant_id='1001' and device_id='101'
+  FILL METHOD NEXT TIME_BOUND 1m;
+
+-- 手动指定时间列
+SELECT time, temperature, status
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00 and time <= 2024-11-29 00:00:00
+    AND plant_id='1001' and device_id='101'
+  FILL METHOD NEXT TIME_BOUND 1m TIME_COLUMN 1;
+```
+
+查询结果：
+
+```sql
++-----------------------------+-----------+------+
+|                         time|temperature|status|
++-----------------------------+-----------+------+
+|2024-11-27T16:38:00.000+08:00|       85.0|  true|
+|2024-11-27T16:39:00.000+08:00|       85.0|  null|
+|2024-11-27T16:40:00.000+08:00|       85.0|  null|
+|2024-11-27T16:41:00.000+08:00|       85.0| false|
+|2024-11-27T16:42:00.000+08:00|       null| false|
+|2024-11-27T16:43:00.000+08:00|       null| false|
+|2024-11-27T16:44:00.000+08:00|       null| false|
++-----------------------------+-----------+------+
+Total line number = 7
+It costs 0.047s
+```
+
+### 3.3 LINEAR 填充
 
 对于查询结果集中的空值，用该列的前一个非空值和后一个非空值的线性插值填充。
 
-#### 3.2.1 线性填充规则：
+#### 3.3.1 线性填充规则：
 
 - 如果之前都是空值，或者之后都是空值，则不进行填充。
 - 如果列的数据类型是 boolean/string/blob/text，则不会进行填充，也不会抛出异常。
 - 若没有指定时间列，默认选择 SELECT 子句中第一个数据类型为 TIMESTAMP 类型的列作为辅助时间列进行线性插值。如果不存在数据类型为TIMESTAMP的列，系统将抛出异常。
 
-#### 3.2.2 参数介绍：
+#### 3.3.2 参数介绍：
 
 - TIME_COLUMN（可选）：可以通过在`TIME_COLUMN`参数后指定数字（从1开始）来手动指定用于判断时间阈值的`TIMESTAMP`列，作为线性插值的辅助列，该数字代表原始表中`TIMESTAMP`列的具体位置。
 
 注意：不强制要求线性插值的辅助列一定是 time 列，任何类型为 TIMESTAMP 的表达式都可以，不过因为线性插值只有在辅助列是升序或者降序的时候，才有意义，所以用户如果指定了其他的列，需要自行保证结果集是按照那一列升序或降序排列的。
 
-#### 3.2.3 示例
+#### 3.3.3 示例
 
 ```sql
 SELECT time, temperature, status 
@@ -238,16 +350,16 @@ Total line number = 7
 It costs 0.053s
 ```
 
-### 3.3 Constant 填充：
+### 3.4 CONSTANT 填充
 
 对于查询结果集中的空值，使用指定的常量进行填充。
 
-#### 3.3.1 常量填充规则：
+#### 3.4.1 常量填充规则：
 
 - 若数据类型与输入的常量不匹配，IoTDB 不会填充查询结果，也不会抛出异常。
 - 若插入的常量值超出了其数据类型所能表示的最大值，IoTDB 不会填充查询结果，也不会抛出异常。
 
-#### 3.3.2 示例
+#### 3.4.2 示例
 
 使用`FLOAT`常量填充时，SQL 语句如下所示：
 
@@ -307,7 +419,7 @@ It costs 0.073s
 
 ## 4. 高阶用法
 
-使用 `PREVIOUS` 和 `LINEAR` FILL 时，还支持额外的 `FILL_GROUP` 参数，来进行分组内填充。
+使用 `PREVIOUS`、`NEXT` 和 `LINEAR` FILL 时，还支持额外的 `FILL_GROUP` 参数，来进行分组内填充。
 
 在使用 group by 子句 + fill 时，想在分组内进行填充，而不受其他分组的影响。
 
@@ -399,7 +511,7 @@ It costs 0.089s
 
 ## 5. 特别说明
 
-在使用 `LINEAR FILL` 或 `PREVIOUS FILL` 时，如果辅助时间列（用于确定填充逻辑的时间列）中存在 NULL 值，IoTDB 将遵循以下规则：
+在使用 `LINEAR FILL`、`PREVIOUS FILL` 或 `NEXT FILL` 时，如果辅助时间列（用于确定填充逻辑的时间列）中存在 NULL 值，IoTDB 将遵循以下规则：
 
 - 不对辅助时间列为 NULL 的行进行填充。
 - 这些行也不会参与到填充逻辑的计算中。
@@ -462,5 +574,5 @@ It costs 0.049s
 填充结果详情：
 
 - 16:39、16:42、16:43 的 humidity 列，由于辅助列 arrival_time 为 NULL，所以不进行填充。
-- 16:40 的 humidity 列，由于辅助列 arrival_time 非 NULL ，为 `1970-01-01T08:00:00.003+08:00`且与前一个非 NULL 值 `1970-01-01T08:00:00.001+08:00`的时间差未超过 2ms，因此使用第一行 s1 的值 1 进行填充。
+- 16:40 的 humidity 列，由于辅助列 arrival_time 非 NULL ，为 `1970-01-01T08:00:00.003+08:00`且与前一个非 NULL 值 `1970-01-01T08:00:00.001+08:00`的时间差未超过 2ms，因此使用第一行 humidity 的值 35.1 进行填充。
 - 16:41 的 humidity 列，尽管 arrival_time 非 NULL，但与前一个非 NULL 值的时间差超过 2ms，因此不进行填充。第七行同理。

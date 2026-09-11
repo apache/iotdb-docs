@@ -19,9 +19,9 @@
 
 -->
 
-# ORDER BY 子句
+# ORDER BY Clause
 
-## 1. 语法概览
+## 1. Syntax Overview
 
 ```sql
 ORDER BY sortItem (',' sortItem)*
@@ -31,18 +31,19 @@ sortItem
     ;
 ```
 
-### 1.1 ORDER BY 子句
+### 1.1 ORDER BY Clause
 
-- 用于在查询的最后阶段对结果集进行排序，能够根据指定的排序条件，将查询结果中的行按照升序（ASC）或降序（DESC）进行排列。
-- 提供了对 NULL 值排序位置的控制，允许用户指定 NULL 值是排在结果的开头（NULLS FIRST）还是结尾（NULLS LAST）。
-- 默认情况下， 将采用 ASC  NULLS LAST排序，即值按升序排序，空值放在最后。可以通过手动指定其他参数更改默认排序顺序。
-- ORDER BY 子句的执行顺序排在 LIMIT 或 OFFSET 子句之前。
+- Used to sort the result set at the final stage of a query. Based on the specified sorting conditions, the rows in the query result can be arranged in ascending (ASC) or descending (DESC) order.
+- Provides control over the sorting position of NULL values, allowing users to specify whether NULL values are placed at the beginning (NULLS FIRST) or the end (NULLS LAST) of the result.
+- By default, `ASC NULLS LAST` is used, i.e., values are sorted in ascending order with NULL values placed last. The default sorting order can be changed by manually specifying other parameters.
+- The ORDER BY clause is executed before the LIMIT or OFFSET clause.
+- Since V2.0.11, the ORDER BY clause supports referencing aliases explicitly defined in the SELECT clause. When a name is directly referenced in ORDER BY, it is first resolved as a SELECT output alias; if multiple aliases with the same name exist in the SELECT list, an ambiguity error will be thrown when referencing that alias.
 
-## 2. 示例数据
+## 2. Sample Dataset
 
-在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+The [Example Data page](../Reference/Sample-Data.md) provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
-#### 示例 1: 按时间降序查询过去一小时的数据
+#### Example 1: Query Data of the Past Hour Sorted by Time in Descending Order
 
 ```sql
 SELECT *
@@ -51,7 +52,7 @@ SELECT *
   ORDER BY time DESC;
 ```
 
-执行结果如下：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -73,7 +74,7 @@ Total line number = 11
 It costs 0.148s
 ```
 
-#### 示例 2: 按 `device_id` 升序和时间降序查询所有设备过去一小时的数据，空 `temperature` 优先显示
+#### Example 2: Query Data of All Devices Sorted by device_id in Ascending Order and Time in Descending Order, with NULL temperature Displayed First
 
 ```sql
 SELECT *
@@ -82,7 +83,7 @@ SELECT *
   ORDER BY temperature NULLS FIRST, time DESC;
 ```
 
-执行结果如下：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -104,7 +105,7 @@ Total line number = 11
 It costs 0.060s
 ```
 
-#### 示例 3: 查询温度最高的前10行数据
+#### Example 3: Query the Top 10 Rows with the Highest Temperature
 
 ```sql
 SELECT *
@@ -113,7 +114,7 @@ SELECT *
   LIMIT 10;
 ```
 
-执行结果如下：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -132,4 +133,33 @@ SELECT *
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 Total line number = 10
 It costs 0.069s
+```
+
+#### Example 4: Aggregate by Time Bucket and Sort by Alias (via SELECT Alias)
+
+```sql
+SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
+  FROM table1
+  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-30 00:00:00
+  GROUP BY hour_time
+  ORDER BY hour_time;
+```
+
+Results:
+
+```sql
++-----------------------------+---------------+
+|                    hour_time|avg_temperature|
++-----------------------------+---------------+
+|2024-11-27T16:00:00.000+08:00|           85.0|
+|2024-11-28T08:00:00.000+08:00|           85.0|
+|2024-11-28T09:00:00.000+08:00|           null|
+|2024-11-28T10:00:00.000+08:00|           85.0|
+|2024-11-28T11:00:00.000+08:00|           88.0|
+|2024-11-29T10:00:00.000+08:00|           85.0|
+|2024-11-29T11:00:00.000+08:00|           null|
+|2024-11-29T18:00:00.000+08:00|           90.0|
++-----------------------------+---------------+
+Total line number = 8
+It costs 0.079s
 ```
