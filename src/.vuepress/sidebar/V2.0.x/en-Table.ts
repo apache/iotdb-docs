@@ -129,7 +129,7 @@ export const enSidebar = {
           text: 'System Maintenance',
           collapsible: true,
           children: [
-            { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
+            { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis_apache' },
             { text: 'Cluster Maintenance', link: 'Load-Balance_apache' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_apache' },
             { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_apache' },

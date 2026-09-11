@@ -494,7 +494,7 @@ IoTDB> KILL ALL QUERIES; -- teminate all query
 EXPLAIN <SELECT_STATEMENT>
 ```
 
-Detailed syntax reference: [EXPLAIN STATEMENT](../User-Manual/Query-Performance-Analysis.md#_1-explain-statement)
+Detailed syntax reference: [EXPLAIN STATEMENT](../User-Manual/Query-Performance-Analysis_apache.md#_2-explain)
 
 **Example:**
 
@@ -543,7 +543,7 @@ IoTDB> explain select * from t1
 EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 ```
 
-Detailed syntax reference: [EXPLAIN ANALYZE STATEMENT](../User-Manual/Query-Performance-Analysis.md#_2-explain-analyze-statement)
+Detailed syntax reference: [EXPLAIN ANALYZE STATEMENT](../User-Manual/Query-Performance-Analysis_apache.md#_3-explain-analyze)
 
 **Example:**
 

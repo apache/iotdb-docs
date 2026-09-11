@@ -129,7 +129,7 @@ export const zhSidebar = {
           text: '系统运维',
           collapsible: true,
           children: [
-            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '查询性能分析', link: 'Query-Performance-Analysis_apache' },
             { text: '集群维护', link: 'Load-Balance_apache' },
             { text: '运维语句', link: 'Maintenance-statement_apache' },
             { text: '开机自启', link: 'Auto-Start-On-Boot_apache' },
