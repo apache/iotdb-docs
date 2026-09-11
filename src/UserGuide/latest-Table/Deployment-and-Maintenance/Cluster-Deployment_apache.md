@@ -29,7 +29,7 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 ## 1. Prerequisites
 
-1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
+1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements_apache.md).
 
 2. **IP Configuration**: It is recommended to use hostnames for IP configuration to prevent issues caused by IP address changes. Set the hostname by editing the `/etc/hosts` file. For example, if the local IP is `192.168.1.3` and the hostname is `iotdb-1`, run:
 
@@ -55,7 +55,7 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
-2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
+2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements_apache.md)）
 
 
 ### 2.1 Pre-installation Check

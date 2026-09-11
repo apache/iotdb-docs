@@ -146,11 +146,17 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 
 以下是TableSessionBuilder类中可用的配置选项及其默认值：
 
+自 V2.0.11 起，TableSessionBuilder 支持配置 Tablet 的 RPC 压缩方式及各数据类型的编码方式：
+
+- enableCompression(boolean enableCompression) 用于开启或关闭 RPC 压缩；
+- withCompressionType(CompressionType compressionType) 用于指定 Tablet 的压缩方式；
+- 各 withXxxEncoding(TSEncoding tsEncoding) 方法用于指定对应数据类型的编码方式。
+
 | **配置项**                                           | **描述**                                 | **默认值**                                  |
 | ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
 | nodeUrls(List`<String>` nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
 | username(String username)                            | 设置连接的用户名                         | "root"                                      |
-| password(String password)                            | 设置连接的密码                           | "root"                                      |
+| password(String password)                            | 设置连接的密码                           | "TimechoDB@2021"（V2.0.6.x 之前默认密码是 root） |
 | database(String database)                            | 设置目标数据库名称                       | null                                        |
 | queryTimeoutInMs(long queryTimeoutInMs)              | 设置查询超时时间（毫秒）                 | 60000（1分钟）                              |
 | fetchSize(int fetchSize)                             | 设置查询结果的获取大小                   | 5000                                        |
@@ -164,7 +170,19 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 | useSSL(boolean useSSL)                               | 是否启用SSL安全连接                      | false                                       |
 | trustStore(String keyStore)                          | 设置SSL连接的信任库路径                  | null                                        |
 | trustStorePwd(String keyStorePwd)                    | 设置SSL连接的信任库密码                  | null                                        |
-| enableCompression(boolean enableCompression)         | 是否启用RPC压缩                          | false                                       |
+| enableCompression(boolean enableCompression)         | 是否启用RPC压缩                          | true                                        |
+| tabletCompressionMinRowSize(int rowSize)             | 启用 RPC 压缩所需的最小 Tablet 行数      | 10                                          |
+| withCompressionType(CompressionType compressionType) | 设置该Session发送的Tablet所使用的压缩方式 | CompressionType.UNCOMPRESSED               |
+| withTimeStampEncoding(TSEncoding tsEncoding)         | 设置TIMESTAMP类型的编码方式              | TSEncoding.TS_2DIFF                         |
+| withBooleanEncoding(TSEncoding tsEncoding)           | 设置BOOLEAN类型的编码方式                | TSEncoding.RLE                              |
+| withInt32Encoding(TSEncoding tsEncoding)             | 设置INT32类型的编码方式                  | TSEncoding.TS_2DIFF                         |
+| withInt64Encoding(TSEncoding tsEncoding)             | 设置INT64类型的编码方式                  | TSEncoding.TS_2DIFF                         |
+| withFloatEncoding(TSEncoding tsEncoding)             | 设置FLOAT类型的编码方式                  | TSEncoding.GORILLA                          |
+| withDoubleEncoding(TSEncoding tsEncoding)            | 设置DOUBLE类型的编码方式                 | TSEncoding.GORILLA                          |
+| withStringEncoding(TSEncoding tsEncoding)            | 设置STRING类型的编码方式                 | TSEncoding.PLAIN                            |
+| withTextEncoding(TSEncoding tsEncoding)              | 设置TEXT类型的编码方式                   | TSEncoding.PLAIN                            |
+| withBlobEncoding(TSEncoding tsEncoding)              | 设置BLOB类型的编码方式                   | TSEncoding.PLAIN                            |
+| withDateEncoding(TSEncoding tsEncoding)              | 设置DATE类型的编码方式                   | TSEncoding.TS_2DIFF                         |
 | connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                 |
 
 #### 3.2.3 接口展示
@@ -211,7 +229,7 @@ public class TableSessionBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //V2.0.6.x 之前默认密码是root
      */
     public TableSessionBuilder password(String password);
 
@@ -340,6 +358,102 @@ public class TableSessionBuilder {
      * @defaultValue false
      */
     public TableSessionBuilder enableCompression(boolean enableCompression);
+
+    /**
+     * Sets the minimum number of Tablet rows required to enable RPC compression.
+     *
+     * @param tabletCompressionMinRowSize the minimum number of rows.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder tabletCompressionMinRowSize(int tabletCompressionMinRowSize);
+
+    /**
+     * Sets the compression type for tablets sent by this session.
+     *
+     * @param compressionType the compression type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withCompressionType(CompressionType compressionType);
+
+    /**
+     * Sets the encoding type for TIMESTAMP values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withTimeStampEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for BOOLEAN values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withBooleanEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for INT32 values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withInt32Encoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for INT64 values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withInt64Encoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for FLOAT values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withFloatEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for DOUBLE values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withDoubleEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for STRING values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withStringEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for TEXT values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withTextEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for BLOB values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withBlobEncoding(TSEncoding tsEncoding);
+
+    /**
+     * Sets the encoding type for DATE values.
+     *
+     * @param tsEncoding the encoding type.
+     * @return the current {@link TableSessionBuilder} instance.
+     */
+    public TableSessionBuilder withDateEncoding(TSEncoding tsEncoding);
 
     /**
      * Sets the connection timeout in milliseconds.

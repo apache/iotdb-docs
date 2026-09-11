@@ -822,9 +822,51 @@ localOrClusterMode
 IoTDB> STOP REPAIR DATA ON CLUSTER;
 ```
 
-## 5. Query Termination
+## 5. Replica Repair
 
-### 5.1 Terminating Queries
+> Since V2.0.11, this feature supports passing in a regionId list to process multiple regions at once.
+
+### 5.1 Manual Scale-Out
+
+**Description**: Extends the specified Regions to the specified DataNode.
+
+**Syntax**:
+
+```SQL
+extendRegionStatement
+    : EXTEND REGION <region_id>(, <region_id>)* TO <data_node_id>
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> EXTEND REGION 1,2,3 TO 3;
+```
+
+### 5.2 Manual Scale-In
+
+**Description**: Removes the specified Regions from the specified DataNode.
+
+> Note: Manual scale-in can reduce the number of replicas to 1 at most, and cannot reduce it to 0.
+
+**Syntax**:
+
+```SQL
+removeRegionStatement
+    : REMOVE REGION <region_id>(, <region_id>)* FROM <data_node_id>
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> REMOVE REGION 1,2,3 FROM 2;
+```
+
+## 6. Query Termination
+
+### 6.1 Terminating Queries
 
 **Description**: Terminates one or more running queries.
 
@@ -858,8 +900,9 @@ Terminate all queries:
 IoTDB> KILL ALL QUERIES;
 ```
 
-## 6. Query Debugging
-### 6.1 DEBUG SQL
+## 7. Query Debugging
+
+### 7.1 DEBUG SQL
 
 **Definition**: Add the `DEBUG` keyword at the beginning of an SQL query statement. During execution, debug logs will be output, including the underlying file scan information involved in the query.
 

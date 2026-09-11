@@ -62,7 +62,7 @@ export const enSidebar = {
               { text: 'Deployment form', link: 'Deployment-form_apache' },
               { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
               { text: 'Database Resources', link: 'Database-Resources' },
-              { text: 'Environment Requirements', link: 'Environment-Requirements' },
+              { text: 'Environment Requirements', link: 'Environment-Requirements_apache' },
             ],
           },
           {
@@ -102,6 +102,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'Repair Data Partition Table', link: 'Repair-Data-Partition_apache' },
           ],
         },
       ],
@@ -186,11 +187,11 @@ export const enSidebar = {
         { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
         { text: 'C Native API', link: 'Programming-C-Native-API_apache' },
-        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
+        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_apache' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API_apache' },
-        { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
+        { text: 'Rust Native API', link: 'Programming-Rust-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_apache' },
         {
@@ -294,18 +295,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Reference/',
       children: [
-        {
-          text: 'Config Manual',
-          collapsible: true,
-          children: [
-            { text: 'Common Config Manual', link: 'Common-Config-Manual' },
-            {
-              text: 'ConfigNode Config Manual',
-              link: 'ConfigNode-Config-Manual',
-            },
-            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
-          ],
-        },
+        { text: 'Config Manual', link: 'System-Config-Manual_apache' },
         { text: 'Status Codes', link: 'Status-Codes' },
       ],
     },

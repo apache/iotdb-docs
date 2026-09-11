@@ -126,7 +126,7 @@ It costs 0.004s
     参考 [ Python 数据操作接口（DML）](../API/Programming-Python-Native-API_apache#数据写入)
 
 * ### C++ 
-    参考 [ C++ 数据操作接口（DML）](../API/Programming-Cpp-Native-API.md)
+参考 [ C++ 数据操作接口（DML）](../API/Programming-Cpp-Native-API_apache.md)
 
 * ### Go
     参考 [Go 原生接口](../API/Programming-Go-Native-API.md)

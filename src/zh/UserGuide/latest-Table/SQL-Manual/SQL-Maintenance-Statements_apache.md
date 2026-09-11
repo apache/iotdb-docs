@@ -493,7 +493,7 @@ IoTDB> KILL ALL QUERIES; -- 终止所有query
 EXPLAIN <SELECT_STATEMENT>
 ```
 
-更多详细语法说明请参考：[EXPLAIN 语句](../User-Manual/Query-Performance-Analysis.md#_1-explain-语句)
+更多详细语法说明请参考：[EXPLAIN 语句](../User-Manual/Query-Performance-Analysis_apache.md#_2-explain)
 
 **示例：**
 
@@ -542,7 +542,7 @@ IoTDB> explain select * from t1
 EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 ```
 
-更多详细语法说明请参考：[EXPLAIN ANALYZE 语句](../User-Manual/Query-Performance-Analysis.md#_2-explain-analyze-语句)
+更多详细语法说明请参考：[EXPLAIN ANALYZE 语句](../User-Manual/Query-Performance-Analysis_apache.md#_3-explain-analyze)
 
 **示例：**
 

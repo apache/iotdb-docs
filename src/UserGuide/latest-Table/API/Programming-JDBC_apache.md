@@ -28,7 +28,7 @@ The IoTDB JDBC provides a standardized way to interact with the IoTDB database, 
 
 ### 1.1 **Environment Requirements**
 
-- **JDK:** Version 1.8 or higher
+- `JDK >= 17` (before V2.0.11, `JDK > 1.8`)
 - **Maven:** Version 3.6 or higher
 
 ### 1.2 **Adding Maven Dependencies**

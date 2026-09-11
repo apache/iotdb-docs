@@ -35,7 +35,7 @@ SessionPool 是 Session 的连接池，推荐使用SessionPool编程。在多线
 
 ### 2.1 创建maven项目
 
-创建一个maven项目，并在pom.xml文件中添加以下依赖（JDK >= 1.8, Maven >= 3.6）
+创建一个 Maven 项目，并在 pom.xml 文件中添加以下依赖。环境要求为 `JDK >= 17`（V2.0.11 之前为 `JDK > 1.8`）和 `Maven >= 3.6`：
 
 ```xml
 <dependencies>

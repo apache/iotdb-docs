@@ -77,27 +77,29 @@ IoTDB> show tables from information_schema
 * 包含集群中所有数据库的信息
 * 表结构如下表所示：
 
-| 列名                        | 数据类型 | 列类型    | 说明           |
-| ----------------------------- | ---------- | ----------- | ---------------- |
-| database                    | STRING   | TAG       | 数据库名称     |
-| ttl(ms)                     | STRING   | ATTRIBUTE | 数据保留时间   |
-| schema\_replication\_factor | INT32    | ATTRIBUTE | 元数据副本数   |
-| data\_replication\_factor   | INT32    | ATTRIBUTE | 数据副本数     |
-| time\_partition\_interval   | INT64    | ATTRIBUTE | 时间分区间隔   |
-| schema\_region\_group\_num  | INT32    | ATTRIBUTE | 元数据分区数量 |
-| data\_region\_group\_num    | INT32    | ATTRIBUTE | 数据分区数量   |
+| 列名 | 数据类型 | 列类型 | 说明 |
+| --- | --- | --- | --- |
+| database | STRING | TAG | 数据库名称 |
+| ttl(ms) | STRING | ATTRIBUTE | 数据保留时间 |
+| schema\_replication\_factor | INT32 | ATTRIBUTE | 元数据副本数 |
+| data\_replication\_factor | INT32 | ATTRIBUTE | 数据副本数 |
+| time\_partition\_interval | INT64 | ATTRIBUTE | 时间分区间隔 |
+| schema\_region\_group\_num | INT32 | ATTRIBUTE | 元数据分区数量 |
+| max\_schema\_region\_group\_num | INT32 | ATTRIBUTE | 可扩展最大元数据分区数量，V2.0.11 起支持 |
+| data\_region\_group\_num | INT32 | ATTRIBUTE | 数据分区数量 |
+| max\_data\_region\_group\_num | INT32 | ATTRIBUTE | 可扩展最大数据分区数量，V2.0.11 起支持 |
 
 * 查询结果只展示自身对该数据库本身或库中任意表有任意权限的数据库集合
 * 查询示例：
 
 ```sql
 IoTDB> select * from information_schema.databases
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
-|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|data_region_group_num|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
-|information_schema|    INF|                     null|                   null|                   null|                   null|                 null|
-|         database1|    INF|                        1|                      1|              604800000|                      0|                    0|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------+
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
+|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
+|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|
+|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
 ```
 
 ### 2.2 TABLES 表
