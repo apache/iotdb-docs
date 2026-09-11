@@ -235,6 +235,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview_apache' },
+            { text: 'Tableless Query', link: 'Tableless-Query_apache' },
             { text: 'SELECT Clause', link: 'Select-Clause_apache' },
             { text: 'FROM&JOIN Clause', link: 'From-Join-Clause' },
             { text: 'WHERE Clause', link: 'Where-Clause' },

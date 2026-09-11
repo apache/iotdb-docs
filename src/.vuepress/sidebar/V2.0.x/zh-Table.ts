@@ -235,6 +235,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '概览', link: 'overview_apache' },
+            { text: '无表查询', link: 'Tableless-Query_apache' },
             { text: 'SELECT子句', link: 'Select-Clause_apache' },
             { text: 'FROM&JOIN子句', link: 'From-Join-Clause' },
             { text: 'WHERE子句', link: 'Where-Clause' },
