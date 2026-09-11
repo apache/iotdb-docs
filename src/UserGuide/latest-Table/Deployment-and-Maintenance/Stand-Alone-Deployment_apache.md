@@ -172,19 +172,19 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
 ```Bash
 # Unix/OS X
-./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
+./start-datanode.sh -d    # The "-d" flag starts the process in the background.
 
 # Windows
 # Before version V2.0.4.x
-.\sbin\start-datanode.bat
+.\start-datanode.bat
 
 # V2.0.4.x and later versions
-.\sbin\windows\start-datanode.bat
+.\windows\start-datanode.bat
 ```
 
 ### 2.6 Start CLI
 
- Enter the IoTDB CLI.
+Navigate to the `sbin` directory of IoTDB and start the IoTDB CLI.
 
 ```SQL
 # For Linux or macOS
