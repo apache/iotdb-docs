@@ -220,6 +220,13 @@ export const zhSidebar = {
             { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
         },
+        {
+          text: '物联网对接',
+          collapsible: true,
+          children: [
+            { text: 'ThingsBoard', link: 'Thingsboard' },
+          ],
+        },
       ],
     },
     {
