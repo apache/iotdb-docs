@@ -137,7 +137,29 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### 2.4 Start ConfigNode
+### 2.4 Start and Stop the Edge Edition
+
+Starting from V2.0.11, IoTDB provides an Edge edition package for edge deployment scenarios. The Edge edition uses simplified startup and shutdown scripts, so you do not need to start or stop ConfigNode and DataNode separately.
+
+Run the following commands from the IoTDB root directory:
+
+```shell
+# Linux/macOS: start the Edge edition
+./sbin/start-edge.sh
+
+# Linux/macOS: stop the Edge edition
+./sbin/stop-edge.sh
+
+# Windows: start the Edge edition
+.\sbin\windows\start-edge.bat
+
+# Windows: stop the Edge edition
+.\sbin\windows\stop-edge.bat
+```
+
+If you are using the Edge edition package, skip the steps below for starting ConfigNode and DataNode separately.
+
+### 2.5 Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -154,7 +176,7 @@ Enter the sbin directory of iotdb and start confignode
 ```
 If the startup fails, please refer to [Common Questions](#common-questions).
 
-### 2.5 Start DataNode
+### 2.6 Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -171,7 +193,7 @@ cd sbin
 .\windows\start-datanode.bat
 ```
 
-### 2.6 Verify Deployment
+### 2.7 Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 

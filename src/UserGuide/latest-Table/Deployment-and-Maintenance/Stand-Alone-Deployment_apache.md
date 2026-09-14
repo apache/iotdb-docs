@@ -146,7 +146,29 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 | dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                                                                                                                                                                               | This parameter cannot be modified after the first startup. |
 | dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                                                                                                                                                                                                                          | This parameter cannot be modified after the first startup. |
 
-### 2.4 Start ConfigNode
+### 2.4 Start and Stop the Edge Edition
+
+Starting from V2.0.11, IoTDB provides an Edge edition package for edge deployment scenarios. The Edge edition uses simplified startup and shutdown scripts, so you do not need to start or stop ConfigNode and DataNode separately.
+
+Run the following commands from the IoTDB root directory:
+
+```shell
+# Linux/macOS: start the Edge edition
+./sbin/start-edge.sh
+
+# Linux/macOS: stop the Edge edition
+./sbin/stop-edge.sh
+
+# Windows: start the Edge edition
+.\sbin\windows\start-edge.bat
+
+# Windows: stop the Edge edition
+.\sbin\windows\stop-edge.bat
+```
+
+If you are using the Edge edition package, skip the steps below for starting ConfigNode and DataNode separately.
+
+### 2.5 Start ConfigNode
 
 Navigate to the `sbin` directory and start ConfigNode:
 
@@ -166,7 +188,7 @@ If the startup fails, refer to the [Common Issues](#3-common-issues)。 section 
 
 
 
-### 2.5 Start DataNode
+### 2.6 Start DataNode
 
 Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
@@ -182,7 +204,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 .\sbin\windows\start-datanode.bat
 ```
 
-### 2.6 Start CLI
+### 2.7 Start CLI
 
  Enter the IoTDB CLI.
 
