@@ -20,6 +20,27 @@
 -->
 # Release History
 
+## V2.0.11
+
+> Release Date: 2026.09.11
+
+V2.0.11 enhances query, storage, computation, region management, and high-availability capabilities. It also introduces the Edge edition, adds client support, raises the minimum JDK requirement, and updates third-party dependencies. The specific release contents are as follows:
+
+* **Storage Module**: `SHOW TIMESERIES` now supports sorting by measurement name
+* **Query Module**: Supports query SQL statements containing only a `SELECT` clause
+* **Query Module**: Added the `COUNT DATABASE` statement for the table model
+* **Query Module**: `EXPLAIN [ANALYZE]` now supports JSON output
+* **Query Module**: Supports writing query results to a TsFile at a specified path using SQL
+* **Computation Module**: Added an `InternalSession` interface to the UDF API
+* **Computation Module**: Added support for backward fill
+* **Computation Module**: `GROUP BY` and `ORDER BY` now support aliases defined with `AS` in the `SELECT` list
+* **Miscellaneous**: Supports manually repairing partitioned tables using SQL
+* **Miscellaneous**: `EXTEND REGION` and `REMOVE REGION` now accept a list of `regionId` values to process multiple Regions in one operation
+* **High Availability**: Added high-availability support for table management, device management, writable view management, TTL management, database management, and user permission management
+* **Client**: Added a Node.js client, supporting 2.x versions only
+* **Edge Edition**: Introduced an Edge edition for low-memory devices, capping CN and DN memory at 512 MB and targeting read/write workloads of approximately 10,000 measurements at 1 Hz. The first version uses JVM and default configuration adjustments; future versions may evolve toward a fused CN and DN architecture
+* **JDK**: The minimum requirement is now JDK 17, and third-party dependencies have been updated
+
 ## V2.0.10
 
 > Release Date: 2026.07.08
