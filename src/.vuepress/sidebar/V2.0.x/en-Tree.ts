@@ -190,7 +190,7 @@ export const enSidebar = {
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_apache' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
-        { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
+        { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API_apache' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_apache' },
