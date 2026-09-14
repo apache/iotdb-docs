@@ -134,7 +134,29 @@ cd  apache-iotdb-{version}-all-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 2.4 启动ConfigNode 节点
+### 2.4 Edge 版启动与停止
+
+自 V2.0.11 起，IoTDB 提供面向边缘部署场景的 Edge 版安装包。Edge 版使用精简的启停脚本，无需分别启动或停止 ConfigNode 和 DataNode。
+
+在 IoTDB 根目录下执行以下命令：
+
+```shell
+# Linux/macOS：启动 Edge 版
+./sbin/start-edge.sh
+
+# Linux/macOS：停止 Edge 版
+./sbin/stop-edge.sh
+
+# Windows：启动 Edge 版
+.\sbin\windows\start-edge.bat
+
+# Windows：停止 Edge 版
+.\sbin\windows\stop-edge.bat
+```
+
+如果使用 Edge 版安装包，请跳过下方分别启动 ConfigNode 和 DataNode 的步骤。
+
+### 2.5 启动ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -151,7 +173,7 @@ cd  apache-iotdb-{version}-all-bin
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 2.5 启动DataNode 节点
+### 2.6 启动DataNode 节点
 
  进入iotdb的sbin目录下，启动datanode：
 
@@ -168,7 +190,7 @@ cd sbin
 .\windows\start-datanode.bat
 ```
 
-### 2.6 验证部署
+### 2.7 验证部署
 
 可直接执行 ./sbin 目录下的 Cli 启动脚本：
 

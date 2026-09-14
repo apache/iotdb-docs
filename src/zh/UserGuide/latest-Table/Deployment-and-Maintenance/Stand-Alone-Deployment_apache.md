@@ -130,7 +130,29 @@ DataNode 配置
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                   | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port    | 首次启动后不能修改 |
 
-### 2.4 启动 ConfigNode 节点
+### 2.4 Edge 版启动与停止
+
+自 V2.0.11 起，IoTDB 提供面向边缘部署场景的 Edge 版安装包。Edge 版使用精简的启停脚本，无需分别启动或停止 ConfigNode 和 DataNode。
+
+在 IoTDB 根目录下执行以下命令：
+
+```shell
+# Linux/macOS：启动 Edge 版
+./sbin/start-edge.sh
+
+# Linux/macOS：停止 Edge 版
+./sbin/stop-edge.sh
+
+# Windows：启动 Edge 版
+.\sbin\windows\start-edge.bat
+
+# Windows：停止 Edge 版
+.\sbin\windows\stop-edge.bat
+```
+
+如果使用 Edge 版安装包，请跳过下方分别启动 ConfigNode 和 DataNode 的步骤。
+
+### 2.5 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -148,7 +170,7 @@ DataNode 配置
 
 如果启动失败，请参考下方[常见问题](#常见问题)。
 
-### 2.5 启动 DataNode 节点
+### 2.6 启动 DataNode 节点
 
  进入iotdb的sbin目录下，启动datanode：
 
@@ -163,7 +185,7 @@ DataNode 配置
 # V2.0.4.x 版本及之后
 .\sbin\windows\start-datanode.bat
 ```
-### 2.6 启动 CLI
+### 2.7 启动 CLI
 
 表模型 CLI 进入命令：
 
