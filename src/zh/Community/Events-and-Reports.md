@@ -18,6 +18,69 @@
 
 # 活动与报告
 
+## 2026 年活动
+- 2026.08.22，中国北京，2026 时序数据技术创新大会
+  
+  - （中文）[工业时序数智价值魔方](https://www.bilibili.com/video/BV1T1t36JE2o/), 演讲人：王建民
+    
+  - （中文）[多模态时序数智化软件栈](https://www.bilibili.com/video/BV1qjbw63Egs/), 演讲人：乔嘉林
+  
+  - （英语）[Perspectives from Silicon Valley on DB × AI: When Data Met Intelligence](https://www.bilibili.com/video/BV1Anbg6rEe6/), 演讲人：C. Mohan
+    
+  - （中文）[数据基座：多模态时代的时序数据库如何承载工业数据](https://www.bilibili.com/video/BV1LEec6UEXy/),演讲人：田原
+    
+  - （中文）[油气化工全产业链生产现场标准化数据采集应用实践](https://mp.weixin.qq.com/s/4VOibB7mlpztPBNh0ICwXQ),演讲人：黄文俊
+    
+  - （中文）[打通「DB × AI」的最后一公里：让模型真正操作时序数据库](https://mp.weixin.qq.com/s/b0jiX8wHCKsPkadp1HynGg), 演讲人：王旋
+    
+  - （中文）[让工业企业拥有自己的时序大模型，TimechoAI 训推基建激活“沉睡”数据](https://mp.weixin.qq.com/s/YOKhoOmFXtqwnXwn3fPTYA), 演讲人：陈荣钊
+
+- 2026.08.19，线上播客，Unplugged: an IIoT Podcast
+  
+  - （英语）[IoTDB: Time-Series Storage at 1.5 Billion Insertions per Second](https://youtu.be/3Y4I7Zd0060?si=ezcqe1Cruia4VrqP&t=2662),演讲人：Christofer Dutz
+
+- 2026.08.07—09，中国北京，[Community Over Code Asia 2026：IoT 与 IIoT 专题](https://asia.communityovercode.org/#2026-08-09)
+  
+  - （中文）统一机器人数据：在边缘侧使用 Apache TsFile 管理 ROS 消息, 演讲人：Ansi Zhang
+    
+  - （英语）从时序数据到专业化数据管理, 演讲人: 张洪胤
+
+- 2026.07.09，瑞士日内瓦，AI for Good 2026
+  
+  - （英语）[Open Source Promotes the Global AI Innovation](https://www.timecho-global.com/archives/1784275354231), 演讲人：王建民
+
+
+## 2025 年活动
+- 2025.07.05，中国北京，2025 时序数据库技术创新大会
+  
+  - （中文）[AI 时代，如何从采数到用数？](https://www.bilibili.com/video/BV1rGgwzEEew/), 演讲人：王建民
+    
+  - （中文）[时序数据库 IoTDB 步入 2.0：3大方向，9大升级](https://www.bilibili.com/video/BV1hggHzHEiw/), 演讲人：乔嘉林
+    
+  - （中文）[积跬步，至千里，IoTDB 的 2023-2025](https://www.bilibili.com/video/BV1rkegzPEY5/), 演讲人：黄向东
+    
+  - （中文）[IoTDB 2.0 双模型架构详解：树、表如何融合，查询如何进化？](https://www.bilibili.com/video/BV1nNBTB2EeZ/), 演讲人：田原
+    
+  - （中文）[IoTDB 智能之路：面向工业的时序数据智能体关键组件及技术](https://www.bilibili.com/video/BV1ACkeBgEkP/), 演讲人：王旋
+    
+  - （中文）[IoTDB 技术实践：流计算框架在航空、航天、油气领域的应用实践](https://www.bilibili.com/video/BV1kCkeBgERk/), 演讲人：苏宇荣
+    
+  - （中文）[IoTDB 开放之路：跨平台存储分析一体化 TsFile 文件](https://www.bilibili.com/video/BV1ACkeBgEmP/), 演讲人：江天
+    
+  - （中文）[IoTDB 智能之路：使用 AINode 一键训练领域时序大模型](https://www.bilibili.com/video/BV1pCkeBgEYR/), 演讲人：陈荣钊
+    
+  - （中文）[IoTDB 技术实践：IoTDB 系统调优从入门到精通](https://www.bilibili.com/video/BV1pCkeBgEYt/), 演讲人：曹志佳
+    
+  - （中文）[IoTDB 生态之路：无缝对接上下游系统的应用集成组件](https://www.bilibili.com/video/BV1ACkeBgEDv/), 演讲人：侯昊男
+    
+  - （中文）[IoTDB 在冶金行业的深度应用](https://www.bilibili.com/video/BV1KvkeB1EmR/), 演讲人：郑强
+    
+  - （中文）[IoTDB 在上海电气储能运维平台中的实践与应用](https://www.bilibili.com/video/BV14vkeB1EUB/), 演讲人：王权
+    
+  - （英语）[Using IoTDB and COVESA CDSP for automotive R&D inside and outside of the vehicle](https://www.bilibili.com/video/BV1vJkeBdEK4/), 演讲人：Stephen Lawrence
+    
+  - （英语）[IoTDB for Industrial Big Data Machine Learning- High Performance Cluster Deployment](https://www.bilibili.com/video/BV1eJkeBdEdi/), 演讲人：Trevor Bloch
+
 ## 2024 年活动
 - 2024.10.24，德国美因茨，OCX 2024（原 EclipseCon）
   - （英语）[工业数据采集的创新实践：Apache PLC4X、TsFile 和 IoTDB](https://www.youtube.com/watch?v=LnTDmdIf7U0)，演讲者：Christofer Dutz
