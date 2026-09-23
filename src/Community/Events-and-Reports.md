@@ -18,6 +18,64 @@
 
 # Events and Reports
 
+## 2026 Meetups and Conferences
+
+- August 22, 2026, Beijing, China. [2026 Time Series Tech Innovation Summit](https://www.timecho.com/activity/2026-Summit)
+  
+  - (Chinese) [Industrial Time-Series Intelligence Architecture and the Data Value Cube](https://www.bilibili.com/video/BV1T1t36JE2o/) Speaker: Jianmin Wang
+    
+  - (Chinese) [A Multimodal Time-Series Intelligence Software Stack](https://www.bilibili.com/video/BV1qjbw63Egs/) Speaker: Jialin Qiao
+    
+  - (English) [Perspectives from Silicon Valley on DB × AI: When Data Met Intelligence](https://www.bilibili.com/video/BV1Anbg6rEe6/) Speaker: C. Mohan
+    
+  - (Chinese) [Data Foundation: Building Time-Series Databases for Multimodal Industrial Data](https://www.bilibili.com/video/BV1LEec6UEXy/) Speaker: Yuan Tian
+
+- Aug 19, 2026, Online. Unplugged: an IIoT Podcast
+  
+  - (English) [IoTDB: Time-Series Storage at 1.5 Billion Insertions per Second](https://youtu.be/3Y4I7Zd0060?si=ezcqe1Cruia4VrqP&t=2662). Speaker: Christofer Dutz
+
+- August 07–09, 2026, Beijing, China. [Community Over Code Asia 2026 — IoT and IIoT Track](https://asia.communityovercode.org/#2026-08-09)
+  
+  - (English) (Unified Robot Data: Managing ROS Messages at the Edge with Apache TsFile). Speaker: Ansi Zhang
+    
+  - (English) From Time-Series Data to Specialized Data Management. Speaker: Hongyin Zhang
+
+- July 9, 2026, Geneva. AI for good 2026
+  
+  - (English) [Open Source for AI Prosperity](https://www.timecho-global.com/archives/1784275354231) Speaker: Jianmin Wang
+
+## 2025 Meetups and Conferences
+
+- July 05, 2025, Beijing, China. [2025 Time-Series Database Tech Innovation Summit](https://www.timecho-global.com/archives/tsdb-summit-2025-highlights)
+  
+  - (Chinese) [How to Move from Data Collection to Data Utilization in the AI Era](https://www.bilibili.com/video/BV1rGgwzEEew/) Speaker: Jianmin Wang
+    
+  - (Chinese) [Apache IoTDB Enters the 2.0 Era: Three Directions and Nine Upgrades](https://www.bilibili.com/video/BV1hggHzHEiw/) Speaker: Jialin Qiao
+    
+  - (Chinese) [Apache IoTDB from 2023 to 2025](https://www.bilibili.com/video/BV1rkegzPEY5/) Speaker: Xiangdong Huang
+    
+  - (Chinese) [Apache IoTDB 2.0 Dual-Model Architecture: How Tree and Table Models Converge](https://www.bilibili.com/video/BV1nNBTB2EeZ/) Speaker: Tian Yuan
+    
+  - (Chinese) [IoTDB Intelligence Path: Key Components and Technologies for Industrial Time-Series Data Agents](https://www.bilibili.com/video/BV1ACkeBgEkP/) Speaker: Xuan Wang
+    
+  - (Chinese) [IoTDB in Practice: Applications of the Stream Processing Framework in Aerospace, Aviation and Oil & Gas](https://www.bilibili.com/video/BV1kCkeBgERk/) Speaker: Yurong Su
+    
+  - (Chinese) [IoTDB Open Source Path: Cross-Platform Integrated Storage and Analysis with TsFile](https://www.bilibili.com/video/BV1ACkeBgEmP/) Speaker: Tian Jiang
+    
+  - (Chinese) [IoTDB Intelligence Path: One-Click Training of Domain-Specific Time-Series Foundation Models with AINode](https://www.bilibili.com/video/BV1pCkeBgEYR/) Speaker: Rongzhao Chen
+    
+  - (Chinese) [IoTDB in Practice: IoTDB System Tuning from Beginner to Expert](https://www.bilibili.com/video/BV1pCkeBgEYt/) Speaker: Zhijia Cao
+    
+  - (Chinese) [IoTDB Ecosystem Path: Application Integration Components for Upstream and Downstream Systems](https://www.bilibili.com/video/BV1ACkeBgEDv/) Speaker: Haonan Hou
+    
+  - (Chinese) [In-Depth Application of IoTDB in the Metallurgy Industry](https://www.bilibili.com/video/BV1KvkeB1EmR/) Speaker: Qiang Zheng
+    
+  - (Chinese) [Practice and Application of IoTDB in Shanghai Electric’s Energy Storage Operation and Maintenance Platform](https://www.bilibili.com/video/BV14vkeB1EUB/) Speaker: Quan Wang
+    
+  - (English) [Exploration of IoTDB in Connected-Vehicle Technology Research and Development](https://www.bilibili.com/video/BV1vJkeBdEK4/) Speaker: Stephen Lawrence
+    
+  - (English) [IoTDB for Industrial Big-Data Machine Learning - High Performance Cluster Deployment](https://www.bilibili.com/video/BV1eJkeBdEdi/) Speaker: Trevor Bloch
+
 ## 2024 Meetups and Conferences
 - October 24, 2024, Mainz, Germany. OCX 2024 (formerly EclipseCon)
   
