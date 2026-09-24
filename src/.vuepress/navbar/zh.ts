@@ -49,6 +49,7 @@ export const zhNavbar = navbar([
       { text: '关于社区', link: '/zh/Community/About' },
       { text: '贡献指南', link: '/zh/Community/Development-Guide' },
       { text: '社区伙伴', link: '/zh/Community/Community-Partners' },
+      { text: '社区生态', link: '/zh/Community/Community-Ecosystem' },
       { text: '交流与反馈', link: '/zh/Community/Feedback' },
       { text: '活动与报告', link: 'zh/Community/Events-and-Reports' },
       { text: 'Committers', link: '/zh/Community/Committers' },
