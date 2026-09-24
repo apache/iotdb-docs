@@ -45,6 +45,7 @@ export const enNavbar = navbar([
       { text: 'About the Community', link: '/Community/About-the-Community' },
       { text: 'Development Guide', link: '/Community/Development-Guide' },
       { text: 'Community Partners', link: '/Community/Community-Partners' },
+      { text: 'Community Ecosystem', link: '/Community/Community-Ecosystem' },
       {
         text: 'Communication Channels',
         link: '/Community/Communication-Channels',
