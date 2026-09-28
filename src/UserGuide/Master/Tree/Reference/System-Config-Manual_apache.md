@@ -128,7 +128,7 @@ The environment configuration files (`confignode-env.sh/bat` and `datanode-env.s
 
 ## 4. System Parameters (`iotdb-system.properties.template`）
 
-The `iotdb-system.properties` file contains various configurations for managing IoTDB clusters, nodes, replication, directories, monitoring, SSL, connections, object storage, tier management, and REST services. Below is a detailed breakdown of the parameters:
+The `iotdb-system.properties` file contains various configurations for managing IoTDB clusters, nodes, replication, directories, monitoring, SSL, connections, and REST services. Below is a detailed breakdown of the parameters:
 
 ### 4.1 Cluster Configuration
 
@@ -705,119 +705,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 300                                                 |
 | Effective   | Restart required.                                   |
 
-### 4.9 Object storage management
-
-- remote_tsfile_cache_dirs
-
-| Name        | remote_tsfile_cache_dirs                 |
-| ----------- | ---------------------------------------- |
-| Description | Local cache directory for cloud storage. |
-| Type        | String                                   |
-| Default     | data/datanode/data/cache                 |
-| Effective   | Restart required.                        |
-
-- remote_tsfile_cache_page_size_in_kb
-
-| Name        | remote_tsfile_cache_page_size_in_kb           |
-| ----------- | --------------------------------------------- |
-| Description | Block size for cached files in cloud storage. |
-| Type        | int                                           |
-| Default     | 20480                                         |
-| Effective   | Restart required.                             |
-
-- remote_tsfile_cache_max_disk_usage_in_mb
-
-| Name        | remote_tsfile_cache_max_disk_usage_in_mb    |
-| ----------- | ------------------------------------------- |
-| Description | Maximum disk usage for cloud storage cache. |
-| Type        | long                                        |
-| Default     | 51200                                       |
-| Effective   | Restart required.                           |
-
-- object_storage_type
-
-| Name        | object_storage_type    |
-| ----------- | ---------------------- |
-| Description | Type of cloud storage. |
-| Type        | String                 |
-| Default     | AWS_S3                 |
-| Effective   | Restart required.      |
-
-- object_storage_endpoint
-
-| Name        | object_storage_endpoint     |
-| ----------- | --------------------------- |
-| Description | Endpoint for cloud storage. |
-| Type        | String                      |
-| Default     | None                        |
-| Effective   | Restart required.           |
-
-- object_storage_bucket
-
-| Name        | object_storage_bucket          |
-| ----------- | ------------------------------ |
-| Description | Bucket name for cloud storage. |
-| Type        | String                         |
-| Default     | iotdb_data                     |
-| Effective   | Restart required.              |
-
-- object_storage_access_key
-
-| Name        | object_storage_access_key     |
-| ----------- | ----------------------------- |
-| Description | Access key for cloud storage. |
-| Type        | String                        |
-| Default     | None                          |
-| Effective   | Restart required.             |
-
-- object_storage_access_secret
-
-| Name        | object_storage_access_secret     |
-| ----------- | -------------------------------- |
-| Description | Access secret for cloud storage. |
-| Type        | String                           |
-| Default     | None                             |
-| Effective   | Restart required.                |
-
-### 4.10 Tier management
-
-- dn_default_space_usage_thresholds
-
-| Name        | dn_default_space_usage_thresholds                            |
-| ----------- | ------------------------------------------------------------ |
-| Description | Disk usage threshold, data will be moved to the next tier when the usage of the tier is higher than this threshold.If tiered storage is enabled, please separate thresholds of different tiers by semicolons ";". |
-| Type        | double                                                       |
-| Default     | 0.85                                                         |
-| Effective   | Hot reload.                                                  |
-
-- dn_tier_full_policy
-
-| Name        | dn_tier_full_policy                                          |
-| ----------- | ------------------------------------------------------------ |
-| Description | How to deal with the last tier's data when its used space has been higher than its dn_default_space_usage_thresholds. |
-| Type        | String                                                       |
-| Default     | NULL                                                         |
-| Effective   | Hot reload.                                                  |
-
-- migrate_thread_count
-
-| Name        | migrate_thread_count                                         |
-| ----------- | ------------------------------------------------------------ |
-| Description | thread pool size for migrate operation in the DataNode's data directories. |
-| Type        | int                                                          |
-| Default     | 1                                                            |
-| Effective   | Hot reload.                                                  |
-
-- tiered_storage_migrate_speed_limit_bytes_per_sec
-
-| Name        | tiered_storage_migrate_speed_limit_bytes_per_sec             |
-| ----------- | ------------------------------------------------------------ |
-| Description | The migrate speed limit of different tiers can reach per second |
-| Type        | int                                                          |
-| Default     | 10485760                                                     |
-| Effective   | Hot reload.                                                  |
-
-### 4.11 REST Service Configuration
+### 4.9 REST Service Configuration
 
 - enable_rest_service
 
@@ -918,7 +806,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 5000                     |
 | Effective   | Restart required.        |
 
-### 4.12 Load balancing configuration
+### 4.10 Load balancing configuration
 
 - series_slot_num
 
@@ -1010,7 +898,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | true                                                         |
 | Effective   | Restart required.                                            |
 
-### 4.13 Cluster management
+### 4.11 Cluster management
 
 - time_partition_origin
 
@@ -1051,7 +939,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 0.05                                                         |
 | Effective   | Restart required.                                            |
 
-### 4.14 Memory Control Configuration
+### 4.12 Memory Control Configuration
 
 - datanode_memory_proportion
 
@@ -1179,7 +1067,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | true                                                         |
 | Effective   | Hot reload.                                                  |
 
-### 4.15 Schema Engine Configuration
+### 4.13 Schema Engine Configuration
 
 - schema_engine_mode
 
@@ -1271,7 +1159,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | -1                                                           |
 | Effective   | Restart required.                                            |
 
-### 4.16 Configurations for creating schema automatically
+### 4.14 Configurations for creating schema automatically
 
 - enable_auto_create_schema
 
@@ -1437,7 +1325,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Effective          | Hot_reload                                                                                       |
 
 
-### 4.17 Query Configurations
+### 4.15 Query Configurations
 
 - read_consistency_level
 
@@ -1619,7 +1507,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 10                                                           |
 | Effective   | Hot reload                                                   |
 
-### 4.18 TTL Configuration
+### 4.16 TTL Configuration
 
 - ttl_check_interval
 
@@ -1648,7 +1536,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 0.3                                                          |
 | Effective   | Restart required.                                            |
 
-### 4.19 Storage Engine Configuration
+### 4.17 Storage Engine Configuration
 
 - timestamp_precision
 
@@ -1813,7 +1701,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Effective   | Restart required.                                            |
 
 
-### 4.20 Compaction Configurations
+### 4.18 Compaction Configurations
 
 - enable_seq_space_compaction
 
@@ -2121,7 +2009,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 4                                                            |
 | Effective   | Hot reload                                                   |
 
-### 4.21 Write Ahead Log Configuration
+### 4.19 Write Ahead Log Configuration
 
 - wal_mode
 
@@ -2249,7 +2137,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | true                                  |
 | Effective   | Hot reload                            |
 
-### 4.22 **IoTConsensus Configuration**
+### 4.20 **IoTConsensus Configuration**
 
 - data_region_iot_max_log_entries_num_per_batch
 
@@ -2296,7 +2184,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 33554432                                                     |
 | Effective   | Restart required.                                            |
 
-### 4.23 TsFile Configurations
+### 4.21 TsFile Configurations
 
 - group_size_in_byte
 
@@ -2388,7 +2276,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | None                                |
 | Effective   | Restart required.                   |
 
-### 4.24 Authorization Configuration
+### 4.22 Authorization Configuration
 
 - authorizer_provider_class
 
@@ -2435,7 +2323,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 30                                 |
 | Effective   | Restart required.                  |
 
-### 4.25 UDF Configuration
+### 4.23 UDF Configuration
 
 - udf_initial_byte_array_length_for_memory_control
 
@@ -2473,7 +2361,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | ext/udf（Windows：ext\\udf） |
 | Effective   | Restart required.            |
 
-### 4.26 Trigger Configuration
+### 4.24 Trigger Configuration
 
 - trigger_lib_dir
 
@@ -2493,7 +2381,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 3                                                            |
 | Effective   | Restart required.                                            |
 
-### 4.27 **Select-Into Configuration**
+### 4.25 **Select-Into Configuration**
 
 - into_operation_buffer_size_in_byte
 
@@ -2522,7 +2410,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 2                                                            |
 | Effective   | Restart required.                                            |
 
-### 4.28 Continuous Query Configuration
+### 4.26 Continuous Query Configuration
 
 - continuous_query_submit_thread_count
 
@@ -2542,7 +2430,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 1000                                                         |
 | Effective   | Restart required.                                            |
 
-### 4.29 Pipe Configuration
+### 4.27 Pipe Configuration
 
 - pipe_lib_dir
 
@@ -2616,7 +2504,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | -1                                                           |
 | Effective   | Hot reload                                                   |
 
-### 4.30 RatisConsensus Configuration
+### 4.28 RatisConsensus Configuration
 
 - config_node_ratis_log_appender_buffer_size_max
 
@@ -3077,7 +2965,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 86400 (s)                                      |
 | Effective   | Restart required.                              |
 
-### 4.31 IoTConsensusV2 Configuration
+### 4.29 IoTConsensusV2 Configuration
 
 - iot_consensus_v2_pipeline_size
 
@@ -3097,7 +2985,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | batch                          |
 | Effective   | Restart required.              |
 
-### 4.32 Procedure Configuration
+### 4.30 Procedure Configuration
 
 - procedure_core_worker_thread_count
 
@@ -3126,7 +3014,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 60(s)                                                   |
 | Effective   | Restart required.                                       |
 
-### 4.33 MQTT Broker Configuration
+### 4.31 MQTT Broker Configuration
 
 - enable_mqtt_service
 
@@ -3182,7 +3070,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 1048576                            |
 | Effective   | Hot reload                         |
 
-### 4.34 Audit log Configuration
+### 4.32 Audit log Configuration
 
 - enable_audit_log
 
@@ -3220,7 +3108,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | true                                           |
 | Effective   | Restart required.                              |
 
-### 4.35 White List Configuration
+### 4.33 White List Configuration
 
 - enable_white_list
 
@@ -3231,7 +3119,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | false                     |
 | Effective   | Hot reload                |
 
-### 4.36 IoTDB-AI Configuration
+### 4.34 IoTDB-AI Configuration
 
 - model_inference_execution_thread_count
 
@@ -3242,7 +3130,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 5                                                            |
 | Effective   | Restart required.                                            |
 
-### 4.37 Load TsFile Configuration
+### 4.35 Load TsFile Configuration
 
 - load_clean_up_task_execution_delay_time_seconds
 
@@ -3335,7 +3223,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 |Effective| Effective after restart                                                                                                                                                                                                              |
 
 
-### 4.38 Dispatch Retry Configuration
+### 4.36 Dispatch Retry Configuration
 
 - enable_retry_for_unknown_error
 
