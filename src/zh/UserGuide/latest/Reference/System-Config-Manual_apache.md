@@ -682,119 +682,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 300                                                 |
 | 改后生效方式 | 重启服务生效                                        |
 
-### 3.9 对象存储管理
-
-- remote_tsfile_cache_dirs
-
-| 名字         | remote_tsfile_cache_dirs |
-| ------------ | ------------------------ |
-| 描述         | 云端存储在本地的缓存目录 |
-| 类型         | String                   |
-| 默认值       | data/datanode/data/cache |
-| 改后生效方式 | 重启服务生效                 |
-
-- remote_tsfile_cache_page_size_in_kb 
-
-| 名字         | remote_tsfile_cache_page_size_in_kb |
-| ------------ | ----------------------------------- |
-| 描述         | 云端存储在本地缓存文件的块大小      |
-| 类型         | int                                 |
-| 默认值       | 20480                               |
-| 改后生效方式 | 重启服务生效                            |
-
-- remote_tsfile_cache_max_disk_usage_in_mb   
-
-| 名字         | remote_tsfile_cache_max_disk_usage_in_mb |
-| ------------ | ---------------------------------------- |
-| 描述         | 云端存储本地缓存的最大磁盘占用大小       |
-| 类型         | long                                     |
-| 默认值       | 51200                                    |
-| 改后生效方式 | 重启服务生效                                 |
-
-- object_storage_type 
-
-| 名字         | object_storage_type |
-| ------------ | ------------------- |
-| 描述         | 云端存储类型        |
-| 类型         | String              |
-| 默认值       | AWS_S3              |
-| 改后生效方式 | 重启服务生效            |
-
-- object_storage_endpoint    
-
-| 名字         | object_storage_endpoint |
-| ------------ | ----------------------- |
-| 描述         | 云端存储的 endpoint     |
-| 类型         | String                  |
-| 默认值       | 无                      |
-| 改后生效方式 | 重启服务生效                |
-
-- object_storage_bucket   
-
-| 名字         | object_storage_bucket  |
-| ------------ | ---------------------- |
-| 描述         | 云端存储 bucket 的名称 |
-| 类型         | String                 |
-| 默认值       | iotdb_data             |
-| 改后生效方式 | 重启服务生效               |
-
-- object_storage_access_key  
-
-| 名字         | object_storage_access_key |
-| ------------ | ------------------------- |
-| 描述         | 云端存储的验证信息 key    |
-| 类型         | String                    |
-| 默认值       | 无                        |
-| 改后生效方式 | 重启服务生效                  |
-
-- object_storage_access_secret       
-
-| 名字         | object_storage_access_secret |
-| ------------ | ---------------------------- |
-| 描述         | 云端存储的验证信息 secret    |
-| 类型         | String                       |
-| 默认值       | 无                           |
-| 改后生效方式 | 重启服务生效                     |
-
-### 3.10 多级管理
-
-- dn_default_space_usage_thresholds
-
-| 名字         | dn_default_space_usage_thresholds                            |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 定义每个层级数据目录的最小剩余空间比例；当剩余空间少于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的剩余存储空间到低于此阈值时，会将系统置为 READ_ONLY |
-| 类型         | double                                                       |
-| 默认值       | 0.85                                                         |
-| 改后生效方式 | 热加载                                                       |
-
-- dn_tier_full_policy
-
-| 名字         | dn_tier_full_policy                                          |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 如何处理最后一层数据，当其已用空间高于其dn_default_space_usage_threshold时。|
-| 类型         | String                                                       |
-| 默认值       | NULL                                                         |
-| 改后生效方式 | 热加载                                                       |
-
-- migrate_thread_count
-
-| 名字         | migrate_thread_count                     |
-| ------------ | ---------------------------------------- |
-| 描述         | DataNode数据目录中迁移操作的线程池大小。 |
-| 类型         | int                                      |
-| 默认值       | 1                                        |
-| 改后生效方式 | 热加载                                   |
-
-- tiered_storage_migrate_speed_limit_bytes_per_sec
-
-| 名字         | tiered_storage_migrate_speed_limit_bytes_per_sec |
-| ------------ | ------------------------------------------------ |
-| 描述         | 限制不同存储层级之间的数据迁移速度。             |
-| 类型         | int                                              |
-| 默认值       | 10485760                                         |
-| 改后生效方式 | 热加载                                           |
-
-### 3.11 REST服务配置
+### 3.9 REST服务配置
 
 - enable_rest_service
 
@@ -895,7 +783,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 5000                    |
 | 改后生效方式 | 重启服务生效                |
 
-### 3.12 负载均衡配置
+### 3.10 负载均衡配置
 
 - series_slot_num
 
@@ -987,7 +875,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | true                                         |
 | 改后生效方式 | 重启服务生效                                     |
 
-### 3.13 集群管理
+### 3.11 集群管理
 
 - time_partition_origin
 
@@ -1028,7 +916,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 0.05                         |
 | 改后生效方式 | 重启服务生效                     |
 
-### 3.14 内存控制配置
+### 3.12 内存控制配置
 
 - datanode_memory_proportion
 
@@ -1156,7 +1044,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | true                                                         |
 | 改后生效方式 | 热加载                                                       |
 
-### 3.15 元数据引擎配置
+### 3.13 元数据引擎配置
 
 - schema_engine_mode
 
@@ -1248,7 +1136,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | -1                             |
 | 改后生效方式 | 重启服务生效                       |
 
-### 3.16 自动推断数据类型
+### 3.14 自动推断数据类型
 
 - enable_auto_create_schema
 
@@ -1414,7 +1302,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 
 
-### 3.17 查询配置
+### 3.15 查询配置
 
 - read_consistency_level
 
@@ -1596,7 +1484,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 10                                                           |
 | 改后生效方式 | 热加载                                                       |
 
-###  3.18 TTL配置
+###  3.16 TTL配置
 
 - ttl_check_interval
 
@@ -1625,7 +1513,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 0.3                                                          |
 | 改后生效方式 | 重启服务生效                                                     |
 
-### 3.19 存储引擎配置
+### 3.17 存储引擎配置
 
 - timestamp_precision
 
@@ -1790,7 +1678,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 改后生效方式 | 重启服务生效                                  |
 
 
-### 3.20 合并配置
+### 3.18 合并配置
 
 - enable_seq_space_compaction
 
@@ -2098,7 +1986,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 4                              |
 | 改后生效方式 | 热加载                         |
 
-### 3.21 写前日志配置
+### 3.19 写前日志配置
 
 - wal_mode
 
@@ -2226,7 +2114,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | true                                  |
 | 改后生效方式 | 热加载                                |
 
-### 3.22 IoT 共识协议配置
+### 3.20 IoT 共识协议配置
 
 当Region配置了IoTConsensus共识协议之后，下述的配置项才会生效
 
@@ -2275,7 +2163,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 33554432                                      |
 | 改后生效方式 | 重启服务生效                                      |
 
-### 3.23 TsFile配置
+### 3.21 TsFile配置
 
 - group_size_in_byte
 
@@ -2367,7 +2255,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 无                           |
 | 改后生效方式 | 重启服务生效                     |
 
-### 3.24 授权配置
+### 3.22 授权配置
 
 - authorizer_provider_class
 
@@ -2414,7 +2302,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 30                                     |
 | 改后生效方式 | 重启服务生效                               |
 
-### 3.25 UDF配置
+### 3.23 UDF配置
 
 - udf_initial_byte_array_length_for_memory_control
 
@@ -2452,7 +2340,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | ext/udf（Windows：ext\\udf） |
 | 改后生效方式 | 重启服务生效                     |
 
-### 3.26 触发器配置
+### 3.24 触发器配置
 
 - trigger_lib_dir
 
@@ -2472,7 +2360,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 3                                              |
 | 改后生效方式 | 重启服务生效                                       |
 
-### 3.27 SELECT-INTO配置
+### 3.25 SELECT-INTO配置
 
 - into_operation_buffer_size_in_byte
 
@@ -2501,7 +2389,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 2                                          |
 | 改后生效方式 | 重启服务生效                                   |
 
-### 3.28 连续查询配置
+### 3.26 连续查询配置
 - continuous_query_submit_thread_count
 
 | 名字         | continuous_query_execution_thread |
@@ -2520,7 +2408,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 1000                                      |
 | 改后生效方式 | 重启服务生效                                  |
 
-### 3.29 PIPE配置
+### 3.27 PIPE配置
 
 - pipe_lib_dir
 
@@ -2594,7 +2482,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | -1                                                           |
 | 改后生效方式 | 热加载                                                       |
 
-### 3.30 Ratis共识协议配置
+### 3.28 Ratis共识协议配置
 
 当Region配置了RatisConsensus共识协议之后，下述的配置项才会生效
 
@@ -3057,7 +2945,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 86400 (秒)                                     |
 | 改后生效方式 | 重启服务生效                                       |
 
-### 3.31 IoTConsensusV2配置
+### 3.29 IoTConsensusV2配置
 
 - iot_consensus_v2_pipeline_size
 
@@ -3077,7 +2965,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | batch                               |
 | 改后生效方式 | 重启服务生效                            |
 
-### 3.32 Procedure 配置
+### 3.30 Procedure 配置
 
 - procedure_core_worker_thread_count
 
@@ -3106,7 +2994,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 60(s)                             |
 | 改后生效方式 | 重启服务生效                          |
 
-### 3.33 MQTT代理配置
+### 3.31 MQTT代理配置
 
 - enable_mqtt_service
 
@@ -3162,7 +3050,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 1048576                              |
 | 改后生效方式 | 热加载                               |
 
-### 3.34 审计日志配置
+### 3.32 审计日志配置
 
 - enable_audit_log
 
@@ -3200,7 +3088,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | true                                   |
 | 改后生效方式 | 重启服务生效                               |
 
-### 3.35 白名单配置
+### 3.33 白名单配置
 - enable_white_list
 
 | 名字         | enable_white_list |
@@ -3210,7 +3098,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | false             |
 | 改后生效方式 | 热加载            |
 
-### 3.36 IoTDB-AI 配置
+### 3.34 IoTDB-AI 配置
 
 - model_inference_execution_thread_count
 
@@ -3221,7 +3109,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 5                                      |
 | 改后生效方式 | 重启服务生效                               |
 
-### 3.37 TsFile 主动监听&加载功能配置
+### 3.35 TsFile 主动监听&加载功能配置
 
 - load_clean_up_task_execution_delay_time_seconds
 
@@ -3315,7 +3203,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 |改后生效方式| 重启后生效                                                                                               |
 
 
-### 3.38 分发重试配置
+### 3.36 分发重试配置
 
 - enable_retry_for_unknown_error
 
