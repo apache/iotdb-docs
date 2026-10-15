@@ -40,9 +40,9 @@
     
   - (English) From Time-Series Data to Specialized Data Management. Speaker: Hongyin Zhang
 
-- July 9, 2026, Geneva. AI for good 2026
+- July 9, 2026, Geneva. [AI for good 2026](https://www.timecho-global.com/archives/1784275354231)
   
-  - (English) [Open Source for AI Prosperity](https://www.timecho-global.com/archives/1784275354231) Speaker: Jianmin Wang
+  - (English) [Open Source for AI Prosperity](src/.vuepress/public/img/Open Source Promotes Global AI Innovation-20260709-V7(1).pdf) Speaker: Jianmin Wang
 
 ## 2025 Meetups and Conferences
 
