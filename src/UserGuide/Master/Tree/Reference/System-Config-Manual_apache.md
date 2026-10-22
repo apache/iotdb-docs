@@ -920,16 +920,6 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 604800000                                                    |
 | Effective   | Modify before the first startup.                             |
 
-- heartbeat_interval_in_ms
-
-| Name        | heartbeat_interval_in_ms               |
-| ----------- | -------------------------------------- |
-| Description | The heartbeat interval in milliseconds |
-| Type        | Long                                   |
-| Unit        | ms                                     |
-| Default     | 1000                                   |
-| Effective   | Restart required.                      |
-
 - disk_space_warning_threshold
 
 | Name        | disk_space_warning_threshold                                 |

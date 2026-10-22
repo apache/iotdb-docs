@@ -259,7 +259,7 @@ propertyValue
 #### 示例：
 
 ```SQL
-IoTDB> SET CONFIGURATION 'disk_space_warning_threshold'='0.05','heartbeat_interval_in_ms'='1000' ON 1;
+IoTDB> SET CONFIGURATION 'disk_space_warning_threshold'='0.05' ON 1;
 ```
 
 ### 2.2 读取手动修改的配置文件
