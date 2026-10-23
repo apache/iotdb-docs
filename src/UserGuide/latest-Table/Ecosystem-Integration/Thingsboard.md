@@ -36,26 +36,43 @@ The tested combination is:
 
 | Component | Version |
 | --- | --- |
-| IoTDB | 2.0.8, Table Model |
+| IoTDB | 2.0.11, Table Model |
 | ThingsBoard | 4.3.1.2 |
 | JDK | 17 or later |
 
-This module is not yet included in an ASF release. Build it from the official
-`apache/iotdb-extras` source at commit `275043ed` or later:
+The module is part of the Apache IoTDB Extras 2.0.11 release. Its jar is
+attached to the
+[2.0.11 release](https://github.com/apache/iotdb-extras/releases/tag/v2.0.11)
+with a signature that can be checked against the
+[IoTDB KEYS](https://dist.apache.org/repos/dist/release/iotdb/KEYS) file. The
+jar does not contain the IoTDB client, so the nine client jars it needs are
+downloaded from Maven Central into the same `lib/` directory:
 
 ```bash
-git clone https://github.com/apache/iotdb-extras.git
-cd iotdb-extras
-git checkout 275043ed
-mvn -P with-thingsboard -pl iotdb-thingsboard-table -am clean package
-mvn -P with-thingsboard -pl iotdb-thingsboard-table -am \
-    dependency:copy-dependencies -DincludeScope=runtime \
-    -DoutputDirectory="$PWD/runtime-deps"
+mkdir -p lib
+R=https://github.com/apache/iotdb-extras/releases/download/v2.0.11
+curl -fL -o lib/iotdb-thingsboard-table-2.0.11.jar $R/iotdb-thingsboard-table-2.0.11.jar
+curl -fLO $R/iotdb-thingsboard-table-2.0.11.jar.asc
+curl -fL https://dist.apache.org/repos/dist/release/iotdb/KEYS | gpg --import
+gpg --verify iotdb-thingsboard-table-2.0.11.jar.asc lib/iotdb-thingsboard-table-2.0.11.jar
+
+M=https://repo1.maven.org/maven2
+for path in \
+    org/apache/iotdb/iotdb-session/2.0.11/iotdb-session-2.0.11.jar \
+    org/apache/iotdb/isession/2.0.11/isession-2.0.11.jar \
+    org/apache/iotdb/service-rpc/2.0.11/service-rpc-2.0.11.jar \
+    org/apache/iotdb/iotdb-thrift/2.0.11/iotdb-thrift-2.0.11.jar \
+    org/apache/iotdb/iotdb-thrift-commons/2.0.11/iotdb-thrift-commons-2.0.11.jar \
+    org/apache/thrift/libthrift/0.23.0/libthrift-0.23.0.jar \
+    org/apache/tsfile/tsfile/2.4.0/tsfile-2.4.0.jar \
+    org/apache/tsfile/common/2.4.0/common-2.4.0.jar \
+    org/tukaani/xz/1.10/xz-1.10.jar; do
+  curl -fL -o "lib/${path##*/}" "$M/$path"
+done
 ```
 
-The second command intentionally produces an unfiltered dependency directory.
-Section 2 lists the exact runtime jars to deploy; do not copy the directory as
-a whole.
+`lib/` then holds the ten jars to deploy. The module can also be built from the
+`apache-iotdb-extras-2.0.11-source-release.zip` source package.
 
 ## 2. Install
 
@@ -66,9 +83,9 @@ fail.
 
 1. Install and start IoTDB. See [IoTDB QuickStart](../QuickStart/QuickStart.md).
 
-   When IoTDB 2.0.8 and ThingsBoard run in separate containers, put them on the
+   When IoTDB 2.0.11 and ThingsBoard run in separate containers, put them on the
    same Docker network and make IoTDB advertise a reachable service name. The
-   `2.0.8-standalone` image otherwise binds these endpoints to `127.0.0.1`.
+   `2.0.11-standalone` image otherwise binds these endpoints to `127.0.0.1`.
    For an IoTDB service named `iotdb`, set:
 
    ```yaml
@@ -80,21 +97,21 @@ fail.
    ```
 
 2. Install ThingsBoard normally without any of the properties from section 3.
-3. Create a deployment `lib/` directory containing the module's binary jar from
-   `iotdb-thingsboard-table/target/` and the ten runtime jars listed below from
-   `runtime-deps/`. Place all eleven jars on the ThingsBoard classpath.
+3. Place the ten jars from `lib/` on the ThingsBoard classpath. All ten are
+   needed even while no selector is set: with the module jar alone, ThingsBoard
+   fails to start with
+   `NoClassDefFoundError: org/apache/iotdb/isession/pool/ITableSessionPool`.
 
 For the ThingsBoard Docker image, mount or copy the jars to
 `/usr/share/thingsboard/extensions`; its `PropertiesLauncher` already includes
 that directory through `LOADER_PATH`. Other installation formats may use a
 different classpath extension mechanism.
 
-The deployment directory contains exactly eleven jars: the module, `iotdb-session`,
+The deployment directory contains exactly ten jars: the module, `iotdb-session`,
 `isession`, `service-rpc`, `iotdb-thrift`, `iotdb-thrift-commons`, `libthrift`,
-`pipe-api`, `tsfile`, `common`, and `xz`. Do not add the unfiltered Maven runtime
-directory: it contains older copies of libraries already supplied by
-ThingsBoard. In particular, `antlr4-runtime` 4.9.3 shadows ThingsBoard's 4.13.0
-copy and prevents Spring Data JPA from starting.
+`tsfile`, `common`, and `xz`. ThingsBoard already ships the other libraries the
+IoTDB client uses (`lz4-java`, `zstd-jni`, `snappy-java` and `antlr4-runtime`),
+so do not add copies of them.
 
 ## 3. Configure
 
@@ -133,11 +150,6 @@ The example writes the connection defaults explicitly. Outside Docker,
 `iotdb.host` defaults to `127.0.0.1`; the other defaults are port `6667`,
 username/password `root`/`root`, database `thingsboard`, session-pool size `8`,
 and schema bootstrap enabled.
-
-Attributes require a build containing
-[apache/iotdb-extras#125](https://github.com/apache/iotdb-extras/pull/125),
-merged as commit `275043ed`. Earlier builds cannot enable the attributes
-selector on stock ThingsBoard.
 
 When latest telemetry or attributes are enabled, their `cluster_mode` must be
 set explicitly:
@@ -180,7 +192,7 @@ LIMIT 10;
 
 ## 5. Known limitations
 
-- IoTDB 2.0.8 and ThingsBoard 4.3.1.2 are the tested versions. Other 2.x or
+- IoTDB 2.0.11 and ThingsBoard 4.3.1.2 are the tested versions. Other 2.x or
   ThingsBoard versions require separate verification.
 - Attribute and latest-overlay writes converge within one JVM. A multi-writer
   deployment must use sticky routing or explicitly accept best-effort
@@ -188,9 +200,9 @@ LIMIT 10;
 - The latest-value path is derived from the telemetry table, with a small
   overlay for latest-only writes and deletes.
 - Retention uses IoTDB table-level TTL. See the module's
-  [user guide](https://github.com/apache/iotdb-extras/blob/master/iotdb-thingsboard-table/docs/user-guide.md)
+  [user guide](https://github.com/apache/iotdb-extras/blob/v2.0.11/iotdb-thingsboard-table/docs/user-guide.md)
   for its mapping to ThingsBoard retention settings.
 
 Design, source-build, migration, and compile-surface verification details remain
 in the
-[`iotdb-thingsboard-table` module](https://github.com/apache/iotdb-extras/tree/master/iotdb-thingsboard-table).
+[`iotdb-thingsboard-table` module](https://github.com/apache/iotdb-extras/tree/v2.0.11/iotdb-thingsboard-table).

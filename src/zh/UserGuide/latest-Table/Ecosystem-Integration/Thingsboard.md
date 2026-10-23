@@ -34,25 +34,41 @@ IoTDB 适配版 ThingsBoard。
 
 | 组件 | 版本 |
 | --- | --- |
-| IoTDB | 2.0.8，表模型 |
+| IoTDB | 2.0.11，表模型 |
 | ThingsBoard | 4.3.1.2 |
 | JDK | 17 或更高版本 |
 
-本模块尚未进入 ASF Release。请从 `apache/iotdb-extras` 官方源码的 commit `275043ed`
-或更新版本构建：
+本模块已随 Apache IoTDB Extras 2.0.11 正式发布。模块 jar 作为附件放在
+[2.0.11 Release](https://github.com/apache/iotdb-extras/releases/tag/v2.0.11) 中，
+并附有签名，可用 [IoTDB KEYS](https://dist.apache.org/repos/dist/release/iotdb/KEYS)
+校验。该 jar 不包含 IoTDB 客户端，因此还需从 Maven Central 下载它依赖的 9 个客户端
+jar，放入同一个 `lib/` 目录：
 
 ```bash
-git clone https://github.com/apache/iotdb-extras.git
-cd iotdb-extras
-git checkout 275043ed
-mvn -P with-thingsboard -pl iotdb-thingsboard-table -am clean package
-mvn -P with-thingsboard -pl iotdb-thingsboard-table -am \
-    dependency:copy-dependencies -DincludeScope=runtime \
-    -DoutputDirectory="$PWD/runtime-deps"
+mkdir -p lib
+R=https://github.com/apache/iotdb-extras/releases/download/v2.0.11
+curl -fL -o lib/iotdb-thingsboard-table-2.0.11.jar $R/iotdb-thingsboard-table-2.0.11.jar
+curl -fLO $R/iotdb-thingsboard-table-2.0.11.jar.asc
+curl -fL https://dist.apache.org/repos/dist/release/iotdb/KEYS | gpg --import
+gpg --verify iotdb-thingsboard-table-2.0.11.jar.asc lib/iotdb-thingsboard-table-2.0.11.jar
+
+M=https://repo1.maven.org/maven2
+for path in \
+    org/apache/iotdb/iotdb-session/2.0.11/iotdb-session-2.0.11.jar \
+    org/apache/iotdb/isession/2.0.11/isession-2.0.11.jar \
+    org/apache/iotdb/service-rpc/2.0.11/service-rpc-2.0.11.jar \
+    org/apache/iotdb/iotdb-thrift/2.0.11/iotdb-thrift-2.0.11.jar \
+    org/apache/iotdb/iotdb-thrift-commons/2.0.11/iotdb-thrift-commons-2.0.11.jar \
+    org/apache/thrift/libthrift/0.23.0/libthrift-0.23.0.jar \
+    org/apache/tsfile/tsfile/2.4.0/tsfile-2.4.0.jar \
+    org/apache/tsfile/common/2.4.0/common-2.4.0.jar \
+    org/tukaani/xz/1.10/xz-1.10.jar; do
+  curl -fL -o "lib/${path##*/}" "$M/$path"
+done
 ```
 
-第二条命令会有意生成未经筛选的依赖目录。第 2 节列出了实际需要部署的运行期 jar；不要
-直接复制整个目录。
+完成后 `lib/` 中即为需要部署的 10 个 jar。也可以用源码包
+`apache-iotdb-extras-2.0.11-source-release.zip` 自行构建本模块。
 
 ## 2. 安装
 
@@ -61,8 +77,8 @@ mvn -P with-thingsboard -pl iotdb-thingsboard-table -am \
 
 1. 安装并启动 IoTDB，参见 [IoTDB 快速上手](../QuickStart/QuickStart.md)。
 
-   若 IoTDB 2.0.8 与 ThingsBoard 分别运行在容器中，请把两者放入同一 Docker 网络，并让
-   IoTDB 公布网络内可达的服务名。`2.0.8-standalone` 镜像默认把这些地址绑定到
+   若 IoTDB 2.0.11 与 ThingsBoard 分别运行在容器中，请把两者放入同一 Docker 网络，并让
+   IoTDB 公布网络内可达的服务名。`2.0.11-standalone` 镜像默认把这些地址绑定到
    `127.0.0.1`。假设 IoTDB 服务名为 `iotdb`，请设置：
 
    ```yaml
@@ -74,19 +90,18 @@ mvn -P with-thingsboard -pl iotdb-thingsboard-table -am \
    ```
 
 2. 按常规方式安装 ThingsBoard，此时不要设置第 3 节的任何属性。
-3. 创建部署用的 `lib/` 目录，从 `iotdb-thingsboard-table/target/` 复制模块的二进制 jar，
-   再从 `runtime-deps/` 复制下方列出的 10 个运行期 jar。将这 11 个 jar 全部放到
-   ThingsBoard classpath 上。
+3. 将 `lib/` 中的 10 个 jar 放到 ThingsBoard classpath 上。即使尚未设置任何选择器，
+   这 10 个 jar 也缺一不可：只放模块 jar 时，ThingsBoard 会启动失败，报
+   `NoClassDefFoundError: org/apache/iotdb/isession/pool/ITableSessionPool`。
 
 对于 ThingsBoard Docker 镜像，可将这些 jar 挂载或复制到
 `/usr/share/thingsboard/extensions`。镜像使用的 `PropertiesLauncher` 已通过
 `LOADER_PATH` 包含该目录。其他安装方式可能采用不同的 classpath 扩展机制。
 
-部署目录必须正好包含 11 个 jar：模块本身，以及 `iotdb-session`、`isession`、
-`service-rpc`、`iotdb-thrift`、`iotdb-thrift-commons`、`libthrift`、`pipe-api`、
-`tsfile`、`common` 和 `xz`。不要直接放入 Maven 复制出的全部运行期依赖；其中包含
-ThingsBoard 已自带的旧版本冲突项。特别是 `antlr4-runtime` 4.9.3 会盖住 ThingsBoard 的
-4.13.0，导致 Spring Data JPA 无法启动。
+部署目录必须正好包含 10 个 jar：模块本身，以及 `iotdb-session`、`isession`、
+`service-rpc`、`iotdb-thrift`、`iotdb-thrift-commons`、`libthrift`、`tsfile`、
+`common` 和 `xz`。IoTDB 客户端用到的其余库（`lz4-java`、`zstd-jni`、`snappy-java`
+和 `antlr4-runtime`）ThingsBoard 已经自带，不要再放入其他副本。
 
 ## 3. 配置
 
@@ -122,10 +137,6 @@ iotdb.attributes.cluster_mode=disabled
 示例显式写出了连接配置的默认值。在非 Docker 环境中，`iotdb.host` 默认为
 `127.0.0.1`；其他默认值为端口 `6667`、用户名/密码 `root`/`root`、数据库
 `thingsboard`、会话池大小 `8`，并默认启用表结构引导。
-
-属性路径要求构建中包含
-[apache/iotdb-extras#125](https://github.com/apache/iotdb-extras/pull/125)，即上游
-commit `275043ed` 或更新版本。更早的构建无法在原版 ThingsBoard 上启用属性选择器。
 
 启用最新值或属性时，必须显式设置对应的 `cluster_mode`：
 
@@ -164,14 +175,14 @@ LIMIT 10;
 
 ## 5. 已知限制
 
-- 已验证版本为 IoTDB 2.0.8 和 ThingsBoard 4.3.1.2。其他 IoTDB 2.x 或 ThingsBoard
+- 已验证版本为 IoTDB 2.0.11 和 ThingsBoard 4.3.1.2。其他 IoTDB 2.x 或 ThingsBoard
   版本需要单独验证。
 - 属性写入和最新值覆盖层只在单个 JVM 内收敛。多写入者部署必须使用固定路由，或明确接受
   尽力而为的收敛。
 - 最新值路径从时序表派生，并使用一个小型覆盖层承接仅写最新值和仅删最新值的路径。
 - 保留策略使用 IoTDB 表级 TTL；其与 ThingsBoard 保留设置的对应关系参见模块的
-  [用户指南](https://github.com/apache/iotdb-extras/blob/master/iotdb-thingsboard-table/docs/user-guide.md)。
+  [用户指南](https://github.com/apache/iotdb-extras/blob/v2.0.11/iotdb-thingsboard-table/docs/user-guide.md)。
 
 设计、源码构建、迁移和编译接口验证细节保留在
-[`iotdb-thingsboard-table` 模块](https://github.com/apache/iotdb-extras/tree/master/iotdb-thingsboard-table)
+[`iotdb-thingsboard-table` 模块](https://github.com/apache/iotdb-extras/tree/v2.0.11/iotdb-thingsboard-table)
 中。
