@@ -897,16 +897,6 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 604800000                       |
 | 改后生效方式 | 仅允许在第一次启动服务前修改    |
 
-- heartbeat_interval_in_ms
-
-| 名字         | heartbeat_interval_in_ms |
-| ------------ | ------------------------ |
-| 描述         | 集群节点间的心跳间隔     |
-| 类型         | Long                     |
-| 单位         | ms                       |
-| 默认值       | 1000                     |
-| 改后生效方式 | 重启服务生效                 |
-
 - disk_space_warning_threshold
 
 | 名字         | disk_space_warning_threshold |
