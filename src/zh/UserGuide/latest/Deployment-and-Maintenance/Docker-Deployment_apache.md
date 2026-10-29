@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+  
         http://www.apache.org/licenses/LICENSE-2.0
-    
+  
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +18,7 @@
     under the License.
 
 -->
+
 # Docker部署指导
 
 ## 1. 环境准备
@@ -73,17 +74,10 @@ docker pull apache/iotdb:2.0.x-standalone
 docker images
 ```
 
-![](/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.png)
 
-### 2.2 创建docker bridge网络
+### 2.2 编写docker-compose的yml文件
 
-```Bash
-docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
-```
-
-### 2.3 编写docker-compose的yml文件
-
-这里我们以把IoTDB安装目录和yml文件统一放在`/docker-iotdb`文件夹下为例：
+这里我们以把IoTDB安装目录和yml文件统一放在 `/docker-iotdb`文件夹下为例：
 
 文件目录结构为：`/docker-iotdb/iotdb`, `/docker-iotdb/docker-compose-standalone.yml `
 
@@ -102,7 +96,7 @@ services:
     image: apache/iotdb:2.0.x-standalone #使用的镜像
     hostname: iotdb
     container_name: iotdb
-    restart: always       
+    restart: always   
     ports:
       - "6667:6667"
     environment:
@@ -134,10 +128,14 @@ services:
     #     hard: 1048576
 networks:
   iotdb:
-    external: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
 ```
 
-### 2.4 启动IoTDB
+### 2.3 启动IoTDB
 
 使用下面的命令启动：
 
@@ -146,50 +144,49 @@ cd　/docker-iotdb
 docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
 ```
 
-### 2.5 验证部署
+### 2.4 验证部署
 
 - 查看日志，有如下字样，表示启动成功
 
-    ```SQL
-    docker logs -f iotdb-datanode #查看日志命令
-    2024-07-21 08:22:38,457 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
-    ```
+  ```SQL
+  docker logs -f iotdb-datanode #查看日志命令
+  2024-07-21 08:22:38,457 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
+  ```
 
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
+- 进入容器，查看服务运行状态
 
-- 进入容器，查看服务运行状态 
+  查看启动的容器
 
-    查看启动的容器
+  ```SQL
+  docker ps
+  ```
 
-    ```SQL
-    docker ps
-    ```
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+  进入容器, 通过cli登录数据库, 使用show cluster命令查看服务状态
 
-    进入容器, 通过cli登录数据库, 使用show cluster命令查看服务状态 
+  ```SQL
+  docker exec -it iotdb  /bin/bash         #进入容器
+  ./start-cli.sh -h iotdb                  #登录数据库
+  IoTDB> show cluster                      #查看服务状态
+  ```
 
-    ```SQL
-    docker exec -it iotdb  /bin/bash         #进入容器
-    ./start-cli.sh -h iotdb                  #登录数据库
-    IoTDB> show cluster                      #查看服务状态
-    ```
+  可以看到服务状态都是running, 说明IoTDB部署成功。
 
-    可以看到服务状态都是running, 说明IoTDB部署成功。
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
-
-### 2.6 映射/conf目录(可选)
+### 2.5 映射/conf目录(可选)
 
 后续如果想在物理机中直接修改配置文件，可以把容器中的/conf文件夹映射出来，分三步：
 
-步骤一：拷贝容器中的/conf目录到`/docker-iotdb/iotdb/conf`
+步骤一：拷贝容器中的/conf目录到 `/docker-iotdb/iotdb/conf`
 
 ```bash
 docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 ```
 
-步骤二：在`docker-compose-standalone.yml`中添加映射
+步骤二：在 `docker-compose-standalone.yml`中添加映射
 
 ```bash
     volumes:
@@ -226,7 +223,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 | 192.168.1.4 | iotdb-2 | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3 | ConfigNode、DataNode |
 
-在3台机器上分别配置主机名，设置主机名需要在目标服务器上配置`/etc/hosts`，使用如下命令：
+在3台机器上分别配置主机名，设置主机名需要在目标服务器上配置 `/etc/hosts`，使用如下命令：
 
 ```Bash
 echo "192.168.1.3  iotdb-1"  >> /etc/hosts
@@ -254,7 +251,7 @@ docker images
 
 ### 3.3 编写docker-compose的yml文件
 
-这里我们以把IoTDB安装目录和yml文件统一放在`/docker-iotdb`文件夹下为例：
+这里我们以把IoTDB安装目录和yml文件统一放在 `/docker-iotdb`文件夹下为例：
 
 文件目录结构为：`/docker-iotdb/iotdb`， `/docker-iotdb/confignode.yml`，`/docker-iotdb/datanode.yml`
 
@@ -363,34 +360,33 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
 - 查看日志,有如下字样，表示datanode启动成功
 
-    ```SQL
-    docker logs -f iotdb-datanode #查看日志命令
-    2024-07-21 09:40:58,120 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
-    ```
+  ```SQL
+  docker logs -f iotdb-datanode #查看日志命令
+  2024-07-21 09:40:58,120 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
+  ```
 
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
+- 进入容器，查看服务运行状态
 
-- 进入容器，查看服务运行状态 
+  查看启动的容器
 
-    查看启动的容器
+  ```SQL
+  docker ps
+  ```
 
-    ```SQL
-    docker ps
-    ```
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
 
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
+  进入任意一个容器, 通过cli登录数据库, 使用show cluster命令查看服务状态
 
-    进入任意一个容器, 通过cli登录数据库, 使用show cluster命令查看服务状态 
+  ```SQL
+  docker exec -it iotdb-datanode /bin/bash     #进入容器
+  ./start-cli.sh -h iotdb-1                    #登录数据库
+  IoTDB> show cluster                          #查看服务状态
+  ```
 
-    ```SQL
-    docker exec -it iotdb-datanode /bin/bash     #进入容器
-    ./start-cli.sh -h iotdb-1                    #登录数据库
-    IoTDB> show cluster                          #查看服务状态
-    ```
+  可以看到服务状态都是running, 说明IoTDB部署成功。
 
-    可以看到服务状态都是running, 说明IoTDB部署成功。
-
-    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
+  ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
 ### 3.7 映射/conf目录(可选)
 
