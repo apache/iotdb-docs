@@ -641,6 +641,44 @@ You can set different datatype, encoding, and compression for the timeseries in 
 
 It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
+Note: Starting from **V2.0.12**, when creating a new timeseries under an existing device, the alignment attribute specified for the timeseries no longer needs to be consistent with the device's original alignment attribute. The system automatically ignores the alignment attribute parameters passed when creating the new timeseries and directly inherits the device's own alignment attribute. The device's original alignment type is not modified.
+
+For example, create a new timeseries under the device `root.ln.wf01.GPS`:
+
+```sql
+create timeseries root.ln.wf01.GPS.height double;
+```
+
+The creation succeeds. Query the timeseries under the device:
+
+```sql
+show timeseries root.ln.wf01.GPS.*;
+```
+
+```sql
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.ln.wf01.GPS.latitude| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.GPS.longitude| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf01.GPS.height| null| root.ln|  DOUBLE| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
+
+Check that the device's alignment type has not changed:
+
+```sql
+show devices root.ln.wf01.GPS;
+```
+
+```sql
++----------------+---------+--------+-------+
+|          Device|IsAligned|Template|TTL(ms)|
++----------------+---------+--------+-------+
+|root.ln.wf01.GPS|     true|    null|    INF|
++----------------+---------+--------+-------+
+```
+
 ### 3.3 Delete Timeseries
 
 To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
