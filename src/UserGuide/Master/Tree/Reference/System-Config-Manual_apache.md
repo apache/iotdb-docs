@@ -144,11 +144,15 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 ### 4.2 Seed ConfigNode
 
+> Address-only parameters use unbracketed IPv6 addresses; endpoints containing both an address and a port use `[ipv6]:port`.
+
+`CN_IPV6_ADDRESS` below marks the ConfigNode IPv6 address field. Use an actual resolvable, routable address. Existing IPv4/hostname examples and default values remain unchanged.
+
 - cn_seed_config_node
 
 | Name        | cn_seed_config_node                                          |
 | ----------- | ------------------------------------------------------------ |
-| Description | Address of the seed ConfigNode for Confignode to join the cluster. |
+| Description | Endpoint of the target ConfigNode through which a ConfigNode joins the cluster; a SeedConfigNode is recommended. Supports `ipv4:port`, `hostname:port`, or `[ipv6]:port`, for example `[CN_IPV6_ADDRESS]:10710`. Previously named cn_target_config_node_list in V1.2.2 and earlier. IPv6 is supported from V2.0.12. |
 | Type        | String                                                       |
 | Default     | 127.0.0.1:10710                                              |
 | Effective   | Modify before the first startup.                             |
@@ -157,7 +161,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | dn_seed_config_node                                          |
 | ----------- | ------------------------------------------------------------ |
-| Description | Address of the seed ConfigNode for Datanode to join the cluster. |
+| Description | Endpoint of the ConfigNode through which a DataNode joins the cluster at startup; a SeedConfigNode is recommended. Supports `ipv4:port`, `hostname:port`, or `[ipv6]:port`, for example `[CN_IPV6_ADDRESS]:10710`. Previously named dn_target_config_node_list in V1.2.2 and earlier. IPv6 is supported from V2.0.12. |
 | Type        | String                                                       |
 | Default     | 127.0.0.1:10710                                              |
 | Effective   | Modify before the first startup.                             |
@@ -168,7 +172,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | cn_internal_address                            |
 | ----------- | ---------------------------------------------- |
-| Description | Internal address for ConfigNode communication. |
+| Description | ConfigNode internal cluster communication address. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port, for example `192.168.1.10`, `CN_IPV6_ADDRESS`, or `iotdb-cn-1`. IPv6 is supported from V2.0.12. |
 | Type        | String                                         |
 | Default     | 127.0.0.1                                      |
 | Effective   | Modify before the first startup.               |
@@ -195,7 +199,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | dn_rpc_address                  |
 | ----------- |---------------------------------|
-| Description | Address for client RPC service. |
+| Description | Listening address for the client RPC service. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port, for example `192.168.1.20`, `DN_IPV6_ADDRESS`, or `iotdb-dn-1`. `::` listens on all IPv6 interfaces, but cannot be returned as a remote address for client redirection or node discovery. IPv6 is supported from V2.0.12. |
 | Type        | String                          |
 | Default     | 127.0.0.1                       |
 | Effective   | Restart required.               |
@@ -213,10 +217,14 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | dn_internal_address                          |
 | ----------- | -------------------------------------------- |
-| Description | Internal address for DataNode communication. |
+| Description | DataNode internal communication address. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port, for example `192.168.1.20`, `DN_IPV6_ADDRESS`, or `iotdb-dn-1`. IPv6 is supported from V2.0.12. |
 | Type        | string                                       |
 | Default     | 127.0.0.1                                    |
 | Effective   | Modify before the first startup.             |
+
+> Use unbracketed IPv6 for address-only parameters, such as `DN_IPV6_ADDRESS`; use `[ipv6]:port` for endpoints containing both an address and port, such as `[DN_IPV6_ADDRESS]:10730`. `0.0.0.0` and `::` are wildcard listening addresses only; do not use them as remote connection targets.
+
+`DN_IPV6_ADDRESS` below marks the DataNode IPv6 address field. Replace it with an address bound to and reachable on the corresponding node.
 
 - dn_internal_port
 
@@ -522,6 +530,8 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Effective   | Restart required.                                            |
 
 ### 4.7 SSL Configuration
+
+> IPv6 uses the existing SSL/TLS switches, protocols, KeyStore, and TrustStore settings. For TLS server identity verification over IPv6, the server certificate SAN must contain the actual IPv6 address used by the client as an unbracketed `IP Address`, without a port. For example, when connecting to `[DN_IPV6_ADDRESS]:6667`, the SAN must contain `DN_IPV6_ADDRESS`.
 
 - enable_thrift_ssl
 

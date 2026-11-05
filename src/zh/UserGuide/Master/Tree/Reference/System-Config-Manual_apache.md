@@ -121,11 +121,15 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 ### 3.2 SeedConfigNode 配置
 
+> 只填写地址的参数使用裸 IPv6；同时包含地址和端口的 endpoint 使用 `[ipv6]:port`。
+
+下文的 `CN_IPV6_ADDRESS` 仅用于标示 ConfigNode 的 IPv6 地址填写位置；实际配置时应填写可解析、可路由的地址。原有 IPv4/主机名示例及默认值保持不变。
+
 - cn_seed_config_node
 
 | 名字         | cn_seed_config_node                                          |
 | ------------ | ------------------------------------------------------------ |
-| 描述         | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群，推荐使用 SeedConfigNode。V1.2.2 及以前曾用名是 cn_target_config_node_list |
+| 描述         | 目标 ConfigNode 的 endpoint，ConfigNode 通过此地址加入集群，推荐使用 SeedConfigNode。支持 `ipv4:port`、`hostname:port` 或 `[ipv6]:port`，例如 `[CN_IPV6_ADDRESS]:10710`。V1.2.2 及以前曾用名是 cn_target_config_node_list。IPv6 自 V2.0.12 起支持。 |
 | 类型         | String                                                       |
 | 默认值       | 127.0.0.1:10710                                              |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                 |
@@ -134,7 +138,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | dn_seed_config_node                                          |
 | ------------ | ------------------------------------------------------------ |
-| 描述         | ConfigNode 地址，DataNode 启动时通过此地址加入集群，推荐使用 SeedConfigNode。V1.2.2 及以前曾用名是 dn_target_config_node_list |
+| 描述         | ConfigNode 的 endpoint，DataNode 启动时通过此地址加入集群，推荐使用 SeedConfigNode。支持 `ipv4:port`、`hostname:port` 或 `[ipv6]:port`，例如 `[CN_IPV6_ADDRESS]:10710`。V1.2.2 及以前曾用名是 dn_target_config_node_list。IPv6 自 V2.0.12 起支持。 |
 | 类型         | String                                                       |
 | 默认值       | 127.0.0.1:10710                                              |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                 |
@@ -145,7 +149,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | cn_internal_address          |
 | ------------ | ---------------------------- |
-| 描述         | ConfigNode 集群内部地址      |
+| 描述         | ConfigNode 集群内部通信地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口，不使用方括号，例如 `192.168.1.10`、`CN_IPV6_ADDRESS` 或 `iotdb-cn-1`。IPv6 自 V2.0.12 起支持。 |
 | 类型         | String                       |
 | 默认值       | 127.0.0.1                    |
 | 改后生效方式 | 仅允许在第一次启动服务前修改 |
@@ -172,7 +176,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | dn_rpc_address |
 | ------------ |----------------|
-| 描述         | 客户端 RPC 服务监听地址 |
+| 描述         | 客户端 RPC 服务监听地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口，不使用方括号，例如 `192.168.1.20`、`DN_IPV6_ADDRESS` 或 `iotdb-dn-1`。使用 `::` 可监听全部 IPv6 接口，但 `::` 不能作为客户端重定向或节点发现返回的远端连接地址。IPv6 自 V2.0.12 起支持。 |
 | 类型         | String         |
 | 默认值       | 127.0.0.1      |
 | 改后生效方式 | 重启服务生效         |
@@ -190,10 +194,14 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 | 名字         | dn_internal_address          |
 | ------------ | ---------------------------- |
-| 描述         | DataNode 内网通信地址        |
+| 描述         | DataNode 内部通信地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口，不使用方括号，例如 `192.168.1.20`、`DN_IPV6_ADDRESS` 或 `iotdb-dn-1`。IPv6 自 V2.0.12 起支持。 |
 | 类型         | string                       |
 | 默认值       | 127.0.0.1                    |
 | 改后生效方式 | 仅允许在第一次启动服务前修改 |
+
+> 当地址参数只填写 IPv6 地址时，应使用裸 IPv6，例如 `DN_IPV6_ADDRESS`；当地址和端口组合为 endpoint 时，应使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:10730`。`0.0.0.0` 和 `::` 仅用于监听全部接口，不能作为远端连接目标。
+
+下文的 `DN_IPV6_ADDRESS` 仅用于标示 DataNode 的 IPv6 地址填写位置，实际配置时应替换为相应节点已绑定且可达的地址。
 
 - dn_internal_port
 
@@ -499,6 +507,8 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 改后生效方式 | 重启服务生效                                                 |
 
 ### 3.7 SSL 配置
+
+> IPv6 不改变现有 SSL/TLS 开关、协议、KeyStore 和 TrustStore 配置。通过 IPv6 地址访问 DataNode 并启用主机身份校验时，服务端证书 SAN 必须包含客户端实际访问的裸 IPv6 `IP Address`，不包含方括号和端口。例如，客户端连接 `[DN_IPV6_ADDRESS]:6667` 时，证书 SAN 中应包含 `DN_IPV6_ADDRESS`。
 
 - enable_thrift_ssl
 

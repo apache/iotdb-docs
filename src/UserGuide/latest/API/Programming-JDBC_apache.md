@@ -294,3 +294,12 @@ public class JDBCCharsetExample {
   }
 }
 ```
+
+```java
+// Starting with V2.0.12, use [ipv6]:port in IPv6 URLs
+// String ipv6Url = "jdbc:iotdb://[IPV6_ADDRESS]:6667/";
+// Retain the existing SSL parameters:
+// String ipv6SslUrl = "jdbc:iotdb://[IPV6_ADDRESS]:6667?use_ssl=true";
+```
+
+JDBC URLs include both an address and port and use `jdbc:iotdb://[ipv6]:port/` for IPv6; brackets around the address are required. Replace `IPV6_ADDRESS` in the comments with an actual reachable IPv6 address; retain the existing IPv4 URL. For SSL, retain the existing connection parameters; the server certificate SAN must include the actual unbracketed IPv6 `IP Address` accessed by the client.

@@ -60,6 +60,12 @@ file_count{name="seq",} 2.0
 ...
 ```
 
+自 V2.0.12 起，监控 metrics 接口支持通过 IPv6 地址访问。访问 IPv6 metrics URL 时，地址和端口之间应使用方括号区分；将下方占位符替换为实际可达的 IPv6 地址：
+
+```shell
+curl 'http://[IPV6_ADDRESS]:9091/metrics'
+```
+
 ## 3. Prometheus + Grafana
 
 如上所示，IoTDB 对外暴露出标准的 Prometheus 格式的监控指标数据，可以使用 Prometheus 采集并存储监控指标，使用 Grafana
@@ -90,6 +96,7 @@ follow_redirects: true
 static_configs:
   - targets:
       - localhost:9091
+      - '[IPV6_ADDRESS]:9091'
 ```
 
 更多细节可以参考下面的文档：
@@ -101,3 +108,4 @@ static_configs:
 [Grafana安装使用文档](https://grafana.com/docs/grafana/latest/getting-started/getting-started/)
 
 [Grafana从Prometheus查询数据并绘图的文档](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
+Prometheus target 同时包含 IPv6 地址和端口，应使用 `[ipv6]:port`。即使服务监听地址配置为 `::`，target 也应填写实际可路由的 IPv6 地址，不能填写 `[::]:9091`。

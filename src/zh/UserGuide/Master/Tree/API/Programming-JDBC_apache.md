@@ -291,4 +291,13 @@ public class JDBCCharsetExample {
     }
   }
 }
+
+```java
+// 自 V2.0.12 起，IPv6 URL 的地址与端口使用 [ipv6]:port
+// String ipv6Url = "jdbc:iotdb://[IPV6_ADDRESS]:6667/";
+// SSL 连接沿用原有参数：
+// String ipv6SslUrl = "jdbc:iotdb://[IPV6_ADDRESS]:6667?use_ssl=true";
+```
+
+JDBC URL 同时包含地址和端口，IPv6 格式为 `jdbc:iotdb://[ipv6]:port/`，不能省去地址两侧的方括号。注释示例中的 `IPV6_ADDRESS` 是地址占位符，应替换为实际可达的 IPv6 地址；原有 IPv4 URL 保留。启用 SSL 时沿用原连接参数，服务端证书 SAN 须包含实际访问的裸 IPv6 `IP Address`。
 ```

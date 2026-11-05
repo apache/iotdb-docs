@@ -116,6 +116,8 @@ IoTDB 集群扩容的核心是增加 DataNode 节点，因为 DataNode 是处理
 echo "192.168.1.3  iotdb-1" >> /etc/hosts
 ```
 
+7. IPv6 网络检查：使用双栈或纯 IPv6 网络扩容时，确认新旧节点之间的 IPv6 路由和所需端口可达，DNS 或 `/etc/hosts` 解析一致，配置的 IPv6 地址已绑定到对应网卡。`0.0.0.0` 和 `::` 仅用于监听，不能作为新节点注册到集群时使用的远端地址。
+
 #### 2.2.2 扩容操作
 
 1. 为确保您获取的 IoTDB 安装包完整且正确，在执行安装部署前建议您进行 SHA512 校验。
@@ -136,14 +138,24 @@ vim iotdb-system.properies
 
 |配置项|说明|默认|备注|
 |---|---|---|---|
-|dn\_seed\_config\_node|节点注册加入集群时连接的 ConfigNode 地址,即 cn\_internal\_address:cn\_internal\_port|127\.0\.0\.1:10710<br>|非常重要，强制修改此项，将其改为原集群 ConfigNode 主节点的地址<br>|
-|dn\_rpc\_address|客户端 RPC 服务的地址|0\.0\.0\.0|按需修改，重启服务生效|
+|dn\_seed\_config\_node| 节点注册加入集群时连接的 ConfigNode endpoint，即 `cn_internal_address:cn_internal_port`。IPv6 使用 `[ipv6]:port`。IPv6 自 V2.0.12 起支持。 |127\.0\.0\.1:10710<br>|非常重要，强制修改此项，将其改为原集群 ConfigNode 主节点的地址<br>|
+|dn\_rpc\_address| 客户端 RPC 服务监听地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口、不使用方括号。IPv6 自 V2.0.12 起支持。 |0\.0\.0\.0|按需修改，重启服务生效|
 |dn\_rpc\_port|客户端 RPC 服务的端口|6667|按需修改，重启服务生效|
-|dn\_internal\_address|DataNode 在集群内部通讯使用的地址|127\.0\.0\.1|按需修改，首次启动后不能修改|
+|dn\_internal\_address| DataNode 集群内部通信地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口、不使用方括号。IPv6 自 V2.0.12 起支持。 |127\.0\.0\.1|按需修改，首次启动后不能修改|
 |dn\_internal\_port|DataNode 在集群内部通信使用的端口|10730|按需修改，首次启动后不能修改|
 |dn\_mpp\_data\_exchange\_port|DataNode 用于接收数据流使用的端口|10740|按需修改，首次启动后不能修改|
 |dn\_data\_region\_consensus\_port|DataNode 用于数据副本共识协议通信使用的端口|10750|按需修改，首次启动后不能修改|
 |dn\_schema\_region\_consensus\_port|DataNode 用于元数据副本共识协议通信使用的端口|10760|按需修改，首次启动后不能修改|
+
+纯 IPv6 扩容示例：
+
+```properties
+dn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+dn_rpc_address=NEW_DN_IPV6_ADDRESS
+dn_internal_address=NEW_DN_IPV6_ADDRESS
+```
+
+其中 `CN_IPV6_ADDRESS` 为原集群 ConfigNode 的可达 IPv6 地址，`NEW_DN_IPV6_ADDRESS` 为新节点已绑定且可路由的 IPv6 地址；应用配置前须替换。新节点启动后执行 `show datanodes`，确认新节点状态为 `Running`，地址字段显示配置的裸 IPv6。若返回 `::`，应将对外发布地址改为实际可路由的 IPv6 地址。
 
 4. 启动 DataNode 节点
 

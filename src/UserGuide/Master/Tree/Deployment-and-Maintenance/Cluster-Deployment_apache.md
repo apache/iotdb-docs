@@ -49,6 +49,8 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 6. Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
 
   
+For dual-stack or IPv6-only deployment, verify before startup that IPv6 is enabled in the operating system and the configured addresses are assigned to the appropriate network interfaces and can be bound by the services; that IPv6 routing between ConfigNodes, DataNodes, and AINodes is reachable and the required RPC, consensus, and client ports are allowed through the firewall; and that DNS or `/etc/hosts` resolution is consistent across nodes when hostnames are used. `0.0.0.0` and `::` are wildcard listening addresses only and cannot be used for node registration, node discovery, client redirection, or other remote connection targets.
+
 ## 2. Preparation Steps
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
@@ -146,10 +148,10 @@ Open the ConfigNode configuration file `./conf/iotdb-system.properties`， Set t
 
 | **Configuration**   | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
-| cn_internal_address | The address used by ConfigNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
+| cn_internal_address | Address used for ConfigNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1       | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
 | cn_internal_port    | The port used by ConfigNode for communication within the cluster | 10710           | 10710                                                        | 10710         | 10710         | 10710         | Cannot be modified after initial startup |
 | cn_consensus_port   | The port used for ConfigNode replica group consensus protocol communication | 10720           | 10720                                                        | 10720         | 10720         | 10720         | Cannot be modified after initial startup |
-| cn_seed_config_node | The address of the ConfigNode that the node connects to when registering to join the cluster, `cn_internal_address:cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's `cn_internal-address: cn_internal_port` | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| cn_seed_config_node | ConfigNode endpoint used for node registration and joining the cluster, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 | The first CongfigNode's `cn_internal-address: cn_internal_port` | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
 #### DataNode Configuration
 
@@ -157,14 +159,31 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                                                                                                                                                                                                                              | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------------------- | ------------------------------------------------------------ |-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------- | ------------- | ------------- | ---------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1        | By default, the local machine can directly access it. For non-local access, please modify this configuration item to the IPv4 address or hostname of the server where it is located. It is recommended to use the IPv4 address of the server where it is located.  |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
+| dn_rpc_address                  | Client RPC listening address. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1        | Local access only by default; for remote access, specify the server’s routable IPv4 address, unbracketed IPv6 address, or hostname |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
 | dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                                                                                                                                                                                                                               | 6667          | 6667          | 6667          | Restarting the service takes effect      |
-| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name                                                                                                                                                            | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
+| dn_internal_address             | Address used for DataNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1       | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
 | dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                                                                                                                                                                                                                              | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
 | dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                                                                                                                                                                                                                              | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
 | dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                                                                                                                                                                                                                              | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                                                                                                                                                                                                                              | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
-| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port                                                                                                                                                                                                      | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| dn_seed_config_node             | ConfigNode endpoint used for node registration and joining the cluster, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port                                                                                                                                                                                                      | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+
+The following IPv6-only example shows one ConfigNode and one DataNode in addition to the existing IPv4/hostname examples. Replace `CN_IPV6_ADDRESS` and `DN_IPV6_ADDRESS` with the nodes’ actual reachable IPv6 addresses before deployment.
+
+```properties
+# ConfigNode
+cn_internal_address=CN_IPV6_ADDRESS
+cn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+
+# DataNode
+dn_internal_address=DN_IPV6_ADDRESS
+dn_rpc_address=DN_IPV6_ADDRESS
+dn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+```
+
+`cn_internal_address`, `dn_internal_address`, and `dn_rpc_address` take addresses only and use unbracketed IPv6. `cn_seed_config_node` and `dn_seed_config_node` include addresses and ports and use `[ipv6]:port`.
+
+After startup, verify that the DataNode has registered with the ConfigNode. Cluster IP fields may show unbracketed IPv6; endpoints in logs, errors, and other output must use `[ipv6]:port`. If the service listens on `::`, the node must still publish an actual routable IPv6 address.
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
@@ -205,6 +224,8 @@ cd sbin
 .\windows\start-datanode.bat
 ```
 
+After startup, run `show cluster` in the CLI to verify that ConfigNodes and DataNodes are registered. In an IPv6-only environment, node address fields should display the configured unbracketed IPv6 addresses; addresses with ports in logs or errors should use `[ipv6]:port`. If `::` is returned as a node address, configure an actual routable IPv6 address for the node’s published address.
+
 ### 3.5 Verify Deployment
 
 Can be executed directly Cli startup script in `./sbin`  directory:
@@ -219,6 +240,12 @@ Can be executed directly Cli startup script in `./sbin`  directory:
 
 # V2.0.4.x and later versions
 .\windows\start-cli.bat -h ip -p 6667
+```
+
+When passing an IPv6 address separately with `-h`, omit brackets and specify the port with `-p`. For example:
+
+```shell
+bash sbin/start-cli.sh -h DN_IPV6_ADDRESS -p 6667 -u root -pw '<password>'
 ```
 
 After successful startup, the following interface will appear displaying successful installation of IOTDB.

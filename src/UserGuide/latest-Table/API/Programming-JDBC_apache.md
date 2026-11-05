@@ -187,3 +187,12 @@ public class TableModelJDBCExample {
   }
 }
 ```
+
+```java
+// IPv6 + Table model
+String url = "jdbc:iotdb://[DN_IPV6_ADDRESS]:6667?sql_dialect=table";
+// IPv6 + Table model + SSL
+String sslUrl = "jdbc:iotdb://[DN_IPV6_ADDRESS]:6667?sql_dialect=table&use_ssl=true";
+```
+
+Starting with V2.0.12, table-model JDBC URLs also support `[ipv6]:port`. Replace `DN_IPV6_ADDRESS` with the DataNode’s actual reachable address. For SSL over IPv6, the server certificate SAN uses the unbracketed IPv6 address without a port. Retain the existing table-model URL examples.
