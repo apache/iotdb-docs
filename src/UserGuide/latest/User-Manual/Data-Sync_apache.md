@@ -81,6 +81,8 @@ By declaratively configuring the specific content of the three parts through SQL
 
 1. The schema and auth synchronization functions have the following limitations:
 
+- Since V2.0.12, the time series name at the sender can be modified after synchronization is established, and the synchronization link continues to run normally after the modification.
+
 - When using schema synchronization, it is required that the consensus protocol for `Schema region` and `ConfigNode`  must be the default ratis protocol. This means that the `iotdb-system.properties` configuration file should contain the settings `config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus` and `schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`. If these are not specified, the default ratis protocol is used.
 
 - To prevent potential conflicts, please disable the automatic creation of schema on the receiving end when enabling schema synchronization. This can be done by setting the `enable_auto_create_schema` configuration in the `iotdb-system.properties` file to false.

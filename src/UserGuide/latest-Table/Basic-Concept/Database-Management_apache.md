@@ -166,7 +166,49 @@ SHOW DATABASES DETAILS;
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
 ```
 
-### 2.5 Count Databases
+### 2.5 View Database Creation Information
+
+Use this statement to obtain the `CREATE DATABASE` statement for a specified table-model database. This feature is supported since V2.0.12.
+
+**Syntax:**
+
+```SQL
+SHOW CREATE DATABASE <DATABASE_NAME>;
+```
+
+**Result:**
+
+| **Column Name**   | **Type** | **Description**                                                               |
+| :---------------- | :------- | :----------------------------------------------------------------------------- |
+| Database          | TEXT     | Database name.                                                                |
+| Create Database   | TEXT     | A `CREATE DATABASE` statement that can be used to recreate the database.      |
+
+**Notes:**
+
+1. The system database `information_schema` is not supported. Permission checks are the same as those for viewing or using a database.
+2. The database name in the returned statement is always enclosed in double quotation marks.
+3. When TTL is infinite, the output is `INF`; when TTL is finite, the numeric value is output. `time_partition_interval`, `max_schema_region_group_num`, and `max_data_region_group_num` use their effective values.
+4. If the database does not exist, the statement returns an `Unknown database <database>` error.
+
+**Example:**
+
+View the creation information for the existing database `database1`:
+
+```SQL
+SHOW CREATE DATABASE database1;
+```
+
+Result:
+
+```SQL
++---------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| Database|                                                                                                                               Create Database|
++---------+----------------------------------------------------------------------------------------------------------------------------------------------+
+|database1|CREATE DATABASE "database1" WITH (ttl=31536000000,time_partition_interval=604800000,max_schema_region_group_num=1,max_data_region_group_num=7)|
++---------+----------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 2.6 Count Databases
 
 Counts the total number of databases. This syntax is supported starting from V2.0.11.
 
@@ -187,7 +229,7 @@ TimechoDB> COUNT DATABASES
 +-----+
 ```
 
-### 2.6 Update a Database
+### 2.7 Update a Database
 
 Modifies supported database properties.
 
@@ -208,7 +250,7 @@ ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ALTER DATABASE database1 SET PROPERTIES MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=4;
 ```
 
-### 2.7 Delete a Database
+### 2.8 Delete a Database
 
 Deletes a database.
 
