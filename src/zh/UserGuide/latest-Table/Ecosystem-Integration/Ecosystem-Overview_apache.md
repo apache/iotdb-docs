@@ -35,4 +35,6 @@ IoTDB 生态集成打通时序数据全链路：通过数据采集实现设备�
 - 编程框架
   - Spring Boot Starter [Spring Boot Starter](./Spring-Boot-Starter.md)
   - Mybatis Generator [Mybatis Generator](./Mybatis-Generator.md)
-  - MyBatisPlus Generator [MyBatisPlus Generator](./MyBatisPlus-Generator.md) 
+  - MyBatisPlus Generator [MyBatisPlus Generator](./MyBatisPlus-Generator.md)
+- 物联网对接
+  - ThingsBoard [ThingsBoard](./Thingsboard.md) 
