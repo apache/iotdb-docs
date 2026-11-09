@@ -814,7 +814,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | ----------- | ------------------------------------------- |
 | Description | Number of SeriesPartitionSlots per Database |
 | Type        | int32                                       |
-| Default     | 10000                                       |
+| Default     | 1000                                        |
 | Effective   | Modify before the first startup.            |
 
 - series_partition_executor_class
