@@ -125,6 +125,7 @@ comment
      ```
 6. columnDefinition column names have the same characteristics as table names and can include the special character `.`.
 7. COMMENT adds a comment to the table.
+8. Starting from V2.0.12, the Boolean property `need_last_cache` specifies whether the table actively maintains the last cache. Valid values are `true` and `false`. If explicitly specified when creating the table, the table-level setting is used; otherwise, the table inherits the database's `need_last_cache` setting at the time of creation.
 
 **Examples:** 
 
@@ -164,17 +165,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
    2. `PRE_CREATE`: The table is in the process of being created or the creation has failed; the table is not available.
    3. `PRE_DELETE`: The table is in the process of being deleted or the deletion has failed; the table will remain permanently unavailable.
 
+Starting from V2.0.12, the result set of `SHOW TABLES DETAILS` includes the `NeedLastCache` column.
+
 **Examples:**
 
 ```sql
 show tables details from database1;
 ```
 ```shell
-+---------------+-----------+------+-------+
-|      TableName|    TTL(ms)|Status|Comment|
-+---------------+-----------+------+-------+
-|         table1|31536000000| USING| table1|
-+---------------+-----------+------+-------+
++---------------+-----------+------+-------+----------+-------------+
+|      TableName|    TTL(ms)|Status|Comment| TableType|NeedLastCache|
++---------------+-----------+------+-------+----------+-------------+
+|         table1|31536000000| USING| table1|BASE TABLE|         true|
++---------------+-----------+------+-------+----------+-------------+
 ```
 
 ### 2.3 View Table Columns
@@ -232,6 +235,7 @@ SHOW CREATE TABLE <TABLE_NAME>
 **Note:：**
 
 1. This statement does not support queries on system tables.
+2. Starting from V2.0.12, the returned table creation statement includes the `need_last_cache` property.
 
 **Example:**
 
@@ -239,11 +243,11 @@ SHOW CREATE TABLE <TABLE_NAME>
 show create table table1;
 ```
 ```shell
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Table|                                                                                                                                                                                                                                                                     Create Table|
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table|                                                                                                                                                                                                                                                                                           Create Table|
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000, need_last_cache=true)|
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 
@@ -259,7 +263,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 #dropColumn;              
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier;
 #setTableProperties;                     
-// set TTL can use this;
+// set TTL or need_last_cache can use this;
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;                
 | COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
 | COMMENT ON COLUMN tableName.column IS 'column_comment';
@@ -267,7 +271,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 
 **Note:：**
 
-1. The `SET PROPERTIES` operation currently only supports configuring the `TTL` property of a table
+1. The `SET PROPERTIES` operation supports configuring the `TTL` property of a table. Starting from V2.0.12, it also supports the `need_last_cache` property.
 2. The delete column function only supports deleting the ATTRIBUTE and FILD columns, and the TAG column does not support deletion.
 3. The modified comment will overwrite the original comment. If null is specified, the previous comment will be erased.
 
@@ -287,6 +291,14 @@ set comment
 COMMENT ON TABLE table1 IS 'table1';
 COMMENT ON COLUMN table1.a IS null;
 ```
+
+Set `need_last_cache` for table1
+
+```SQL
+ALTER TABLE table1 SET PROPERTIES need_last_cache=false;
+```
+
+Note: `ALTER TABLE ... SET PROPERTIES need_last_cache=DEFAULT` restores the database default semantics. If `need_last_cache` is explicitly configured for the database, the table uses that database-level value; otherwise, the table uses the default value `true`.
 
 ### 2.6 Delete Tables
 

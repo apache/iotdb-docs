@@ -61,6 +61,12 @@ Database 节点名命名规则:
 
 还需注意，如果在 Windows 或 macOS 系统上部署，database 名是大小写不敏感的。例如同时创建`root.ln` 和 `root.LN` 是不被允许的。
 
+自 V2.0.12 起，创建数据库时支持布尔类型参数 `NEED_LAST_CACHE`，用于设置是否为该数据库主动维护最新点缓存（last cache）。默认值为 `true`，表示按原有策略维护 last cache；设置为 `false` 时，表示该数据库不需要主动维护 last cache。
+
+```SQL
+CREATE DATABASE root.ln WITH NEED_LAST_CACHE=false;
+```
+
 ### 1.2 查看数据库
 
 在 database 创建后，我们可以使用 [SHOW DATABASES](../SQL-Manual/SQL-Manual.md#查看数据库) 语句和 [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md#查看数据库) 来查看 database，SQL 语句如下所示：
@@ -82,6 +88,19 @@ show databases root.**;
 +-------------+----+-------------------------+-----------------------+-----------------------+
 Total line number = 2
 It costs 0.060s
+```
+
+自 V2.0.12 起，`SHOW DATABASES DETAILS` 结果集新增 `NeedLastCache` 列。例如，创建数据库时指定 `NEED_LAST_CACHE=false` 后，可查看该配置：
+
+```SQL
+SHOW DATABASES DETAILS root.ln;
+```
+```shell
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|      root.ln|                      1|                    1|                  0|            604800000|                   0|                      1|                 0|                    4|        false|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 ### 1.3 删除数据库
@@ -283,6 +302,7 @@ show devices;
 | TIME_PARTITION_INTERVAL | Long | 数据库的时间分区间隔，此值需要为正整数 |
 | MAX_SCHEMA_REGION_GROUP_NUM | Integer | 数据库自动扩展 SchemaRegionGroup 时允许达到的最大 SchemaRegionGroup 数量，此值需要为正整数 |
 | MAX_DATA_REGION_GROUP_NUM | Integer | 数据库自动扩展 DataRegionGroup 时允许达到的最大 DataRegionGroup 数量，此值需要为正整数 |
+| NEED_LAST_CACHE | Boolean | 是否为数据库主动维护最新点缓存，默认值为 `true`，自 V2.0.12 起支持 |
 
 用户在配置异构参数时需要注意：
 
@@ -333,11 +353,11 @@ SHOW DATABASES DETAILS prefixPath?
 SHOW DATABASES DETAILS;
 ```
 ```shell
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|         true|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 各列查询结果依次为：
@@ -350,6 +370,7 @@ SHOW DATABASES DETAILS;
 + 数据库允许拥有的最大 SchemaRegionGroup 数量
 + 数据库当前拥有的 DataRegionGroup 数量
 + 数据库允许拥有的最大 DataRegionGroup 数量
++ 数据库是否需要主动维护 last cache（`NeedLastCache`，自 V2.0.12 起支持）
 
 
 ## 2. 设备模板管理
