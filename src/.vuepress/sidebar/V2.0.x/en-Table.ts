@@ -221,6 +221,11 @@ export const enSidebar = {
             { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
         },
+        {
+          text: 'IoT Platform',
+          collapsible: true,
+          children: [{ text: 'ThingsBoard', link: 'ThingsBoard-Table_apache' }],
+        },
       ],
     },
     {

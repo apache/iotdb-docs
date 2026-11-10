@@ -221,6 +221,11 @@ export const zhSidebar = {
             { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
         },
+        {
+          text: '物联网平台',
+          collapsible: true,
+          children: [{ text: 'ThingsBoard', link: 'ThingsBoard-Table_apache' }],
+        },
       ],
     },
     {
