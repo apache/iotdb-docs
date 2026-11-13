@@ -633,6 +633,44 @@ CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT);
 
 对齐的时间序列也支持设置别名、标签、属性。
 
+注意：从 **V2.0.12** 起，在已有设备下创建新时间序列时，新时间序列指定的对齐属性无需与设备原有的对齐属性保持一致。系统会自动忽略创建新时间序列时传入的对齐属性参数，并直接继承设备自身的对齐属性，不会修改设备原有的对齐类型。
+
+例如，在设备 `root.ln.wf01.GPS` 下创建新的时间序列：
+
+```sql
+create timeseries root.ln.wf01.GPS.height double;
+```
+
+创建成功后，查询该设备下的时间序列：
+
+```sql
+show timeseries root.ln.wf01.GPS.*;
+```
+
+```sql
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|                Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.ln.wf01.GPS.latitude| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.ln.wf01.GPS.longitude| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|   root.ln.wf01.GPS.height| null| root.ln|  DOUBLE| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++--------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+```
+
+检查设备的对齐类型是否发生变化：
+
+```sql
+show devices root.ln.wf01.GPS;
+```
+
+```sql
++----------------+---------+--------+-------+
+|          Device|IsAligned|Template|TTL(ms)|
++----------------+---------+--------+-------+
+|root.ln.wf01.GPS|     true|    null|    INF|
++----------------+---------+--------+-------+
+```
+
 ### 3.3 删除时间序列
 
 我们可以使用`(DELETE | DROP) TimeSeries <PathPattern>`语句来删除我们之前创建的时间序列。SQL 语句如下所示：
