@@ -67,7 +67,7 @@
 
 4. 数据删除：IoTDB 提供了两种删除方式，分别为SQL语句删除与过期自动删除(TTL)
 
-   - SQL语句删除：基本介绍请查看 [数据删除](../Basic-Concept/Delete-Data.md)
+   - SQL语句删除：基本介绍请查看 [数据删除](../Basic-Concept/Delete-Data_apache.md)
    - 过期自动删除(TTL)：基本介绍请查看 [过期自动删除](../Basic-Concept/TTL-Delete-Data_apache.md)
 
 5. 其他进阶功能：除了数据库常见的写入、查询等功能外，IoTDB 还支持“数据同步”等功能，具体使用方法可参见具体文档：

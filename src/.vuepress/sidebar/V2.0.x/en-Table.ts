@@ -94,7 +94,7 @@ export const enSidebar = {
           text: 'Delete Data',
           collapsible: true,
           children: [
-            { text: 'Delete Data', link: 'Delete-Data' },
+            { text: 'Delete Data', link: 'Delete-Data_apache' },
             { text: 'TTL Delete Data', link: 'TTL-Delete-Data_apache' },
           ],
         },

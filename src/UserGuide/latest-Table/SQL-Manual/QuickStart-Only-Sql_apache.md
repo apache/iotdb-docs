@@ -123,4 +123,4 @@ DELETE FROM table1 WHERE time >= 2024-11-26 23:39:00  and time <= 2024-11-27 20:
 DELETE FROM table1;
 ```
 
-For detailed syntax description, please refer to: [Data Deletion](../Basic-Concept/Delete-Data.md)
+For detailed syntax description, please refer to: [Data Deletion](../Basic-Concept/Delete-Data_apache.md)
