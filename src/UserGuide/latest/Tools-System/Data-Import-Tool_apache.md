@@ -320,3 +320,35 @@ IoTDB> select * from root.testdb.**
 |2025-04-17T10:35:47.218+08:00|                                22.3|                             19.4|                           true|
 +-----------------------------+------------------------------------+---------------------------------+-------------------------------+
 ```
+
+### 4.3 File Import with Fallback
+
+Starting from V2.0.12, tree-model Load supports fault tolerance for localized file corruption when converting a TsFile into Tablets for writing. It converts and writes as much readable data as possible to reduce data loss caused by localized corruption.
+
+#### 4.3.1 Scope and Trigger Conditions
+
+- This capability applies to **the Load-to-Tablet conversion path for tree-model TsFiles**, including aligned and non-aligned devices.
+- The file must have already entered the Tablet conversion path. Entry points such as small-file conversion and conversion after a Load analysis exception still follow their respective conditions. This process is not forced for every Load failure.
+- If an exception eligible for fallback occurs during sequential scan initialization or reading, query fallback is triggered automatically. No additional fault-tolerance switch is required.
+- `convert-on-type-mismatch` controls conversion when data types do not match; it is not a separate switch for this capability.
+
+#### 4.3.2 Fallback Process
+
+1. **Parse with a sequential scan under normal conditions**: The system scans the TsFile sequentially, assembles the parsed data into Tablets, and writes them in batches.
+2. **Switch to queries if the sequential scan fails**: When a parsing exception eligible for fallback occurs, the system generates query tasks from the TsFile metadata. It continues reading unfinished measurements in the current device and subsequent devices, using the progress of data already emitted to reduce duplicate reads.
+3. **Split measurement groups if a query fails**: When a query task involving multiple measurements fails, the system progressively splits the measurement group and attempts to read each group separately. If a single measurement still cannot be read, the system skips the unread portion of that task and continues with other measurements and devices.
+4. **Attempt to commit data already converted**: Data successfully committed is retained. If a parsing exception prevents further processing and is not retryable, the system attempts to commit converted data pending writing before returning an error. Whether that data is written depends on the commit result.
+
+#### 4.3.3 Typical Scenarios
+
+| **File Condition** | **Behavior** | **Expected Result** |
+| :--- | :--- | :--- |
+| A measurement in an intermediate device is corrupted | Fall back to queries and split measurement groups if necessary | Retain earlier data where possible and continue importing other measurements in the same device and subsequent devices |
+| A measurement in the first non-aligned device is corrupted | Attempt to query other measurements in the first device and subsequent devices | Avoid abandoning subsequent readable data solely because of localized corruption in the first device |
+| Individual measurements in a wide aligned device are corrupted | Split the queried measurement list and skip unreadable single-measurement tasks | Import as much data from uncorrupted measurements as possible |
+| Corruption is encountered after some measurements have been completed | Resume queries based on completed measurements and timestamps of data already emitted | Reduce duplicate reads of data already emitted |
+| Metadata is also corrupted, preventing fallback tasks from being created | Return a failure and attempt to commit converted data pending writing | Retain committed data; whether pending data is written depends on the commit result |
+
+For example, a non-aligned file contains three devices in order: `d0`, `d1`, and `d2`. Each device has two measurements, `s0` and `s1`. If a data chunk in `d1.s1` is corrupted, the system retains previously committed data where possible, attempts to read the remaining data in `d1`, and continues importing `d2`. Unreadable portions of `d1.s1` may be missing; the amount of data recovered depends on the actual location of the corruption.
+
+**A successful return means that conversion and writing have completed under the current fault-tolerance rules. It does not mean that all data in the corrupted file has been imported.**
