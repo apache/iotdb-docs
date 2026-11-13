@@ -232,7 +232,50 @@ IoTDB> show pipe alldatapipe_realtime
 ```
 
 
-### 2.6 Modify a Task
+### 2.6 View Task Creation Information
+
+Use this statement to obtain the creation statement for a specified synchronization task. This feature is supported since V2.0.12.
+
+**Syntax:**
+
+```SQL
+SHOW CREATE PIPE <PipeId>;
+```
+
+**Result:**
+
+| **Column Name** | **Type** | **Description**                                                               |
+| :-------------- | :------- | :----------------------------------------------------------------------------- |
+| Pipe            | TEXT     | Synchronization task name.                                                     |
+| Create Pipe     | TEXT     | A `CREATE PIPE` statement that can be used to recreate the static task definition. |
+
+**Notes:**
+
+1. Only Pipes visible to the table model are returned. If the task does not exist or is not visible to the current user, a task-not-found or permission-related error is returned.
+2. The Pipe name is always enclosed in double quotation marks. Property names and values are output as string literals, with single quotation marks escaped; properties are sorted stably by property name.
+3. If `WITH SOURCE`, `WITH PROCESSOR`, or `WITH SINK` has no user-visible properties, the corresponding clause is omitted.
+4. Properties with the `__system` or `__audit` prefix and system-injected authentication context are omitted. User-configured authentication properties required to recreate connection semantics are retained.
+5. Only the static task definition is returned; runtime state, historical errors, remaining event count, and transmission progress are not included.
+
+**Example:**
+
+View the creation information for the existing task `table1_pipe_realtime`:
+
+```SQL
+SHOW CREATE PIPE table1_pipe_realtime;
+```
+
+Result:
+
+```text
++--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                Pipe|                                                                                                                                                                                                                                                                                   Create Pipe|
++--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|table1_pipe_realtime|CREATE PIPE "table1_pipe_realtime" WITH SOURCE ('database-name'='database1','end-time'='2024-11-28T11:00:00+08:00','history.enable'='false','mode.strict'='true','realtime.enable'='true','start-time'='2024-11-28T08:00:00+08:00','table-name'='table1') WITH SINK ('sink'='do-nothing-sink')|
++--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 2.7 Modify a Task
 
 The `ALTER PIPE` statement dynamically updates an existing PIPE and supports modifying or replacing the configuration of source, processor, and sink.
 
@@ -257,7 +300,7 @@ Example:
 ALTER PIPE A2B REPLACE SINK ('sink'='iotdb-thrift-sink', 'node-urls' = '127.0.0.1:6668');
 ```
 
-### 2.7 Synchronization Plugins
+### 2.8 Synchronization Plugins
 
 To make the architecture more flexible and adaptable to different synchronization scenarios, IoTDB supports plugin assembly in the synchronization task framework. The system provides some common pre-installed plugins, and you can also customize `processor` and `sink` plugins and load them into the IoTDB system.
 
