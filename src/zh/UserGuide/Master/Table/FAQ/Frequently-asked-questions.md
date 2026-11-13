@@ -285,3 +285,33 @@ sudo ln -sf $(which lsof) /bin/lsof  # 自动创建软链接至标准路径
 
 - 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整ON_HEAP_MEMORY、OFF_HEAP_MEMORY等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
 
+
+## 3. IPv6 连接 FAQ
+
+### 3.1 为什么 `[::1]:6667` 合法，而 `::1:6667` 不应作为 endpoint 使用？
+
+自 V2.0.12 起，IoTDB 支持 IPv6 连接。IPv6 地址本身包含多个冒号。地址与端口组合时必须使用 `[ipv6]:port`，这样才能明确区分地址和端口。JDBC URL、Session node URL 和 Pipe `node-urls` 中的地址与端口部分应使用 `[ipv6]:port`。
+
+### 3.2 为什么地址参数使用裸 IPv6，而 JDBC 和 Pipe 使用 `[ipv6]:port`？
+
+`cn_internal_address`、`dn_internal_address`、`dn_rpc_address` 等参数只填写地址，因此使用裸 IPv6；JDBC URL、seed endpoint、Session node URL 和 Pipe `node-urls` 同时包含地址和端口，因此使用 `[ipv6]:port`。
+
+### 3.3 为什么服务监听 `::` 成功，但客户端仍然无法连接？
+
+`::` 表示监听全部 IPv6 接口，不是可路由的远端地址。节点注册、节点发现、客户端重定向、Pipe 目标和 Prometheus target 均应使用实际可达的 IPv6 地址。
+
+### 3.4 IPv6 TLS 连接提示证书主机名或 IP 校验失败怎么办？
+
+检查服务端证书 SAN 是否包含客户端实际访问的裸 IPv6 `IP Address`。SAN 中不能包含方括号或端口；同时确认客户端 TrustStore 包含签发该证书的 CA。
+
+### 3.5 纯 IPv6 环境连接失败如何排查？
+
+依次检查操作系统 IPv6 是否启用、地址是否已绑定、节点间路由和端口是否可达、防火墙是否放行、DNS 或 `/etc/hosts` 解析是否一致，以及客户端运行时和底层 socket 是否支持 IPv6。
+
+### 3.6 双栈环境中 IPv4 可用、IPv6 连接失败怎么办？
+
+先使用实际的 IPv6 地址与端口按当前入口要求的格式直接连接，确认目标服务已绑定 IPv6 地址，路由和防火墙允许该端口访问；再检查 DNS 的 AAAA 记录或 `/etc/hosts` 中的 IPv6 映射是否指向目标地址。分别验证 IPv4 与 IPv6 链路，不要将 IPv4 连接成功当作 IPv6 已连通；节点对外发布地址不能使用 `::`。
+
+### 3.7 Pipe 报 IPv6 endpoint 解析错误怎么办？
+
+检查每个 IPv6 endpoint 是否使用 `[ipv6]:port`，多个 endpoint 是否使用英文逗号分隔，是否误将 `::` 或 `0.0.0.0` 作为目标。SSL Pipe 还需检查 TrustStore、KeyStore 和目标证书 SAN。

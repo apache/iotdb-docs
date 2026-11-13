@@ -188,6 +188,8 @@ Notice: this RPC compression status of client must comply with that of IoTDB ser
 void close(); 
 ```
 
+Starting with V2.0.12, C++ Session supports IPv6 connections to IoTDB. When initializing a client with IPv6, use an unbracketed IPv6 host and a separate port if the API takes them separately; if it takes a node URL, use `[ipv6]:port`. Replace `DN_IPV6_ADDRESS` with the destination DataNode’s actual reachable IPv6 address. Clients must not use `0.0.0.0`, `::`, or equivalent addresses as remote targets during node discovery or redirection. For SSL, the server certificate SAN must contain the actual unbracketed IPv6 `IP Address` used by the client; see the communication encryption chapter for SSL settings and certificate requirements.
+
 ### 3.2 Data Definition Interface (DDL)
 
 #### Database Management
@@ -447,4 +449,3 @@ Failed to delete cached file C:\Users\Administrator\.m2\repository\.cache\downlo
 Possible fixes:
 - Try to delete the ".m2\repository\\.cache\" directory and try again.
 - Add "\<skipCache>true\</skipCache>" configuration to the download-maven-plugin maven phase that complains this error.
-

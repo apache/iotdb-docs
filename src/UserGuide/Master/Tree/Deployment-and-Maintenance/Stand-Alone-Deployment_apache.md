@@ -115,10 +115,10 @@ Open the ConfigNode configuration file (./conf/iotdb-system. properties file) an
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
-| cn_internal_address | The address used by ConfigNode for communication within the cluster |    127.0.0.1    | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | Cannot be modified after initial startup |
+| cn_internal_address | Address used for ConfigNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. |    127.0.0.1    | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | Cannot be modified after initial startup |
 |  cn_internal_port   | The port used by ConfigNode for communication within the cluster |      10710      |                            10710                             | Cannot be modified after initial startup |
 |  cn_consensus_port  | The port used for ConfigNode replica group consensus protocol communication |      10720      |                            10720                             | Cannot be modified after initial startup |
-| cn_seed_config_node | The address of the ConfigNode that the node connects to when registering to join the cluster, cn_internal_address:cn_internal_port | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
+| cn_seed_config_node | ConfigNode endpoint used for node registration, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
 
 #### DataNode Configuration
 
@@ -126,14 +126,26 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 
 |        **Configuration**        |                       **Description**                        |   **Default**   |                                                                                                                        **Recommended value**                                                                                                                        | **Note**                                 |
 | :-----------------------------: | :----------------------------------------------------------: | :-------------: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :--------------------------------------- |
-|         dn_rpc_address          |            The address of the client RPC service             |    127.0.0.1        | By default, the local machine can directly access it. For non-local access, please modify this configuration item to the IPv4 address or hostname of the server where it is located. It is recommended to use the IPv4 address of the server where it is located.   | Restarting the service takes effect      |
+|         dn_rpc_address          | Client RPC listening address. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. |    127.0.0.1        | Local access only by default; for remote access, specify the server’s routable IPv4 address, unbracketed IPv6 address, or hostname | Restarting the service takes effect      |
 |           dn_rpc_port           |              The port of the client RPC service              |      6667       |                                                                                                                                6667                                                                                                                                 | Restarting the service takes effect      |
-|       dn_internal_address       | The address used by DataNode for communication within the cluster |    127.0.0.1    |                                                                               The IPV4 address or host name of the server where it is located, and it is recommended to use host name                                                                               | Cannot be modified after initial startup |
+|       dn_internal_address       | Address used for DataNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. |    127.0.0.1    | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | Cannot be modified after initial startup |
 |        dn_internal_port         | The port used by DataNode for communication within the cluster |      10730      |                                                                                                                                10730                                                                                                                                | Cannot be modified after initial startup |
 |    dn_mpp_data_exchange_port    |      The port used by DataNode to receive data streams       |      10740      |                                                                                                                                10740                                                                                                                                | Cannot be modified after initial startup |
 |  dn_data_region_consensus_port  | The port used by DataNode for data replica consensus protocol communication |      10750      |                                                                                                                                10750                                                                                                                                | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication |      10760      |                                                                                                                                10760                                                                                                                                | Cannot be modified after initial startup |
-|       dn_seed_config_node       | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 |                                                                                                                cn_internal_address:cn_internal_port                                                                                                                 | Cannot be modified after initial startup |
+|       dn_seed_config_node       | ConfigNode endpoint used for node registration, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 |                                                                                                                cn_internal_address:cn_internal_port                                                                                                                 | Cannot be modified after initial startup |
+
+Standalone instances accessed only from the local host can use the IPv6 loopback address:
+
+```properties
+cn_internal_address=::1
+cn_seed_config_node=[::1]:10710
+dn_internal_address=::1
+dn_rpc_address=::1
+dn_seed_config_node=[::1]:10710
+```
+
+`::1` is the IPv6 loopback address and is for local access or testing only. For access from other hosts, use the local host’s actual routable IPv6 address. `::` listens on all IPv6 interfaces and cannot be used as a remote target, node discovery result, or client redirection address.
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 

@@ -77,6 +77,13 @@ public class IoTDBSessionPoolExample {
 }
 ```
 
+```java
+// An IPv6 node URL includes both an address and port:
+// nodeUrls.add("[IPV6_ADDRESS]:6667");
+```
+
+Starting with V2.0.12, Java Session and SessionPool support IPv6 connections to IoTDB. Each `nodeUrls` entry combines an address and port and uses `[ipv6]:port` for IPv6. `IPV6_ADDRESS` in the comment marks the actual node address to supply; retain the existing `nodeUrls.add` calls. When an API takes host and port separately, use an unbracketed IPv6 host and pass the port separately. Pool retries and node refreshes use the same endpoint rules.
+
 ### 2.3 Performing Database Operations
 
 #### 2.3.1 Data Insertion
@@ -495,7 +502,7 @@ The Session class has the following fields, which can be set through the constru
 
 | **Field Name**                   | **Type**                            | **Description**                                              |
 | -------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| `nodeUrls`                       | `List<String>`                      | List of URLs for database nodes, supporting multiple node connections |
+| `nodeUrls`                       | `List<String>`                      | List of database node URLs for multi-node connections; IPv6 endpoints use `[ipv6]:port`, for example `[DN_IPV6_ADDRESS]:6667`. IPv6 is supported from V2.0.12. |
 | `username`                       | `String`                            | Username                                                     |
 | `password`                       | `String`                            | Password                                                     |
 | `fetchSize`                      | `int`                               | Default batch size for query results                         |

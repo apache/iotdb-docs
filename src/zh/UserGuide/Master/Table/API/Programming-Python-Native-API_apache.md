@@ -137,13 +137,15 @@ TableSessionConfig是一个配置类，用于设置和创建TableSession 实例�
 
 | **配置项**         | **描述**                  | **类型** | **默认值**              |
 | ------------------ | ------------------------- | -------- | ----------------------- |
-| node_urls          | 数据库连接的节点 URL 列表 | list     | ["localhost:6667"]      |
+| node_urls          | 数据库连接的节点 URL 列表；IPv6 endpoint 使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:6667`。IPv6 自 V2.0.12 起支持。 | list     | ["localhost:6667"]      |
 | username           | 数据库连接用户名          | str      | "root"                  |
 | password           | 数据库连接密码            | str      | "root"                  |
 | database           | 要连接的目标数据库        | str      | None                    |
 | fetch_size         | 每次查询获取的行数        | int      | 5000                    |
 | time_zone          | 会话的默认时区            | str      | Session.DEFAULT_ZONE_ID |
 | enable_compression | 是否启用数据压缩          | bool     | False                   |
+
+自 V2.0.12 起，表模型 `node_urls` 支持 IPv6 endpoint。表格示意值中的 `DN_IPV6_ADDRESS` 是待填写的 DataNode 地址，原默认值与示例保留。`TableSession`/`TableSessionPool` 分开接收 host 和 port 时，host 使用裸 IPv6；node URL 列表使用 `[ipv6]:port`。
 
 #### 2.2.3 接口展示
 
@@ -244,7 +246,7 @@ TableSessionPoolConfig是一个配置类，用于设置和创建 TableSessionPoo
 
 | **配置项**         | **描述**                       | **类型** | **默认值**               |
 | ------------------ | ------------------------------ | -------- | ------------------------ |
-| node_urls          | 数据库连接的节点 URL 列表      | list     | None                     |
+| node_urls          | 数据库连接的节点 URL 列表；IPv6 endpoint 使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:6667`。IPv6 自 V2.0.12 起支持。 | list     | None                     |
 | max_pool_size      | 会话池中的最大会话数           | int      | 5                        |
 | username           | 数据库连接用户名               | str      | Session.DEFAULT_USER     |
 | password           | 数据库连接密码                 | str      | Session.DEFAULT_PASSWORD |
@@ -402,6 +404,8 @@ def get_data2():
 if __name__ == "__main__":
     df = get_data()
 ```
+
+IPv6 SSL 连接中的 host 使用裸 IPv6。`ca_certs` 指定的 CA 必须能够验证服务端证书，且服务端证书 SAN 必须包含客户端实际访问的裸 IPv6 `IP Address`。如果 SAN 不包含该地址，TLS 主机身份校验将失败。
 
 ## 4. 示例代码
 
@@ -576,4 +580,3 @@ delete_data()
 session_pool.close()
 print("example is finished!")
 ```
-

@@ -154,7 +154,7 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 
 | **配置项**                                           | **描述**                                 | **默认值**                                  |
 | ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
-| nodeUrls(List`<String>` nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
+| nodeUrls(List`<String>` nodeUrls)                      | 设置 IoTDB 集群的节点 URL 列表；IPv6 endpoint 使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:6667`。IPv6 自 V2.0.12 起支持。 | Collections.singletonList("localhost:6667") |
 | username(String username)                            | 设置连接的用户名                         | "root"                                      |
 | password(String password)                            | 设置连接的密码                           | "TimechoDB@2021"（V2.0.6.x 之前默认密码是 root） |
 | database(String database)                            | 设置目标数据库名称                       | null                                        |
@@ -184,6 +184,8 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 | withBlobEncoding(TSEncoding tsEncoding)              | 设置BLOB类型的编码方式                   | TSEncoding.PLAIN                            |
 | withDateEncoding(TSEncoding tsEncoding)              | 设置DATE类型的编码方式                   | TSEncoding.TS_2DIFF                         |
 | connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                 |
+
+自 V2.0.12 起，表模型 `nodeUrls` 也支持 IPv6 endpoint。表格示意值中的 `DN_IPV6_ADDRESS` 为 DataNode 地址占位符，配置时替换为实际可达地址，原默认值不变。`TableSessionBuilder` 的 `host`/`rpcPort` 分开配置时，host 使用裸 IPv6；只有 node URL 字符串才使用方括号。
 
 #### 3.2.3 接口展示
 
@@ -524,7 +526,7 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 
 | **配置项**                                                   | **描述**                                     | **默认值**                                  |
 | ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------- |
-| nodeUrls(List`<String>` nodeUrls)                              | 设置IoTDB集群的节点URL列表                   | Collections.singletonList("localhost:6667") |
+| nodeUrls(List`<String>` nodeUrls)                              | 设置 IoTDB 集群的节点 URL 列表；IPv6 endpoint 使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:6667`。IPv6 自 V2.0.12 起支持。 | Collections.singletonList("localhost:6667") |
 | maxSize(int maxSize)                                         | 设置会话池的最大大小，即池中允许的最大会话数 | 5                                           |
 | user(String user)                                            | 设置连接的用户名                             | "root"                                      |
 | password(String password)                                    | 设置连接的密码                               | "root"                                      |
@@ -948,4 +950,6 @@ public class TableModelSessionPoolExample {
         }
     }
 }
+
+若第 5 章示例需要连接 IPv6 节点，`LOCAL_URL` 的值可使用 `[ipv6]:port`；原示例的地址和初始化代码均不必替换。
 ```

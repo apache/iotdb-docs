@@ -223,11 +223,13 @@ session = (new TableSessionBuilder())
             ->build();
 ```
 
+`host()` 也可传入裸 IPv6 地址，`rpcPort()` 仍单独设置端口。
+
 #### 3.2.2 可设置的参数列表
 
 | **参数名** | **描述** | **默认值** |
 | :---: | :---: | :---: |
-| host | 设置连接的节点IP | "127.0.0.1" ("localhost") |
+| host | 设置连接的节点 IP，支持裸 IPv4、裸 IPv6 或主机名；IPv6 不加方括号。IPv6 自 V2.0.12 起支持。 | "127.0.0.1" ("localhost") |
 | rpcPort | 设置连接的节点端口 | 6667 |
 | username | 设置连接的用户名 | "root" |
 | password | 设置连接密码 | "root" |

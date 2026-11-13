@@ -31,7 +31,7 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 
 | **Short Param** | **Full Param**            | **Description**                                                          | Required | Default                                   |
 |-----------------|---------------------------|--------------------------------------------------------------------------| ---------- |-------------------------------------------|
-| `-h`            | `--host`                 | Hostname                                                                 | No       | 127.0.0.1                                 |
+| `-h`            | `--host`                 | Database server IPv4 address, unbracketed IPv6 address, or hostname; omit brackets for IPv6. IPv6 is supported from V2.0.12. | No       | 127.0.0.1                                 |
 | `-p`            | `--port`                  | Port number                                                              | No       | 6667                                      |
 | `-u`            | `--username`              | Username                                                                 | No       | root                                      |
 | `-pw`           | `--password`              | Password. Supported for hidden input since V2.0.10                   | No       | root                                      |
@@ -45,6 +45,8 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 | `-usessl`       | `--use_ssl`               | Use SSL protocol. Supported since V2.0.10                            | No      | -                                    |
 | `-ts`           | `--trust_store`           | Trust store. Supports hidden input. Supported since V2.0.10          | No      | -                                    |
 | `-tpw`          | `--trust_store_password`  | Trust store password. Supports hidden input. Supported since V2.0.10 | No        | -                                    |
+
+`-h` and `-p` take host and port separately, so use an unbracketed IPv6 host, for example `-h DN_IPV6_ADDRESS -p 6667`. `DN_IPV6_ADDRESS` is a destination DataNode address placeholder; replace it with the actual reachable unbracketed IPv6 address before running the command. Do not pass brackets to `-h`. For SSL, retain the existing `-usessl`, `-ts`, and `-tpw` parameters; verify that the certificate SAN contains the actual IPv6 address accessed by the client.
 
 ### 2.2 Command
 
@@ -88,3 +90,5 @@ IoTDB> show timeseries root.treedb.**
 |   root.treedb.device.humidity| null|root.treedb|  DOUBLE| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
 +------------------------------+-----+-----------+--------+--------+-----------+----+----------+--------+------------------+--------+
 ```
+
+Starting with V2.0.12, `-h` accepts an actual unbracketed IPv6 address and `-p` still takes the port separately. Parameters such as `-sql_dialect`, `-db`, `-s`, `-t`, and `-path` do not need to change for IPv6.

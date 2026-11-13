@@ -48,6 +48,8 @@
 
 6. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
 
+使用 IPv4/IPv6 双栈或纯 IPv6 网络部署时，请在启动前确认：操作系统已启用 IPv6，配置的地址已分配到对应网卡并可被服务绑定；ConfigNode、DataNode 和 AINode 之间的 IPv6 路由可达，相关 RPC、共识和客户端端口已在防火墙中放行；使用 hostname 时，各节点的 DNS 或 `/etc/hosts` 解析结果一致。`0.0.0.0` 和 `::` 仅用于监听全部接口，不能作为节点注册、节点发现、客户端重定向或其他远端连接目标。
+
 ## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
@@ -142,10 +144,10 @@ cd  apache-iotdb-{version}-all-bin
 
 | 配置项              | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| cn_internal_address | ConfigNode在集群内部通讯使用的地址                           | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
+| cn_internal_address | ConfigNode 在集群内部通信使用的地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1       | 所在服务器的 IPv4 地址、裸 IPv6 地址或 hostname，推荐使用 hostname | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | cn_internal_port    | ConfigNode在集群内部通讯使用的端口                           | 10710           | 10710                                                   | 10710         | 10710         | 10710         | 首次启动后不能修改 |
 | cn_consensus_port   | ConfigNode副本组共识协议通信使用的端口                       | 10720           | 10720                                                   | 10720         | 10720         | 10720         | 首次启动后不能修改 |
-| cn_seed_config_node | 节点注册加入集群时连接的ConfigNode 的地址，cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
+| cn_seed_config_node | 节点注册加入集群时连接的 ConfigNode endpoint，即 `cn_internal_address:cn_internal_port`；IPv6 使用 `[ipv6]:port`。IPv6 自 V2.0.12 起支持。 | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
 
 #### DataNode 配置
 
@@ -153,14 +155,31 @@ cd  apache-iotdb-{version}-all-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1         |  默认本机可直接访问。非本机访问，请修改此配置项为所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址。      |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务监听地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1         | 默认仅本机可访问；非本机访问时填写所在服务器可路由的 IPv4 地址、裸 IPv6 地址或 hostname |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
-| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
+| dn_internal_address             | DataNode 在集群内部通信使用的地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1       | 所在服务器的 IPv4 地址、裸 IPv6 地址或 hostname，推荐使用 hostname | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |
 | dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                                   | 10740         | 10740         | 10740         | 首次启动后不能修改 |
 | dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                                   | 10750         | 10750         | 10750         | 首次启动后不能修改 |
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                                   | 10760         | 10760         | 10760         | 首次启动后不能修改 |
-| dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
+| dn_seed_config_node             | 节点注册加入集群时连接的 ConfigNode endpoint，即 `cn_internal_address:cn_internal_port`；IPv6 使用 `[ipv6]:port`。IPv6 自 V2.0.12 起支持。 | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
+
+以下示例在保留原有 IPv4/主机名配置示例的基础上，展示一台 ConfigNode 和一台 DataNode 的纯 IPv6 地址写法。`CN_IPV6_ADDRESS` 与 `DN_IPV6_ADDRESS` 分别表示两台节点实际可达的 IPv6 地址，部署时须按实际环境替换：
+
+```properties
+# ConfigNode
+cn_internal_address=CN_IPV6_ADDRESS
+cn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+
+# DataNode
+dn_internal_address=DN_IPV6_ADDRESS
+dn_rpc_address=DN_IPV6_ADDRESS
+dn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+```
+
+`cn_internal_address`、`dn_internal_address` 和 `dn_rpc_address` 只填写地址，因此使用裸 IPv6。`cn_seed_config_node` 和 `dn_seed_config_node` 同时包含地址和端口，因此使用 `[ipv6]:port`。
+
+节点启动后，应确认 DataNode 已成功注册到 ConfigNode。集群展示中的 IP 字段可以显示裸 IPv6；日志、错误信息和其他带端口的 endpoint 应显示为 `[ipv6]:port`。如果服务监听地址为 `::`，节点对外发布时仍必须使用实际可路由的 IPv6 地址。
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
@@ -199,6 +218,8 @@ cd sbin
 .\windows\start-datanode.bat
 ```
 
+启动完成后，通过 CLI 执行 `show cluster` 检查 ConfigNode 和 DataNode 是否均已注册。纯 IPv6 环境中，节点地址字段应显示配置的裸 IPv6；日志或错误信息中同时包含地址和端口时，应显示为 `[ipv6]:port`。如果发现 `::` 被返回为节点地址，请将对外发布地址改为实际可路由的 IPv6 地址。
+
 ### 3.5 验证部署
 
 可直接执行`./sbin`目录下的Cli启动脚本：
@@ -213,6 +234,12 @@ cd sbin
 
 # V2.0.4.x 版本及之后
 .\windows\start-cli.bat -h ip -p 6667
+```
+
+IPv6 地址通过 `-h` 单独传入时不使用方括号，端口通过 `-p` 传入，例如：
+
+```shell
+bash sbin/start-cli.sh -h DN_IPV6_ADDRESS -p 6667 -u root -pw '<password>'
 ```
 
    成功启动后，出现如下界面显示IOTDB安装成功。

@@ -31,7 +31,7 @@ The schema export tool `export-schema.sh/bat` is located in the `tools` director
 
 | **Short Param** | **Full Param**           | **Description**                                                          | Required                            | Default                                     |
 |-----------------|--------------------------|--------------------------------------------------------------------------| ------------------------------------- |---------------------------------------------|
-| `-h`            | `-- host`                | Hostname                                                                 | No                                  | 127.0.0.1                                   |
+| `-h`            | `-- host`                | Database server IPv4 address, unbracketed IPv6 address, or hostname; omit brackets for IPv6. IPv6 is supported from V2.0.12. | No                                  | 127.0.0.1                                   |
 | `-p`            | `--port`                 | Port number                                                              | No                                  | 6667                                        |
 | `-u`            | `--username`             | Username                                                                 | No                                  | root                                        |
 | `-pw`           | `--password`             | Password. Supported for hidden input since V2.0.10                                                                | No                                  | root    |
@@ -47,6 +47,8 @@ The schema export tool `export-schema.sh/bat` is located in the `tools` director
 | `-usessl`       | `--use_ssl`              | Use SSL protocol. Supported since V2.0.10                            | No      | -                                    |
 | `-ts`           | `--trust_store`          | Trust store. Supports hidden input. Supported since V2.0.10          | No      | -                                    |
 | `-tpw`          | `--trust_store_password` | Trust store password. Supports hidden input. Supported since V2.0.10 | No        | -                                    |
+
+`-h` and `-p` take host and port separately, so use an unbracketed IPv6 host, for example `-h DN_IPV6_ADDRESS -p 6667`. Replace `DN_IPV6_ADDRESS` with the actual reachable DataNode IPv6 address before running the command. For SSL, retain the existing parameters and ensure the certificate SAN contains the actual IPv6 address.
 
 ### 2.2 Command
 
@@ -109,3 +111,5 @@ CREATE TABLE table2(
         arrival_time TIMESTAMP FIELD
 );
 ```
+
+Starting with V2.0.12, `-h` accepts an actual unbracketed IPv6 address and `-p` still takes the port separately. The other export parameters do not need to change for IPv6.

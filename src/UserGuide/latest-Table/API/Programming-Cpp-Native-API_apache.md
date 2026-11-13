@@ -210,11 +210,13 @@ session = (new TableSessionBuilder())
             ->build();
 ```
 
+`host()` also accepts an unbracketed IPv6 address; `rpcPort()` still sets the port separately.
+
 #### 3.2.2 Configurable Parameter List
 
 | **Parameter Name** | **Description** | **Default Value** |
 | :---: | :---: | :---: |
-| host | Set the connected node IP | "127.0.0.1" ("localhost") |
+| host | IP address of the node to connect to; supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname. Omit brackets for IPv6. IPv6 is supported from V2.0.12. | "127.0.0.1" ("localhost") |
 | rpcPort | Set the connected node port | 6667 |
 | username | Set the connection username | "root" |
 | password | Set the connection password | "root" |
@@ -451,4 +453,3 @@ Failed to delete cached file C:\Users\Administrator\.m2\repository\.cache\downlo
 Possible fixes:
 - Try to delete the ".m2\repository\\.cache\" directory and try again.
 - Add "\<skipCache>true\</skipCache>" configuration to the download-maven-plugin maven phase that complains this error.
-
