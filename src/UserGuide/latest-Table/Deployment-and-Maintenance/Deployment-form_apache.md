@@ -28,7 +28,7 @@ An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, referred to a
 
 - **Features**: Easy for developers to install and deploy, with lower deployment and maintenance costs, and convenient operation.
 - **Applicable scenarios**: Situations with limited resources or where high availability is not a critical requirement, such as edge servers.
-- **Deployment method**:[Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
+- **Deployment method**: [Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
  
 
 ## 2. Cluster Mode
