@@ -32,7 +32,9 @@ RESTful services are disabled by default.
   enable_rest_service=true
   ```
 
-## 2. Authentication
+## 2. General Request Headers
+
+### 2.1 Authentication
 
 All RESTful services require **Basic authentication** except the health check interface `/ping`. An `Authorization` header must be carried in all requests.
 
@@ -82,6 +84,32 @@ Authorization: Basic cm9vdDpyb290
 {"code":603,"message":"UNINITIALIZED_AUTH_ERROR"}
 ```
 
+
+### 2.2 Session Time Zone
+
+Starting from V2.0.12, the optional `Time-Zone` request header can specify the session time zone for the current request. This setting affects how date-time values without an explicit time-zone offset in SQL are parsed.
+
+The header format is:
+```http
+Time-Zone: <time-zone ID>
+```
+
+`<time-zone ID>` can be any valid value compatible with Java `java.time.ZoneId`, for example:
+
+- `Europe/Warsaw`
+- `Asia/Shanghai`
+- `UTC`
+
+If the request does not include the `Time-Zone` header, the session uses the server's default time zone. If the specified time-zone ID is invalid, the server returns HTTP status `400 Bad Request`.
+
+For example, to query data before local time `2026-04-10 12:00:00` in the `Europe/Warsaw` time zone, send:
+```shell
+curl -X POST http://127.0.0.1:18080/rest/v2/query \
+  -H "Authorization: Basic cm9vdDpyb290" \
+  -H "Content-Type: application/json" \
+  -H "Time-Zone: Europe/Warsaw" \
+  -d '{"sql":"SELECT temperature FROM root.factory.sensor1 WHERE time <= 2026-04-10T12:00:00"}'
+```
 
 ## 3. Interface
 

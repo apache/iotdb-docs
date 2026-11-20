@@ -31,7 +31,9 @@ RESTful 服务默认情况是关闭的
     enable_rest_service=true
    ```
 
-## 2. 鉴权
+## 2. 通用请求头
+
+### 2.1 鉴权
 除了检活接口 `/ping`，RESTful 服务均使用基础（Basic）鉴权，所有请求都需要在 Header 中携带 `Authorization` 信息。
 
 1. 鉴权格式
@@ -86,6 +88,32 @@ Authorization: Basic cm9vdDpyb290
 {"code":603,"message":"UNINITIALIZED_AUTH_ERROR"}
 ```
 
+
+### 2.2 会话时区
+
+自 V2.0.12 起支持通过可选的 `Time-Zone` 请求头指定当前请求所使用的会话时区。该设置会影响 SQL 中不包含时区偏移量的日期时间值的解析。
+
+请求头格式如下：
+```HTTP
+Time-Zone: <时区 ID>
+```
+
+`<时区 ID>` 可以是任意兼容 Java `java.time.ZoneId` 的有效值，例如：
+
+- `Europe/Warsaw`
+- `Asia/Shanghai`
+- `UTC`
+
+如果请求中未携带 `Time-Zone` 请求头，会话将使用服务端的默认时区。如果指定的时区 ID 无效，服务端将返回 HTTP 状态码 `400 Bad Request`。
+
+例如，客户端希望按照 `Europe/Warsaw` 时区查询当地时间 `2026-04-10 12:00:00` 之前的数据，可以发送以下请求：
+```Shell
+curl -X POST http://127.0.0.1:18080/rest/v1/query \
+  -H "Authorization: Basic cm9vdDpyb290" \
+  -H "Content-Type: application/json" \
+  -H "Time-Zone: Europe/Warsaw" \
+  -d '{"sql":"SELECT temperature FROM root.factory.sensor1 WHERE time <= 2026-04-10T12:00:00"}'
+```
 
 ## 3. 接口
 
