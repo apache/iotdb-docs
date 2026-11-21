@@ -191,6 +191,8 @@ void open(bool enableRPCCompression);
 void close(); 
 ```
 
+自 V2.0.12 起，C++ Session 支持使用 IPv6 地址连接 IoTDB。使用 IPv6 地址初始化客户端时，如果接口分别接收 host 和 port，host 使用裸 IPv6，port 单独传入；如果接口接收 node URL，则使用 `[ipv6]:port`。示意写法中的 `DN_IPV6_ADDRESS` 仅表示待填写的目标 DataNode 地址，使用前须替换为实际可达的 IPv6 地址。客户端获取节点列表或处理重定向时，不应将 `0.0.0.0`、`::` 或其等价表示作为远端连接目标。启用 SSL 时，服务端证书 SAN 必须包含客户端实际访问的裸 IPv6 `IP Address`。
+
 ### 3.2 数据定义接口（DDL）
 
 #### Database 管理

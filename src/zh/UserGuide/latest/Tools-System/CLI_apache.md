@@ -69,11 +69,21 @@ Successfully login at 127.0.0.1:6667
 ```
 输入`quit`或`exit`可退出 cli 结束本次会话，cli 输出`quit normally`表示退出成功。
 
+自 V2.0.12 起，IPv6 地址通过 `-h` 单独传入时使用裸地址，不加方括号；端口通过 `-p` 单独传入。示例中的 `DN_IPV6_ADDRESS` 是目标 DataNode 的地址占位符，运行前应替换为实际可达的 IPv6 地址；原 IPv4 启动示例保留。例如：
+
+```shell
+# Linux/macOS
+bash sbin/start-cli.sh -h DN_IPV6_ADDRESS -p 6667 -u root -pw '<password>'
+
+# Windows（V2.0.4.x 及之后）
+sbin\windows\start-cli.bat -h DN_IPV6_ADDRESS -p 6667 -u root -pw "<password>"
+```
+
 ### 2.2 Cli 运行参数
 
 | **参数名**                      | **参数类型**   | **是否为必需参数** | **说明**                                                     | **示例**               |
 |:-----------------------------|:-----------|:------------|:-----------------------------------------------------------|:---------------------|
-| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。              | -h  127.0.0.1        |
+| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接服务器的 IPv4 地址、裸 IPv6 地址或主机名；IPv6 不加方括号，默认使用 `127.0.0.1`。IPv6 自 V2.0.12 起支持。 | -h  127.0.0.1        |
 | -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。                        | -p 6667              |
 | -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。                           | -u root              |
 | -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 root。 | -pw root             |
@@ -191,4 +201,3 @@ It costs 0.267s
 ```
 
 需要特别注意的是，在脚本中使用 -e 参数时要对特殊字符进行转义。
-

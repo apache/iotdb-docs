@@ -190,3 +190,12 @@ public class TableModelJDBCExample {
   }
 }
 ```
+
+```java
+// IPv6 + Table 模型
+String url = "jdbc:iotdb://[DN_IPV6_ADDRESS]:6667?sql_dialect=table";
+// IPv6 + Table 模型 + SSL
+String sslUrl = "jdbc:iotdb://[DN_IPV6_ADDRESS]:6667?sql_dialect=table&use_ssl=true";
+```
+
+自 V2.0.12 起，表模型 JDBC URL 也可使用 `[ipv6]:port`；示例中的 `DN_IPV6_ADDRESS` 仅为 DataNode 地址占位符，使用前须替换为实际可达地址。通过 IPv6 地址启用 SSL 时，服务端证书 SAN 使用不带方括号和端口的裸 IPv6 地址。原有表模型 URL 示例继续保留。

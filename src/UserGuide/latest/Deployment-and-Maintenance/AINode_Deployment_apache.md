@@ -113,17 +113,25 @@ AINode supports modifying some necessary parameters. You can find the following 
 | **Name**                       | **Description**                                              | **Type** | **Default Value**  |
 | ------------------------------ | ------------------------------------------------------------ | -------- | ------------------ |
 | cluster_name                   | Identifier of the cluster AINode joins                       | string   | defaultCluster     |
-| ain_seed_config_node           | Address of the ConfigNode registered when AINode starts      | String   | 127.0.0.1:10710    |
-| ain_cluster_ingress_address    | RPC address of the DataNode for AINode to pull data          | String   | 127.0.0.1          |
+| ain_seed_config_node           | ConfigNode endpoint used for AINode registration at startup. Supports `ipv4:port`, `hostname:port`, or `[ipv6]:port`, for example `[CN_IPV6_ADDRESS]:10710`. IPv6 is supported from V2.0.12. | String   | 127.0.0.1:10710    |
+| ain_cluster_ingress_address    | DataNode RPC address from which AINode pulls data. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port. IPv6 is supported from V2.0.12. | String   | 127.0.0.1          |
 | ain_cluster_ingress_port       | RPC port of the DataNode for AINode to pull data             | Integer  | 6667               |
 | ain_cluster_ingress_username   | Client username for AINode to pull data from the DataNode    | String   | root               |
 | ain_cluster_ingress_password   | Client password for AINode to pull data from the DataNode    | String   | root               |
 | ain_cluster_ingress_time_zone  | Client time zone for AINode to pull data from the DataNode   | String   | UTC+8              |
-| ain_inference_rpc_address      | Address for AINode to provide services and communication (internal interface) | String   | 127.0.0.1          |
+| ain_inference_rpc_address      | Address used for AINode services and internal communication. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port. IPv6 is supported from V2.0.12. | String   | 127.0.0.1          |
 | ain_inference_rpc_port         | Port for AINode to provide services and communication        | String   | 10810              |
 | ain_system_dir                 | Metadata storage path for AINode (relative path starts from OS-dependent directory; absolute path is recommended) | String   | data/AINode/system |
 | ain_models_dir                 | Path to store model files for AINode (relative path starts from OS-dependent directory; absolute path is recommended) | String   | data/AINode/models |
 | ain_thrift_compression_enabled | Whether to enable Thrift compression for AINode (0=disabled, 1=enabled) | Boolean  | 0                  |
+
+```properties
+ain_seed_config_node=[CN_IPV6_ADDRESS]:10710
+ain_cluster_ingress_address=DN_IPV6_ADDRESS
+ain_inference_rpc_address=AINODE_IPV6_ADDRESS
+```
+
+`ain_seed_config_node` includes both an address and port and uses `[ipv6]:port` for IPv6. `ain_cluster_ingress_address` and `ain_inference_rpc_address` contain addresses only and use unbracketed IPv6. Replace `CN_IPV6_ADDRESS`, `DN_IPV6_ADDRESS`, and `AINODE_IPV6_ADDRESS` with the actual reachable addresses of the ConfigNode, DataNode, and AINode. After startup, verify that AINode is registered with ConfigNode and can access DataNode.
 
 ### 3.3 Importing Weight Files
 

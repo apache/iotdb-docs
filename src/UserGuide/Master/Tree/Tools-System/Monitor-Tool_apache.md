@@ -64,6 +64,12 @@ file_count{name="seq",} 2.0
 ...
 ```
 
+Starting with V2.0.12, the metrics endpoint supports access over IPv6. Use brackets to distinguish the address from the port in an IPv6 metrics URL. Replace the placeholder below with the actual reachable IPv6 address:
+
+```shell
+curl 'http://[IPV6_ADDRESS]:9091/metrics'
+```
+
 ### 1.3 Prometheus + Grafana
 
 As shown above, IoTDB exposes monitoring metrics data in the standard Prometheus format to the outside world. Prometheus
@@ -95,6 +101,7 @@ follow_redirects: true
 static_configs:
   - targets:
       - localhost:9091
+      - '[IPV6_ADDRESS]:9091'
 ```
 
 The following documents may help you have a good journey with Prometheus and Grafana.
@@ -106,3 +113,4 @@ The following documents may help you have a good journey with Prometheus and Gra
 [Grafana getting_started](https://grafana.com/docs/grafana/latest/getting-started/getting-started/)
 
 [Grafana query metrics from Prometheus](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
+Prometheus targets include both an IPv6 address and a port and must use `[ipv6]:port`. Even if the service listens on `::`, use an actual routable IPv6 address for the target, never `[::]:9091`.

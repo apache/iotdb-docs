@@ -284,3 +284,33 @@ Notes:
 #### How to decrease the memory usage of ConfigNode/DataNode?
 
 - Adjust the ON_HEAP_MEMORY、OFF_HEAP_MEMORY options in conf/confignode-env.sh and conf/datanode-env.sh.
+
+## 3. IPv6 Connection FAQ
+
+### 3.1 Why is `[::1]:6667` valid while `::1:6667` should not be used as an endpoint?
+
+Starting with V2.0.12, IoTDB supports IPv6 connections. IPv6 addresses contain multiple colons. Address and port combinations must use `[ipv6]:port` to distinguish them. The address and port in JDBC URLs, Session node URLs, and Pipe `node-urls` must use `[ipv6]:port`.
+
+### 3.2 Why do address parameters use unbracketed IPv6 while JDBC and Pipe use `[ipv6]:port`?
+
+Parameters such as `cn_internal_address`, `dn_internal_address`, and `dn_rpc_address` contain addresses only and use unbracketed IPv6. JDBC URLs, seed endpoints, Session node URLs, and Pipe `node-urls` include both addresses and ports and use `[ipv6]:port`.
+
+### 3.3 Why does listening on `::` succeed while clients still cannot connect?
+
+`::` listens on all IPv6 interfaces and is not a routable remote address. Node registration, node discovery, client redirection, Pipe destinations, and Prometheus targets must use actual reachable IPv6 addresses.
+
+### 3.4 How do I resolve hostname or IP verification failures in IPv6 TLS connections?
+
+Check that the server certificate SAN contains the actual unbracketed IPv6 `IP Address` used by the client, without brackets or a port. Also verify that the client TrustStore contains the CA that issued the certificate.
+
+### 3.5 How do I troubleshoot connection failures in an IPv6-only environment?
+
+Check, in order, that IPv6 is enabled in the operating system, addresses are bound, inter-node routes and ports are reachable, firewalls allow traffic, DNS or `/etc/hosts` resolution is consistent, and the client runtime and underlying socket support IPv6.
+
+### 3.6 What if IPv4 works but IPv6 connections fail in a dual-stack environment?
+
+First connect directly with the actual IPv6 address and port using the required syntax, and verify that the destination service is bound to an IPv6 address and routing and firewall rules allow access to the port. Then check that DNS AAAA records or IPv6 mappings in `/etc/hosts` point to the destination. Verify IPv4 and IPv6 paths separately; successful IPv4 connections do not confirm IPv6 connectivity. Do not publish `::` as a node address.
+
+### 3.7 How do I resolve IPv6 endpoint parsing errors in Pipe?
+
+Check that every IPv6 endpoint uses `[ipv6]:port`, that multiple endpoints are separated by commas, and that `::` or `0.0.0.0` has not been used as a destination. For SSL Pipe, also check the TrustStore, KeyStore, and destination certificate SAN.
