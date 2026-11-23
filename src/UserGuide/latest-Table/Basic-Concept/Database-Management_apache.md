@@ -74,11 +74,14 @@ CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 | `TIME_PARTITION_INTERVAL` | Time partition interval for the database, in milliseconds. The value must be a positive integer. | `604800000` |
 | `MAX_SCHEMA_REGION_GROUP_NUM` | Maximum number of SchemaRegionGroups to which the database can automatically expand. The value must be a positive integer. Supported starting from V2.0.11. | `1` |
 | `MAX_DATA_REGION_GROUP_NUM` | Maximum number of DataRegionGroups to which the database can automatically expand. The value must be a positive integer. Supported starting from V2.0.11. | `2` |
+| `NEED_LAST_CACHE` | Whether the last cache needs to be actively maintained. Valid values are `true` and `false`: `true` maintains the last cache according to the existing policy; `false` means that the object does not actively require the last cache. | `true` |
 
 **Notes:**
 
 - Property names are case-insensitive. For details, see [Case Sensitivity](../SQL-Manual/Identifier.md#2-case-sensitivity).
 - The maximum schema/data region group quotas, `maxSchemaRegionGroupNum` and `maxDataRegionGroupNum`, can be set or adjusted through SQL when creating or modifying a database only when `schema_region_group_extension_policy` and `data_region_group_extension_policy` in `iotdb-common.properties` are set to `CUSTOM`.
+
+- `NEED_LAST_CACHE` is supported since V2.0.12. When set to `false`, tables/views subsequently created in this database without an explicit `need_last_cache` setting do not actively require the last cache by default.
 
 **Example:**
 
@@ -150,6 +153,7 @@ SHOW DATABASES (DETAILS)?
 | MaxSchemaRegionGroupNum | Returned with `DETAILS`. Maximum number of schema replica groups allowed for the database. |
 | DataRegionGroupNum | Returned with `DETAILS`. Number of data replica groups currently owned by the database. |
 | MaxDataRegionGroupNum | Returned with `DETAILS`. Maximum number of data replica groups allowed for the database. |
+| NeedLastCache | Returned when using `DETAILS`, showing the database-level default for the last cache. The value is `true` if not explicitly configured. Supported since V2.0.12. |
 
 **Example:**
 
@@ -158,12 +162,12 @@ SHOW DATABASES DETAILS;
 ```
 
 ```shell
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|         database1|    INF|                      1|                    1|            604800000|                   1|                      1|                 2|                    2|
-|information_schema|    INF|                   null|                 null|                 null|                null|                   null|              null|                 null|
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|         database1|    INF|                      1|                    1|            604800000|                   1|                      1|                 2|                    2|         true|
+|information_schema|    INF|                   null|                 null|                 null|                null|                   null|              null|                 null|        false|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 ### 2.5 Count Databases
@@ -199,14 +203,17 @@ ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignmen
 
 **Description:**
 
-1. `ALTER DATABASE` currently supports modifying only `MAX_SCHEMA_REGION_GROUP_NUM`, `MAX_DATA_REGION_GROUP_NUM`, and `TTL`.
+1. The `ALTER DATABASE` operation currently supports modifications to the database's `MAX_SCHEMA_REGION_GROUP_NUM`, `MAX_DATA_REGION_GROUP_NUM`, `TTL`, and `NEED_LAST_CACHE` (supported since V2.0.12) properties.
 
 **Example:**
 
 ```SQL
 ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ALTER DATABASE database1 SET PROPERTIES MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=4;
+ALTER DATABASE database1 SET PROPERTIES need_last_cache=false;
 ```
+
+`ALTER DATABASE ... SET PROPERTIES need_last_cache=DEFAULT` restores the database-level default value of `true`.
 
 ### 2.7 Delete a Database
 

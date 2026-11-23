@@ -27,7 +27,7 @@ IoTDB has a built-in system database called `INFORMATION_SCHEMA`, which contains
 
 * ​**Name**​: `INFORMATION_SCHEMA`
 * ​**Commands**​: Read-only, only supports `Show databases (DETAILS)` / `Show Tables (DETAILS)` / `Use`. Other operations will result in an error: `"The database 'information_schema' can only be queried."`
-* ​**Attributes**​:` TTL=INF`, other attributes default to `null  `
+* ​**Attributes**​: `TTL=INF`; starting from V2.0.12, `need_last_cache=false`; other attributes default to `null`
 * ​**SQL Example**​:
 
 ```sql
@@ -88,18 +88,20 @@ IoTDB> show tables from information_schema
 | `max_schema_region_group_num` | INT32 | ATTRIBUTE | Maximum number of schema regions to which the database can expand. Supported starting from V2.0.11. |
 | `data_region_group_num` | INT32 | ATTRIBUTE | Number of data regions |
 | `max_data_region_group_num` | INT32 | ATTRIBUTE | Maximum number of data regions to which the database can expand. Supported starting from V2.0.11. |
+| `need_last_cache` | BOOLEAN | ATTRIBUTE | Database-level default for the last cache; `true` if not explicitly configured |
 
+* `need_last_cache` is supported since V2.0.12.
 * The query results only display the collection of databases for which you have any permission on the database itself or any table within the database.
 * Query Example:
 
 ```sql
 IoTDB> select * from information_schema.databases
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
-|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
-|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|
-|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
+|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|need_last_cache|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
+|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|          false|
+|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|           true|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
 ```
 
 ### 2.2 TABLES
@@ -114,35 +116,37 @@ IoTDB> select * from information_schema.databases
 | `ttl(ms)`    | STRING    | ATTRIBUTE   | Data retention time |
 | `status`     | STRING    | ATTRIBUTE   | Status              |
 | `comment`    | STRING    | ATTRIBUTE   | Description/comment |
+| `need_last_cache` | BOOLEAN | ATTRIBUTE | The effective last cache setting of a base table or tree-to-table view. |
 
 * Note:  Possible values for `status`: `USING`, `PRE_CREATE`, `PRE_DELETE`.  For details, refer to the [View Tables](../Basic-Concept/Table-Management_apache.md#12-view-tables) in Table Management documentation
+* `need_last_cache` is supported since V2.0.12.
 * The query results only display the collection of tables for which you have any permission.
 * Query Example:
 
 ```sql
 IoTDB> select * from information_schema.tables
-+------------------+--------------+-----------+------+-------+-----------+
-|          database|    table_name|    ttl(ms)|status|comment| table_type|
-+------------------+--------------+-----------+------+-------+-----------+
-|information_schema|     databases|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        models|        INF| USING|   null|SYSTEM VIEW|
-|information_schema| subscriptions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       regions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|     functions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|      keywords|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       columns|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        topics|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|configurations|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       queries|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        tables|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|  pipe_plugins|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         nodes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|    data_nodes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         pipes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         views|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|  config_nodes|        INF| USING|   null|SYSTEM VIEW|
-|         database1|        table1|31536000000| USING|   null| BASE TABLE|
-+------------------+--------------+-----------+------+-------+-----------+
++------------------+--------------+-----------+------+-------+-------------+---------------+
+|          database|    table_name|    ttl(ms)|status|comment|   table_type|need_last_cache|
++------------------+--------------+-----------+------+-------+-------------+---------------+
+|information_schema|     databases|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        models|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema| subscriptions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       regions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|     functions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|      keywords|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       columns|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        topics|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|configurations|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       queries|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        tables|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|  pipe_plugins|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|    data_nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         pipes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         views|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|  config_nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|         database1|        table1|31536000000| USING|   null|   BASE TABLE|           true|
++------------------+--------------+-----------+------+-------+-------------+---------------+
 ```
 
 ### 2.3 REGIONS

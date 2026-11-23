@@ -62,6 +62,12 @@ Database Node Naming Rules:
 
 Besides, if deploy on Windows or macOS system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
+Starting from V2.0.12, the Boolean parameter `NEED_LAST_CACHE` can be specified when creating a database to control whether the database actively maintains the last cache. The default value is `true`, which maintains the last cache according to the existing policy. Setting it to `false` means that the database does not need to actively maintain the last cache.
+
+```SQL
+CREATE DATABASE root.ln WITH NEED_LAST_CACHE=false;
+```
+
 ### 1.2 Show Databases
 
 After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual_apache) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual_apache) to view the databases. The SQL statements are as follows:
@@ -82,6 +88,19 @@ The result is as follows:
 +-------------+----+-------------------------+-----------------------+-----------------------+
 Total line number = 2
 It costs 0.060s
+```
+
+Starting from V2.0.12, the result set of `SHOW DATABASES DETAILS` includes the `NeedLastCache` column. For example, after creating a database with `NEED_LAST_CACHE=false`, query the setting as follows:
+
+```SQL
+SHOW DATABASES DETAILS root.ln;
+```
+```shell
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|      root.ln|                      1|                    1|                  0|            604800000|                   0|                      1|                 0|                    4|        false|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 ### 1.3 Delete Database
@@ -277,6 +296,7 @@ The following heterogeneous database parameters are supported:
 | TIME_PARTITION_INTERVAL | Long | Time partition interval of the database. The value must be a positive integer. |
 | MAX_SCHEMA_REGION_GROUP_NUM | Integer | Maximum number of SchemaRegionGroups to which the database can automatically expand. The value must be a positive integer. |
 | MAX_DATA_REGION_GROUP_NUM | Integer | Maximum number of DataRegionGroups to which the database can automatically expand. The value must be a positive integer. |
+| NEED_LAST_CACHE | Boolean | Whether to actively maintain the last cache for the database. Defaults to `true`. Supported starting from V2.0.12. |
 
 Note the following when configuring heterogeneous parameters:
 
@@ -331,11 +351,11 @@ SHOW DATABASES DETAILS;
 ```
 
 ```shell
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|
-+-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|      root.db|                      1|                    1|                  0|            604800000|                   0|                      2|                 0|                    3|         true|
++-------------+-----------------------+---------------------+-------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 The columns in the query result are, in order:
@@ -349,6 +369,7 @@ The columns in the query result are, in order:
 + Maximum number of SchemaRegionGroups allowed for the database
 + Number of DataRegionGroups currently owned by the database
 + Maximum number of DataRegionGroups allowed for the database
++ Whether the database needs to actively maintain the last cache (`NeedLastCache`, supported since V2.0.12)
 
 ## 2. Device Template
 

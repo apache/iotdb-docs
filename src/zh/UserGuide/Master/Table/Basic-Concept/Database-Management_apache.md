@@ -75,11 +75,14 @@ CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 | `TIME_PARTITION_INTERVAL` | 数据库的时间分区间隔，单位 ms，此值需要为正整数 | 604800000 |
 | `MAX_SCHEMA_REGION_GROUP_NUM` | 数据库自动扩展 SchemaRegionGroup 时允许达到的最大 SchemaRegionGroup 数量，此值需要为正整数，V2.0.11 起支持 | 1 |
 | `MAX_DATA_REGION_GROUP_NUM` | 数据库自动扩展 DataRegionGroup 时允许达到的最大 DataRegionGroup 数量，此值需要为正整数，V2.0.11 起支持 | 2 |
+| `NEED_LAST_CACHE` | 是否需要主动维护 last cache。可选值为 `true` 或 `false`：`true` 表示按既有策略维护 last cache；`false` 表示该对象不主动需要 last cache。 | `true` |
 
 **注意：**
 
 - 属性的大小写不敏感，有关详细信息请参阅[大小写敏感规则](../SQL-Manual/Identifier.md#大小写敏感性)。
 - 仅当 `iotdb-common.properties` 配置文件中的 `schema_region_group_extension_policy` 和 `data_region_group_extension_policy` 参数设置为 `CUSTOM` 策略时，才支持通过 SQL 在创建或修改数据库时设置或调整 schema/data region group 最大配额，即 `maxSchemaRegionGroupNum` 和 `maxDataRegionGroupNum`。
+
+- `NEED_LAST_CACHE` 自 V2.0.12 起支持。设置为 `false` 时，该数据库下后续创建且未显式指定 `need_last_cache` 的表/视图默认不需要主动维护 last cache。
 
 **示例：**
 
@@ -151,6 +154,7 @@ SHOW DATABASES (DETAILS)?
 | MaxSchemaRegionGroupNum | 使用 `DETAILS` 语句会返回此列，展示数据库允许拥有的最大元数据副本组数量。 |
 | DataRegionGroupNum | 使用 `DETAILS` 语句会返回此列，展示数据库当前拥有的数据副本组数量。 |
 | MaxDataRegionGroupNum | 使用 `DETAILS` 语句会返回此列，展示数据库允许拥有的最大数据副本组数量。 |
+| NeedLastCache | 使用 `DETAILS` 语句时返回此列，展示数据库级 last cache 默认值；未显式设置时为 `true`。自 V2.0.12 起支持。 |
 
 **示例:** 
 
@@ -159,12 +163,12 @@ SHOW DATABASES DETAILS;
 ```
 
 ```shell
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
-|         database1|    INF|                      1|                    1|            604800000|                   1|                      1|                 2|                    2|
-|information_schema|    INF|                   null|                 null|                 null|                null|                   null|              null|                 null|
-+------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MaxDataRegionGroupNum|NeedLastCache|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
+|         database1|    INF|                      1|                    1|            604800000|                   1|                      1|                 2|                    2|         true|
+|information_schema|    INF|                   null|                 null|                 null|                null|                   null|              null|                 null|        false|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+-----------------------+------------------+---------------------+-------------+
 ```
 
 ### 2.5 统计数据库数量
@@ -200,14 +204,17 @@ ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignmen
 
 **说明：**
 
-1. `ALTER DATABASE` 操作目前仅支持对数据库的 `MAX_SCHEMA_REGION_GROUP_NUM`、`MAX_DATA_REGION_GROUP_NUM` 以及 `TTL` 属性进行修改。
+1. `ALTER DATABASE` 操作目前仅支持对数据库的 `MAX_SCHEMA_REGION_GROUP_NUM`、`MAX_DATA_REGION_GROUP_NUM`、`TTL` 以及 `NEED_LAST_CACHE`（自 V2.0.12 起支持）属性进行修改。
 
 **示例:** 
 
 ```SQL
 ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ALTER DATABASE database1 SET PROPERTIES MAX_SCHEMA_REGION_GROUP_NUM=2, MAX_DATA_REGION_GROUP_NUM=4;
+ALTER DATABASE database1 SET PROPERTIES need_last_cache=false;
 ```
+
+`ALTER DATABASE ... SET PROPERTIES need_last_cache=DEFAULT` 表示恢复数据库级默认值 `true`。
 
 ### 2.7 删除数据库
 
