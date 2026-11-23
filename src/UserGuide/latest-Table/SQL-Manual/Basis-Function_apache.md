@@ -163,6 +163,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | APPROX_COUNT_DISTINCT  | The APPROX_COUNT_DISTINCT(x[, maxStandardError]) function provides an approximation of COUNT(DISTINCT x), returning the estimated number of distinct input values.                                                                                                                                                                                                                                                                                                                                                                                                                     | `x`: The target column to be calculated, supports all data types.<br>`maxStandardError` (optional): Specifies the maximum standard error allowed for the function's result. Valid range is [0.0040625, 0.26]. Defaults to 0.023 if not specified. | INT64                                           |
 | APPROX_MOST_FREQUENT | The APPROX_MOST_FREQUENT(x, k, capacity) function is used to approximately calculate the top k most frequent elements in a dataset. It returns a JSON-formatted string where the keys are the element values and the values are their corresponding approximate frequencies. （Available since V2.0.5.1)                                                                                                                                                                                                                                                                                | `x` : The column to be calculated, supporting all existing data types in IoTDB;<br> `k`: The number of top-k most frequent values to return;<br>`capacity`: The number of buckets used for computation, which relates to memory usage—a larger value reduces error but consumes more memory, while a smaller value increases error but uses less memory. | STRING |
 | APPROX_PERCENTILE     | The APPROX_PERCENTILE function calculates the value at a specified percentile in a dataset, helping quickly understand data distribution (e.g., median, quartiles). It supports weighted percentile calculation. If the percentile does not point to an exact position, it returns a linear interpolation of adjacent values at that position.Memory usage depends on the number of centroids, and the maximum number of centroids can be limited using the compression parameter. Error can be estimated using empirical formulas.Note: This function is supported since V2.0.10. | Unweighted Version: APPROX_PERCENTILE(x, percentage) <br> x: Column to compute. Supports all numeric types: INT32, INT64, FLOAT, DOUBLE, TIMESTAMP. <br> percentage: Target percentile, DOUBLE type. <br>Weighted Version: APPROX_PERCENTILE(x, w, percentage)<br>x: Column to compute. Supports all numeric types: INT32, INT64, FLOAT, DOUBLE, TIMESTAMP.<br>w: Weight column, integer type (must align with the length of x; NULL or 0 means the row is ignored).<br>percentage: Target percentile, DOUBLE type.    | Same as the input column x.                |
+| PERCENTILE | `PERCENTILE(x, percentage)` calculates an exact percentile using linear interpolation to help describe the data distribution.<br>`percentage` must be in `[0, 1]`.<br>Supported since V2.0.12. | `x`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`.<br>`percentage`: `DOUBLE`. | Same as the input `x` type |
 | SUM                    | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | AVG                    | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | MAX                    | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | All types                                                                                                                                                                                                                                         | Same as input type                         |
@@ -175,12 +176,30 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | VARIANCE               | Alias for VAR_SAMP,  calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | VAR_POP                | Calculates the population variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | VAR_SAMP               | Calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| CORR | `CORR(x, y)` calculates the Pearson correlation coefficient of two variables, in the range `[-1, 1]`.<br>Pairs containing `NULL` are ignored. Returns `NULL` if there are fewer than two valid pairs or either variable has a standard deviation of 0.<br>Supported since V2.0.12. | `x`, `y`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| COVAR_POP | `COVAR_POP(x, y)` calculates the population covariance of two variables.<br>Pairs containing `NULL` are ignored. Returns `NULL` if there are no valid pairs, or `0.0` if there is only one valid pair.<br>Supported since V2.0.12. | `x`, `y`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| COVAR_SAMP | `COVAR_SAMP(x, y)` calculates the sample covariance of two variables.<br>Pairs containing `NULL` are ignored. Returns `NULL` if there are fewer than two valid pairs.<br>Supported since V2.0.12. | `x`, `y`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| REGR_SLOPE | `REGR_SLOPE(y, x)` calculates the slope of the least-squares regression line, with `x` as the independent variable and `y` as the dependent variable.<br>Pairs containing `NULL` are ignored. Returns `NULL` if there are fewer than two valid pairs or `x` has a standard deviation of 0.<br>Supported since V2.0.12. | `y`, `x`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| REGR_INTERCEPT | `REGR_INTERCEPT(y, x)` calculates the intercept of the least-squares regression line, with `x` as the independent variable and `y` as the dependent variable.<br>Pairs containing `NULL` are ignored. Returns `NULL` if there are fewer than two valid pairs or `x` has a standard deviation of 0.<br>Supported since V2.0.12. | `y`, `x`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| KURTOSIS | `KURTOSIS(x)` calculates the sample excess kurtosis to describe the peakedness and tail weight of a distribution. Ignores `NULL`.<br>Returns `NULL` if there are fewer than four valid values or the standard deviation is 0.<br>Supported since V2.0.12. | `x`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
+| SKEWNESS | `SKEWNESS(x)` calculates the sample skewness to describe the asymmetry of a distribution. Ignores `NULL`.<br>Returns `NULL` if there are fewer than three valid values or the standard deviation is 0.<br>Supported since V2.0.12. | `x`: numeric types, including `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `TIMESTAMP`. | DOUBLE |
 | EXTREME                | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value.                                                                                                                                                                                                                                                                                                                                                                                                                                 | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | Same as input type                         |
 | MODE                   | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL.                                                                                                                                           | All types                                                                                                                                                                                                                                         | Same as input type                         |
 | MAX_BY                 | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum.                                                                                                                                                                                                                                                                                                                                                                                                                          | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
 | MIN_BY                 | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                                                                                                                                                          | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
 | FIRST_BY               | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
 | LAST_BY                | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
+| RATE | `RATE(value_col, time_col, window_start, window_end)` sorts samples by `time_col` and calculates the average per-second growth rate using all valid samples in `[window_start, window_end)`. Decreases between adjacent samples are treated as counter resets. Applies boundary extrapolation and prevents extrapolation past the counter zero point at the left boundary. Samples in each aggregation group should belong to a single logical counter time series.<br>Returns `NULL` if there are fewer than two valid non-`NULL` samples.<br>Supported since V2.0.12. | `value_col`: `INT32`, `INT64`, `FLOAT`, or `DOUBLE`. Non-`NULL` values must be finite and nonnegative; `NULL` values are ignored.<br>`time_col`, `window_start`, `window_end`: `TIMESTAMP` or `INT64`. `INT64` values are interpreted using the current system `timestamp_precision`.<br>Requires `window_start < window_end` and `window_start <= time_col < window_end`. Window boundaries must be identical within a group, and valid `time_col` values must be unique. When `value_col` is non-`NULL`, the other arguments must also be non-`NULL`. | `DOUBLE`, in input value units per second |
+| IRATE | `IRATE(value_col, time_col)` sorts samples by `time_col` and calculates the instantaneous per-second rate using only the last two valid samples in the current aggregation group. If the latest value is smaller than the previous value, treats this as a counter reset and uses the latest value as the confirmed increase. Does not extrapolate to window boundaries. Samples in each aggregation group should belong to a single logical counter time series.<br>Returns `NULL` if there are fewer than two valid non-`NULL` samples.<br>Supported since V2.0.12. | `value_col`: `INT32`, `INT64`, `FLOAT`, or `DOUBLE`. Non-`NULL` values must be finite and nonnegative; `NULL` values are ignored.<br>`time_col`: `TIMESTAMP` or `INT64`. `INT64` values are interpreted using the current system `timestamp_precision`.<br>When `value_col` is non-`NULL`, `time_col` must also be non-`NULL`. Valid `time_col` values must be unique within a group. | `DOUBLE`, in input value units per second |
+| INCREASE | `INCREASE(value_col, time_col, window_start, window_end)` sorts samples by `time_col` and calculates the total increase over the window using all valid samples in `[window_start, window_end)`. Decreases between adjacent samples are treated as counter resets. Applies boundary extrapolation and prevents extrapolation past the counter zero point at the left boundary. Samples in each aggregation group should belong to a single logical counter time series.<br>Returns `NULL` if there are fewer than two valid non-`NULL` samples.<br>Supported since V2.0.12. | `value_col`: `INT32`, `INT64`, `FLOAT`, or `DOUBLE`. Non-`NULL` values must be finite and nonnegative; `NULL` values are ignored.<br>`time_col`, `window_start`, `window_end`: `TIMESTAMP` or `INT64`. `INT64` values are interpreted using the current system `timestamp_precision`.<br>Requires `window_start < window_end` and `window_start <= time_col < window_end`. Window boundaries must be identical within a group, and valid `time_col` values must be unique. When `value_col` is non-`NULL`, the other arguments must also be non-`NULL`. | `DOUBLE`, in the same units as `value_col` |
+| DELTA | `DELTA(value_col, time_col, window_start, window_end)` sorts samples by `time_col` and calculates the change over the window using all valid samples in `[window_start, window_end)`. Decreases are treated as normal gauge changes, without counter reset correction. Applies boundary extrapolation without counter zero-point protection.<br>Returns `NULL` if there are fewer than two valid non-`NULL` samples.<br>Supported since V2.0.12. | `value_col`: `INT32`, `INT64`, `FLOAT`, or `DOUBLE`. Non-`NULL` values must be finite and may be negative; `NULL` values are ignored.<br>`time_col`, `window_start`, `window_end`: `TIMESTAMP` or `INT64`. `INT64` values are interpreted using the current system `timestamp_precision`.<br>Requires `window_start < window_end` and `window_start <= time_col < window_end`. Window boundaries must be identical within a group, and valid `time_col` values must be unique. When `value_col` is non-`NULL`, the other arguments must also be non-`NULL`. | `DOUBLE`, in the same units as `value_col`; may be negative |
+
+
+**Notes:**
+
+1. **Counter reset handling**: A decrease between adjacent samples of a monotonically increasing counter is treated as a counter reset. The increase is corrected to avoid a false negative growth rate.
+
+2. **Boundary extrapolation**: Based on the average sampling interval within the window, the result is extrapolated toward the window boundaries to estimate the rate, increase, or change over the complete window.
 
 
 ### 2.3 Examples
@@ -411,6 +430,96 @@ The execution result is as follows:
 +-----------------------------+-----+
 Total line number = 1
 It costs 0.244s
+```
+
+
+#### 2.3.13 Rate
+
+This example uses the `table1` data from Section 2.3.1 and queries `temperature` for `device_id = '100'` between `2024-11-28 08:00:00` and `12:00:00`. The window contains three valid values (`85.0`, `85.0`, and `88.0`); the `NULL` at `09:00:00` is ignored. The `window_start` and `window_end` generated by `TUMBLE()` can be passed directly to `rate()`, `increase()`, and `delta()` as window boundaries. `irate()` only requires the value column and time column.
+
+```SQL
+SELECT
+  device_id,
+  window_start,
+  window_end,
+  rate(temperature, time, window_start, window_end) AS temperature_rate,
+  increase(temperature, time, window_start, window_end) AS temperature_increase,
+  irate(temperature, time) AS temperature_irate,
+  delta(temperature, time, window_start, window_end) AS temperature_delta
+FROM TUMBLE(
+  DATA => (
+    SELECT time, device_id, temperature
+    FROM table1
+    WHERE device_id = '100'
+      AND time >= 2024-11-28T08:00:00.000+08:00
+      AND time <  2024-11-28T12:00:00.000+08:00
+  ),
+  TIMECOL => 'time',
+  SIZE => 4h
+)
+GROUP BY device_id, window_start, window_end;
+```
+
+Result:
+
+```SQL
++---------+-----------------------------+-----------------------------+--------------------+--------------------+--------------------+-----------------+
+|device_id|                 window_start|                   window_end|    temperature_rate|temperature_increase|   temperature_irate|temperature_delta|
++---------+-----------------------------+-----------------------------+--------------------+--------------------+--------------------+-----------------+
+|      100|2024-11-28T08:00:00.000+08:00|2024-11-28T12:00:00.000+08:00|2.777777777777778E-4|                 4.0|8.333333333333334E-4|              4.0|
++---------+-----------------------------+-----------------------------+--------------------+--------------------+--------------------+-----------------+
+Total line number = 1
+It costs 0.132s
+```
+
+#### 2.3.14 Corr
+
+The following examples use the `table1` data from Section 2.3.1 to calculate correlation, covariance, linear regression, kurtosis, skewness, and exact percentiles. For bivariate statistics, rows where either `temperature` or `humidity` is `NULL` are ignored. There are eight valid pairs in this example.
+
+Calculate the correlation coefficient, population covariance, and sample covariance of `temperature` and `humidity`, and the regression slope and intercept of `humidity` with respect to `temperature`:
+
+```SQL
+SELECT
+  CORR(temperature, humidity),
+  COVAR_POP(temperature, humidity),
+  COVAR_SAMP(temperature, humidity),
+  REGR_SLOPE(humidity, temperature),
+  REGR_INTERCEPT(humidity, temperature)
+FROM table1;
+```
+
+Result:
+
+```SQL
++--------------------+------------------+-------------------+-------------------+-----------------+
+|               _col0|             _col1|              _col2|              _col3|            _col4|
++--------------------+------------------+-------------------+-------------------+-----------------+
+|-0.10559449853747326|-0.737500190734855|-0.8428573608398342|-0.1638889312744123|50.90417003631576|
++--------------------+------------------+-------------------+-------------------+-----------------+
+Total line number = 1
+It costs 0.107s
+```
+
+After ignoring `NULL`, use the 12 valid `temperature` values to calculate the sample excess kurtosis, sample skewness, and exact 50th percentile:
+
+```SQL
+SELECT
+  KURTOSIS(temperature),
+  SKEWNESS(temperature),
+  PERCENTILE(temperature, 0.5)
+FROM table1;
+```
+
+Result:
+
+```SQL
++-------------------+------------------+-----+
+|              _col0|             _col1|_col2|
++-------------------+------------------+-----+
+|-2.2909322273541326|0.1321189313100222| 86.5|
++-------------------+------------------+-----+
+Total line number = 1
+It costs 0.131s
 ```
 
 
@@ -2016,376 +2125,3 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
     - `\d+` means "one or more digits".
     - `b` represents the letter b.
     - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
-
-## 12. Timeseries Windowing Functions
-
-The sample data is as follows:
-
-```SQL
-IoTDB> SELECT * FROM bid;
-+-----------------------------+--------+-----+
-|                         time|stock_id|price|
-+-----------------------------+--------+-----+
-|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-+-----------------------------+--------+-----+
-
--- Create table statement
-CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
--- Insert data
-INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
-```
-
-### 12.1 HOP
-
-#### 12.1.1 Function Description
-
-The HOP function segments data into overlapping time windows for analysis, assigning each row to all windows that overlap with its timestamp. If windows overlap (when SLIDE < SIZE), data will be duplicated across multiple windows.
-
-#### 12.1.2 Function Definition
-
-```SQL
-HOP(data, timecol, size, slide[, origin])
-```
-
-#### 12.1.3 Parameter Description
-
-| Parameter | Type   | Attributes                      | Description             |
-| ----------- | -------- | --------------------------------- | ------------------------- |
-| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table             |
-| TIMECOL   | Scalar | String (default: 'time')        | Time column             |
-| SIZE      | Scalar | Long integer                    | Window size             |
-| SLIDE     | Scalar | Long integer                    | Sliding step            |
-| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
-
-
-#### 12.1.4 Returned Results
-
-The HOP function returns:
-
-* `window_start`: Window start time (inclusive)
-* `window_end`: Window end time (exclusive)
-* Pass-through columns: All input columns from DATA
-
-#### 12.1.5 Usage Example
-
-```SQL
-IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|                 window_start|                   window_end|                         time|stock_id|price|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:25:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
-IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m) GROUP BY window_start, window_end, stock_id;
-+-----------------------------+-----------------------------+--------+------------------+
-|                 window_start|                   window_end|stock_id|               avg|
-+-----------------------------+-----------------------------+--------+------------------+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:25:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|    AAPL|101.66666666666667|
-+-----------------------------+-----------------------------+--------+------------------+
-```
-
-### 12.2 SESSION
-
-#### 12.2.1 Function Description
-
-The SESSION function groups data into sessions based on time intervals. It checks the time gap between consecutive rows—rows with gaps smaller than the threshold (GAP) are grouped into the current window, while larger gaps trigger a new window.
-
-#### 12.2.2 Function Definition
-
-```SQL
-SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
-```
-#### 12.2.3 Parameter Description
-
-| Parameter | Type   | Attributes                 | Description                          |
-| ----------- | -------- | ---------------------------- | -------------------------------------- |
-| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
-| TIMECOL   | Scalar | String (default: 'time')   | Time column name                     |
-| GAP       | Scalar | Long integer               | Session gap threshold                |
-
-#### 12.2.4 Returned Results
-
-The SESSION function returns:
-
-* `window_start`: Time of the first row in the session
-* `window_end`: Time of the last row in the session
-* Pass-through columns: All input columns from DATA
-
-#### 12.2.5 Usage Example
-
-```SQL
-IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|                 window_start|                   window_end|                         time|stock_id|price|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY SESSION when combined with GROUP BY
-IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m) GROUP BY window_start, window_end, stock_id;
-+-----------------------------+-----------------------------+--------+------------------+
-|                 window_start|                   window_end|stock_id|               avg|
-+-----------------------------+-----------------------------+--------+------------------+
-|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|101.66666666666667|
-+-----------------------------+-----------------------------+--------+------------------+
-```
-
-### 12.3 VARIATION
-
-#### 12.3.1 Function Description
-
-The VARIATION function groups data based on value differences. The first row becomes the baseline for the first window. Subsequent rows are compared to the baseline—if the difference is within the threshold (DELTA), they join the current window; otherwise, a new window starts with that row as the new baseline.
-
-#### 12.3.2 Function Definition
-
-```sql
-VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
-```
-
-#### 12.3.3 Parameter Description
-
-| Parameter | Type   | Attributes                 | Description                          |
-| ----------- | -------- | ---------------------------- | -------------------------------------- |
-| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
-| COL       | Scalar | String                     | Column for difference calculation    |
-| DELTA     | Scalar | Float                      | Difference threshold                 |
-
-#### 12.3.4 Returned Results
-
-The VARIATION function returns:
-
-* `window_index`: Window identifier
-* Pass-through columns: All input columns from DATA
-
-#### 12.3.5 Usage Example
-
-```sql
-IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
-+------------+-----------------------------+--------+-----+
-|window_index|                         time|stock_id|price|
-+------------+-----------------------------+--------+-----+
-|           0|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|           0|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|           1|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|           0|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|           1|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY VARIATION when combined with GROUP BY
-IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, avg(price) as avg FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price', DELTA => 2.0) GROUP BY window_index, stock_id;
-+-----------------------------+-----------------------------+--------+-----+
-|                 window_start|                   window_end|stock_id|  avg|
-+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|201.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:07:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.5|
-+-----------------------------+-----------------------------+--------+-----+
-```
-
-### 12.4 CAPACITY
-
-#### 12.4.1 Function Description
-
-The CAPACITY function groups data into fixed-size windows, where each window contains up to SIZE rows.
-
-#### 12.4.2 Function Definition
-
-```sql
-CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
-```
-
-#### 12.4.3 Parameter Description
-
-| Parameter | Type   | Attributes                 | Description                          |
-| ----------- | -------- | ---------------------------- | -------------------------------------- |
-| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
-| SIZE      | Scalar | Long integer               | Window size (row count)              |
-
-#### 12.4.4 Returned Results
-
-The CAPACITY function returns:
-
-* `window_index`: Window identifier
-* Pass-through columns: All input columns from DATA
-
-#### 12.4.5 Usage Example
-
-```sql
-IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
-+------------+-----------------------------+--------+-----+
-|window_index|                         time|stock_id|price|
-+------------+-----------------------------+--------+-----+
-|           0|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|           0|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|           1|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|           0|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|           0|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY COUNT when combined with GROUP BY
-IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(price) as avg FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2) GROUP BY window_index, stock_id;
-+-----------------------------+-----------------------------+--------+-----+
-|                   start_time|                     end_time|stock_id|  avg|
-+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|201.0|
-|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:05:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|101.5|
-|2021-01-01T09:09:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+-----------------------------+-----------------------------+--------+-----+
-```
-
-### 12.5 TUMBLE
-
-#### 12.5.1 Function Description
-
-The TUMBLE function assigns each row to a non-overlapping, fixed-size time window based on a timestamp attribute.
-
-#### 12.5.2 Function Definition
-
-```sql
-TUMBLE(data, timecol, size[, origin])
-```
-#### 12.5.3 Parameter Description
-
-| Parameter | Type   | Attributes                      | Description             |
-| ----------- | -------- | --------------------------------- | ------------------------- |
-| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table             |
-| TIMECOL   | Scalar | String (default: 'time')        | Time column             |
-| SIZE      | Scalar | Long integer (positive)         | Window size             |
-| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
-
-#### 12.5.4 Returned Results
-
-The TUMBLE function returns:
-
-* `window_start`: Window start time (inclusive)
-* `window_end`: Window end time (exclusive)
-* Pass-through columns: All input columns from DATA
-
-#### 12.5.5 Usage Example
-
-```SQL
-IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|                 window_start|                   window_end|                         time|stock_id|price|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
-IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(DATA => bid, TIMECOL => 'time', SIZE => 10m) GROUP BY window_start, window_end, stock_id;
-+-----------------------------+-----------------------------+--------+------------------+
-|                 window_start|                   window_end|stock_id|               avg|
-+-----------------------------+-----------------------------+--------+------------------+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
-+-----------------------------+-----------------------------+--------+------------------+
-```
-
-### 12.6 CUMULATE
-
-#### 12.6.1 Function Description
-
-The CUMULATE function creates expanding windows from an initial window, maintaining the same start time while incrementally extending the end time by STEP until reaching SIZE. Each window contains all elements within its range. For example, with a 1-hour STEP and 24-hour SIZE, daily windows would be: `[00:00, 01:00)`, `[00:00, 02:00)`, ..., `[00:00, 24:00)`.
-
-#### 12.6.2 Function Definition
-
-```sql
-CUMULATE(data, timecol, size, step[, origin])
-```
-
-#### 12.6.3 Parameter Description
-
-| Parameter | Type   | Attributes                      | Description                                       |
-| ----------- | -------- | --------------------------------- | --------------------------------------------------- |
-| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table                                       |
-| TIMECOL   | Scalar | String (default: 'time')        | Time column                                       |
-| SIZE      | Scalar | Long integer (positive)         | Window size (must be an integer multiple of STEP) |
-| STEP      | Scalar | Long integer (positive)         | Expansion step                                    |
-| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time                           |
-
-> Note: An error `Cumulative table function requires size must be an integral multiple of step` occurs if SIZE is not divisible by STEP.
-
-#### 12.6.4 Returned Results
-
-The CUMULATE function returns:
-
-* `window_start`: Window start time (inclusive)
-* `window_end`: Window end time (exclusive)
-* Pass-through columns: All input columns from DATA
-
-#### 12.6.5 Usage Example
-
-```sql
-IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|                 window_start|                   window_end|                         time|stock_id|price|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:16:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:18:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:06:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
-+-----------------------------+-----------------------------+-----------------------------+--------+-----+
-
--- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
-IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m, SIZE => 10m) GROUP BY window_start, window_end, stock_id;
-+-----------------------------+-----------------------------+--------+------------------+
-|                 window_start|                   window_end|stock_id|               avg|
-+-----------------------------+-----------------------------+--------+------------------+
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:16:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:18:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:06:00.000+08:00|    AAPL|             100.0|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|    AAPL|             101.5|
-|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
-+-----------------------------+-----------------------------+--------+------------------+
-```
