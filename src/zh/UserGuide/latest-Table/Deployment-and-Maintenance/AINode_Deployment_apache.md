@@ -106,22 +106,31 @@ python3 --version
 ```
   
 ### 3.2 配置项修改
+
 AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properties` 文件中找到下列参数并进行持久化的修改：
 
 | **名称**                       | **描述**                                                     | **类型** | **默认值**         |
 | ------------------------------ | ------------------------------------------------------------ | -------- | ------------------ |
 | cluster_name                   | AINode 要加入集群的标识                                      | string   | defaultCluster     |
-| ain_seed_config_node           | AINode 启动时注册的 ConfigNode 地址                          | String   | 127.0.0.1:10710    |
-| ain_cluster_ingress_address    | AINode 拉取数据的 DataNode 的 rpc 地址                       | String   | 127.0.0.1          |
+| ain_seed_config_node           | AINode 启动时注册的 ConfigNode endpoint。支持 `ipv4:port`、`hostname:port` 或 `[ipv6]:port`，例如 `[CN_IPV6_ADDRESS]:10710`。IPv6 自 V2.0.12 起支持。 | String   | 127.0.0.1:10710    |
+| ain_cluster_ingress_address    | AINode 拉取数据的 DataNode RPC 地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口、不使用方括号。IPv6 自 V2.0.12 起支持。 | String   | 127.0.0.1          |
 | ain_cluster_ingress_port       | AINode 拉取数据的 DataNode 的 rpc 端口                       | Integer  | 6667               |
 | ain_cluster_ingress_username   | AINode 拉取数据的 DataNode 的客户端用户名                    | String   | root               |
 | ain_cluster_ingress_password   | AINode 拉取数据的 DataNode 的客户端密码                      | String   | root               |
 | ain_cluster_ingress_time_zone  | AINode 拉取数据的 DataNode 的客户端时区                      | String   | UTC+8              |
-| ain_inference_rpc_address      | AINode 提供服务与通信的地址 ，内部服务通讯接口               | String   | 127.0.0.1          |
+| ain_inference_rpc_address      | AINode 提供服务与内部通信的地址。支持裸 IPv4、裸 IPv6 或主机名，不填写端口、不使用方括号。IPv6 自 V2.0.12 起支持。 | String   | 127.0.0.1          |
 | ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String   | 10810              |
 | ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String   | data/AINode/system |
 | ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String   | data/AINode/models |
 | ain_thrift_compression_enabled | AINode 是否启用 thrift 的压缩机制，0-不启动、1-启动          | Boolean  | 0                  |
+
+```properties
+ain_seed_config_node=[CN_IPV6_ADDRESS]:10710
+ain_cluster_ingress_address=DN_IPV6_ADDRESS
+ain_inference_rpc_address=AINODE_IPV6_ADDRESS
+```
+
+`ain_seed_config_node` 同时包含地址和端口，因此 IPv6 使用 `[ipv6]:port`；`ain_cluster_ingress_address` 和 `ain_inference_rpc_address` 只填写地址，使用裸 IPv6。示例中的 `CN_IPV6_ADDRESS`、`DN_IPV6_ADDRESS` 和 `AINODE_IPV6_ADDRESS` 分别表示 ConfigNode、DataNode 和 AINode 实际可达的地址，应用配置前须替换。AINode 启动后应确认已注册到 ConfigNode，并能够访问 DataNode。
 
 ### 3.3 导入权重文件
 

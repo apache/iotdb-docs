@@ -97,6 +97,25 @@ Notice: this RPC compression status of client must comply with that of IoTDB ser
 session.close()
 ```
 
+```python
+# Use an unbracketed IPv6 host when host and port are separate
+session = Session(
+    ip="DN_IPV6_ADDRESS",
+    port="6667",
+    user="root",
+    password="<password>",
+)
+
+# Node URLs include both an address and port and use [ipv6]:port for IPv6
+session = Session.init_from_node_urls(
+    node_urls=["[DN_IPV6_ADDRESS]:6667", "[DN_IPV6_ADDRESS_2]:6667"],
+    user="root",
+    password="<password>",
+)
+```
+
+Starting with V2.0.12, Python Session and SessionPool support IPv6 connections to IoTDB. Use an unbracketed IPv6 address for a separate `ip` argument; do not pass a bracketed address to the underlying socket. `node_urls` entries contain both an address and port and use `[ipv6]:port`. Replace `DN_IPV6_ADDRESS` and `DN_IPV6_ADDRESS_2` with the actual reachable IPv6 addresses of the two nodes. Retain the existing IPv4 examples.
+
 ## 4. Managing Session through SessionPool
 
 Utilizing SessionPool to manage sessions eliminates the need to worry about session reuse. When the number of session connections reaches the maximum capacity of the pool, requests for acquiring a session will be blocked, and you can set the blocking wait time through parameters. After using a session, it should be returned to the SessionPool using the `putBack` method for proper management.
@@ -227,6 +246,8 @@ def get_data2():
 if __name__ == "__main__":
     df = get_data()
 ```
+
+Use an unbracketed IPv6 host for SSL connections. The CA specified by `ca_certs` must validate the server certificate, and the server certificate SAN must contain the actual unbracketed IPv6 `IP Address` used by the client. TLS server identity verification fails if the SAN does not contain that address.
 
 ## 5. Data Definition Interface (DDL Interface)
 
@@ -870,4 +891,3 @@ Namely, these are
 * Run Tests via pytest
 * Build
 * Release to pypi
-

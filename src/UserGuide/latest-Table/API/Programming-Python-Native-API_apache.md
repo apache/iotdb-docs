@@ -132,13 +132,15 @@ def close(self):
 
 | **Parameter**      | **Description**                       | **Type** | **Default Value**         |
 | ------------------ | ------------------------------------- | -------- | ------------------------- |
-| node_urls          | List of database node URLs.           | `list`   | `["localhost:6667"]`      |
+| node_urls          | List of database connection node URLs; IPv6 endpoints use `[ipv6]:port`, for example `[DN_IPV6_ADDRESS]:6667`. IPv6 is supported from V2.0.12. | `list`   | `["localhost:6667"]`      |
 | username           | Username for the database connection. | `str`    | `"root"`                  |
 | password           | Password for the database connection. | `str`    | `"root"`                  |
 | database           | Target database to connect to.        | `str`    | `None`                    |
 | fetch_size         | Number of rows to fetch per query.    | `int`    | `5000`                    |
 | time_zone          | Default session time zone.            | `str`    | `Session.DEFAULT_ZONE_ID` |
 | enable_compression | Enable data compression.              | `bool`   | `False`                   |
+
+Starting with V2.0.12, table-model `node_urls` supports IPv6 endpoints. `DN_IPV6_ADDRESS` in the table is a DataNode address placeholder; retain existing defaults and examples. When `TableSession`/`TableSessionPool` take host and port separately, use an unbracketed IPv6 host; node URL lists use `[ipv6]:port`.
 
 #### Sample Code
 
@@ -231,7 +233,7 @@ def close(self):
 
 | **Paramater**      | **Description**                                              | **Type** | **Default Value**          |
 | ------------------ | ------------------------------------------------------------ | -------- | -------------------------- |
-| node_urls          | List of IoTDB cluster node URLs.                             | `list`   | None                       |
+| node_urls          | List of database connection node URLs; IPv6 endpoints use `[ipv6]:port`, for example `[DN_IPV6_ADDRESS]:6667`. IPv6 is supported from V2.0.12. | `list`   | None                       |
 | max_pool_size      | Maximum size of the session pool, i.e., the maximum number of sessions allowed in the pool. | `int`    | `5`                        |
 | username           | Username for the connection.                                 | `str`    | `Session.DEFAULT_USER`     |
 | password           | Password for the connection.                                 | `str`    | `Session.DEFAULT_PASSWORD` |
@@ -394,6 +396,8 @@ def get_data2():
 if __name__ == "__main__":
     df = get_data()
 ```
+
+Use an unbracketed IPv6 host for SSL connections. The CA specified by `ca_certs` must validate the server certificate, and the server certificate SAN must contain the actual unbracketed IPv6 `IP Address` used by the client. TLS server identity verification fails if the SAN does not contain that address.
 
 ## 4. Sample Code
 
@@ -570,4 +574,3 @@ delete_data()
 session_pool.close()
 print("example is finished!")
 ```
-

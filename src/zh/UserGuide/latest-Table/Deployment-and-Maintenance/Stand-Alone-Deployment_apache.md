@@ -112,23 +112,35 @@ ConfigNode 配置
 
 | **配置项**          | **说明**                                                     | **默认**        | 推荐值                                           | **备注**           |
 | :------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------- | :----------------- |
-| cn_internal_address | ConfigNode在集群内部通讯使用的地址                           | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname | 首次启动后不能修改 |
+| cn_internal_address | ConfigNode 在集群内部通信使用的地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1       | 所在服务器的 IPv4 地址、裸 IPv6 地址或 hostname，推荐使用 hostname | 首次启动后不能修改 |
 | cn_internal_port    | ConfigNode在集群内部通讯使用的端口                           | 10710           | 10710                                            | 首次启动后不能修改 |
 | cn_consensus_port   | ConfigNode副本组共识协议通信使用的端口                       | 10720           | 10720                                            | 首次启动后不能修改 |
-| cn_seed_config_node | 节点注册加入集群时连接的ConfigNode 的地址，cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
+| cn_seed_config_node | 节点注册时连接的 ConfigNode endpoint，即 `cn_internal_address:cn_internal_port`；IPv6 使用 `[ipv6]:port`。IPv6 自 V2.0.12 起支持。 | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
 
 DataNode 配置
 
 | **配置项**                      | **说明**                                                     | **默认**        | 推荐值                                     | **备注**           |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- |:----------------------------------------| :----------------- |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1         |  默认本机可直接访问。非本机访问，请修改此配置项为所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址。  | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务监听地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1         | 默认仅本机可访问；非本机访问时填写实际可路由的 IPv4 地址、裸 IPv6 地址或 hostname | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                    | 重启服务生效       |
-| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname      | 首次启动后不能修改 |
+| dn_internal_address             | DataNode 在集群内部通信使用的地址。IPv6 使用裸地址，不加方括号、不填写端口。IPv6 自 V2.0.12 起支持。 | 127.0.0.1       | 所在服务器的 IPv4 地址、裸 IPv6 地址或 hostname，推荐使用 hostname | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                   | 首次启动后不能修改 |
 | dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                   | 首次启动后不能修改 |
 | dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                   | 首次启动后不能修改 |
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                   | 首次启动后不能修改 |
-| dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port    | 首次启动后不能修改 |
+| dn_seed_config_node             | 节点注册时连接的 ConfigNode endpoint，即 `cn_internal_address:cn_internal_port`；IPv6 使用 `[ipv6]:port`。IPv6 自 V2.0.12 起支持。 | 127.0.0.1:10710 | cn_internal_address:cn_internal_port    | 首次启动后不能修改 |
+
+仅在本机访问的单机实例可使用 IPv6 回环地址：
+
+```properties
+cn_internal_address=::1
+cn_seed_config_node=[::1]:10710
+dn_internal_address=::1
+dn_rpc_address=::1
+dn_seed_config_node=[::1]:10710
+```
+
+`::1` 是 IPv6 回环地址，只适用于本机访问或测试。需要由其他主机访问时，请改用本机实际可路由的 IPv6 地址。`::` 表示监听全部 IPv6 接口，不能作为远程连接目标、节点发现结果或客户端重定向地址。
 
 ### 2.4 Edge 版启动与停止
 
@@ -261,4 +273,3 @@ DataNode 配置
 | -D   | 定义系统属性，格式为 key=value                 | 否           |
 | -X   | 直接传递 -XX 参数给 JVM                        | 否           |
 | -h   | 帮助指令                                       | 否           |
-

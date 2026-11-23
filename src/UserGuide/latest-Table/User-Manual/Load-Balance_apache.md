@@ -110,6 +110,8 @@ If you want to further balance historical data after scale-out, you can execute 
 echo "192.168.1.3  iotdb-1" >> /etc/hosts
 ```
 
+7. IPv6 network checks: when expanding in a dual-stack or IPv6-only network, verify IPv6 routing and required ports between existing and new nodes, consistent DNS or `/etc/hosts` resolution, and that the configured IPv6 addresses are bound to the appropriate network interfaces. `0.0.0.0` and `::` are listening addresses only and cannot be used as remote targets for a new node to register with the cluster.
+
 #### 2.2.2 Scaling Operation
 
 1. To ensure the IoTDB installation package you obtained is complete and correct, it is recommended to perform an SHA512 checksum before installation and deployment.
@@ -129,14 +131,24 @@ vim iotdb-system.properties
 
 | Configuration Item                | Description                                                                                                                            | Default           | Remarks                                                                                                                          |
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------| ---------------------------------------------------------------------------------------------------------------------------------- |
-| `dn_seed_config_node`             | The ConfigNode address (format:`cn_internal_address:cn_internal_port`) that a node connects to when registering to join the cluster.   | 127.0.0.1:10710   | Extremely important. You must modify this item to the address of the primary ConfigNode in the original cluster. |
-| `dn_rpc_address`                  | Address for the client RPC service.                                                                                                    | 0.0.0.0           | Modify as needed; restart service to take effect.                                                                                |
+| `dn_seed_config_node`             | ConfigNode endpoint used for node registration and joining the cluster, namely `cn_internal_address:cn_internal_port`. IPv6 uses `[ipv6]:port`. IPv6 is supported from V2.0.12. | 127.0.0.1:10710   | Extremely important. You must modify this item to the address of the primary ConfigNode in the original cluster. |
+| `dn_rpc_address`                  | Client RPC listening address. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port. IPv6 is supported from V2.0.12. | 0.0.0.0           | Modify as needed; restart service to take effect.                                                                                |
 | `dn_rpc_port`                     | Port for the client RPC service.                                                                                                       | 6667              | Modify as needed; restart service to take effect.                                                                                |
-| `dn_internal_address`             | Address used by the DataNode for internal cluster communication.                                                                       | 127.0.0.1         | Modify as needed; cannot be changed after the first startup.                                                                     |
+| `dn_internal_address`             | DataNode internal cluster communication address. Supports an unbracketed IPv4 address, an unbracketed IPv6 address, or a hostname, without a port. IPv6 is supported from V2.0.12. | 127.0.0.1         | Modify as needed; cannot be changed after the first startup.                                                                     |
 | `dn_internal_port`                | Port used by the DataNode for internal cluster communication.                                                                          | 10730             | Modify as needed; cannot be changed after the first startup.                                                                     |
 | `dn_mpp_data_exchange_port`       | Port used by the DataNode for receiving data streams.                                                                                  | 10740             | Modify as needed; restart service to take effect.                                                                                |
 | `dn_data_region_consensus_port`   | Port used by the DataNode for consensus protocol communication of data replicas.                                                       | 10750             | Modify as needed; restart service to take effect.                                                                                |
 | `dn_schema_region_consensus_port` | Port used by the DataNode for consensus protocol communication of metadata replicas.                                                   | 10760             | Modify as needed; restart service to take effect.                                                                                |
+
+IPv6-only expansion example:
+
+```properties
+dn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+dn_rpc_address=NEW_DN_IPV6_ADDRESS
+dn_internal_address=NEW_DN_IPV6_ADDRESS
+```
+
+`CN_IPV6_ADDRESS` is the reachable IPv6 address of a ConfigNode in the existing cluster. `NEW_DN_IPV6_ADDRESS` is an IPv6 address bound to and routable on the new node. Replace both before applying the configuration. After startup, run `show datanodes` and verify that the new node is `Running` and its address field displays the configured unbracketed IPv6 address. If `::` is returned, configure an actual routable IPv6 address for the node’s published address.
 
 4. Start the DataNode.
 

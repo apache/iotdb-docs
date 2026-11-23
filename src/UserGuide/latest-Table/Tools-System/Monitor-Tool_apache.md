@@ -87,6 +87,7 @@ follow_redirects: true
 static_configs:
   - targets:
       - localhost:9091
+      - '[IPV6_ADDRESS]:9091'
 ```
 
 For more details, refer to the following documents:
@@ -95,3 +96,10 @@ For more details, refer to the following documents:
 - [Prometheus Configuration for Pulling Metrics from HTTP Interface](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
 - [Grafana Installation and Usage Documentation](https://grafana.com/docs/grafana/latest/getting-started/getting-started/)
 - [Grafana Querying Data from Prometheus and Plotting Documentation](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
+Prometheus targets include both an IPv6 address and a port and must use `[ipv6]:port`. Even if the service listens on `::`, use an actual routable IPv6 address for the target, never `[::]:9091`.
+
+Starting with V2.0.12, the metrics endpoint supports access over IPv6. Use brackets to distinguish the address from the port in an IPv6 metrics URL. Replace the placeholder below with the actual reachable IPv6 address:
+
+```shell
+curl 'http://[IPV6_ADDRESS]:9091/metrics'
+```

@@ -55,7 +55,7 @@ Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dia
 
 | **Parameter**              | **Type** | **Required** | **Description**                                                                   | **Example**         |
 | -------------------------- | -------- | ------------ |-----------------------------------------------------------------------------------| ------------------- |
-| -h `<host>`                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)                          | -h 127.0.0.1        |
+| -h `<host>`                  | string   | No           | IoTDB server IPv4 address, unbracketed IPv6 address, or hostname. IPv6 is supported from V2.0.12; omit brackets. | -h 127.0.0.1        |
 | -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)                                 | -p 6667             |
 | -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root)                      | -u root             |
 | -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: root)                     | -pw root            |
@@ -73,6 +73,15 @@ The figure below indicates a successful startup:
 
 ![](/img/Cli-01.png)
 
+Starting with V2.0.12, pass an IPv6 address to `-h` without brackets and specify the port separately with `-p`. `DN_IPV6_ADDRESS` is a destination DataNode address placeholder; replace it with an actual reachable IPv6 address before running the command. Retain the existing IPv4 startup examples. For example:
+
+```shell
+# Linux/macOS
+bash sbin/start-cli.sh -h DN_IPV6_ADDRESS -p 6667 -u root -pw '<password>' -sql_dialect table
+
+# Windows (V2.0.4.x and later)
+sbin\windows\start-cli.bat -h DN_IPV6_ADDRESS -p 6667 -u root -pw "<password>" -sql_dialect table
+```
 
 ## 2. Example Commands
 

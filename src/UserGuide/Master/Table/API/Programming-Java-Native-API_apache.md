@@ -151,7 +151,7 @@ Since V2.0.11, `TableSessionBuilder` supports configuring the RPC compression me
 
 | **Parameter**                                       | **Description**                                              | **Default Value**                                 |
 |-----------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------- |
-| nodeUrls(List\<String> nodeUrls)                    | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("``localhost:6667``")` |
+| nodeUrls(List\<String> nodeUrls)                    | Sets the IoTDB cluster node URL list; IPv6 endpoints use `[ipv6]:port`, for example `[DN_IPV6_ADDRESS]:6667`. IPv6 is supported from V2.0.12. | `Collections.singletonList("``localhost:6667``")` |
 | username(String username)                           | Sets the username for the connection.                        | `"root"`                                          |
 | password(String password)                           | Sets the password for the connection.                        | `"TimechoDB@2021"` (the default password is `root` before V2.0.6.x) |
 | database(String database)                           | Sets the target database name.                               | `null`                                            |
@@ -181,6 +181,8 @@ Since V2.0.11, `TableSessionBuilder` supports configuring the RPC compression me
 | withBlobEncoding(TSEncoding tsEncoding)             | Sets the encoding for BLOB values.                           | `TSEncoding.PLAIN`                                |
 | withDateEncoding(TSEncoding tsEncoding)             | Sets the encoding for DATE values.                           | `TSEncoding.TS_2DIFF`                             |
 | connectionTimeoutInMs(int connectionTimeoutInMs)    | Sets the connection timeout in milliseconds.                 | `0` (no timeout)                                  |
+
+Starting with V2.0.12, table-model `nodeUrls` also supports IPv6 endpoints. `DN_IPV6_ADDRESS` in the table is a DataNode address placeholder; replace it with an actual reachable address. Existing defaults remain unchanged. When configuring `TableSessionBuilder` with separate `host`/`rpcPort` settings, use an unbracketed IPv6 host; only node URL strings use brackets.
 
 #### 3.2.3 Sample Code
 
@@ -520,7 +522,7 @@ The `TableSessionPoolBuilder` class is a builder for configuring and creating `I
 
 | **Parameter**                                                 | **Description**                                              | **Default Value**                             |
 |---------------------------------------------------------------| ------------------------------------------------------------ | --------------------------------------------- |
-| nodeUrls(List\<String> nodeUrls)                              | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("localhost:6667")` |
+| nodeUrls(List\<String> nodeUrls)                              | Sets the IoTDB cluster node URL list; IPv6 endpoints use `[ipv6]:port`, for example `[DN_IPV6_ADDRESS]:6667`. IPv6 is supported from V2.0.12. | `Collections.singletonList("localhost:6667")` |
 | maxSize(int maxSize)                                          | Sets the maximum size of the session pool, i.e., the maximum number of sessions allowed in the pool. | `5`                                           |
 | user(String user)                                             | Sets the username for the connection.                        | `"root"`                                      |
 | password(String password)                                     | Sets the password for the connection.                        | `"root"`                                      |
@@ -944,4 +946,6 @@ public class TableModelSessionPoolExample {
         }
     }
 }
+
+To connect to IPv6 nodes in the Chapter 5 example, `LOCAL_URL` can use `[ipv6]:port`; retain the existing address and initialization code.
 ```
