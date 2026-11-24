@@ -20,6 +20,30 @@
 -->
 # Release History
 
+## V2.0.12
+
+> Release Date: 2026.11.20
+
+V2.0.12 strengthens SQL security, cluster deployment, REST API, data synchronization, query execution, and memory management. It adds time-series analysis and filtering functions, expands latest-point cache controls, and improves table-model queries and Pipe synchronization. The specific release contents are as follows:
+
+* **Storage Module**: Supports enabling and disabling the latest-point cache at table and database granularity
+* **Storage Module**: When creating a time series under an existing device, uses the device's existing alignment setting
+* **Storage Module**: Optimized validation-result caching when writing measurements
+* **Query Module**: Refactored table-model `PreparedStatement` handling to prevent SQL injection
+* **Query Module**: Added `SHOW CREATE DATABASE/TOPIC/PIPE`
+* **Query Module**: Improved the error message shown when `SELECT *` returns too many columns, reporting the column limit and recommending `SLIMIT`, `ALIGN BY DEVICE`, or increasing the memory limit
+* **Query Module**: Added a flag indicating whether a device node has child devices and optimized `SELECT measurement FROM xxx.**` queries
+* **Query Module**: Reduced memory usage when copying memtable TVLists during queries
+* **Query Module**: Optimized full-table `ORDER BY time` queries with `LIMIT` and reduced memory usage for full-table queries in the table model
+* **Computation Module**: Added the FFT time-frequency analysis function, the `HighPass` and `LowPass` filtering functions, the table-model aggregate functions `rate`, `increase`, `irate`, and `delta`, and the `XCorr` cross-correlation function
+* **Computation Module**: Added the M4, time-series trend-matching, and `read_tsfile` table-valued functions. `read_tsfile` queries a specified TsFile directly using SQL
+* **Stream Processing Module**: Optimized filtering performance on non-first `TAG` columns in the table model
+* **Stream Processing Module**: Optimized the matching algorithm for `**` in Pipe and the Pipe memory block expansion and contraction algorithm
+* **System Module**: Supports IPv6 cluster deployment
+* **Miscellaneous**: Added a downgrade strategy for loading files
+* **Client**: Supports setting the client time zone through the REST API
+
+
 ## V2.0.11
 
 > Release Date: 2026.09.11
