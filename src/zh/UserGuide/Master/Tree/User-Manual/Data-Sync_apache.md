@@ -80,6 +80,8 @@
 
 1. 元数据（schema）、权限（auth）同步功能存在如下限制：
 
+- 自 V2.0.12 起，支持在同步建立后修改发送端的序列名，且修改后同步链路仍可正常运行。
+
 - 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即`iotdb-system.properties`配置文件中是否包含`config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`、`schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`，不包含即为默认值ratis 协议。
 
 - 为了防止潜在的冲突，请在开启元数据同步时关闭接收端自动创建元数据功能。可通过修改 `iotdb-system.properties`配置文件中的`enable_auto_create_schema`配置项为 false，关闭元数据自动创建功能。
