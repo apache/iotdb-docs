@@ -94,7 +94,7 @@ export const enSidebar = {
           text: 'Delete Data',
           collapsible: true,
           children: [
-            { text: 'Delete Data', link: 'Delete-Data' },
+            { text: 'Delete Data', link: 'Delete-Data_apache' },
             { text: 'TTL Delete Data', link: 'TTL-Delete-Data_apache' },
           ],
         },
@@ -220,6 +220,11 @@ export const enSidebar = {
             { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
             { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
+        },
+        {
+          text: 'IoT Platform',
+          collapsible: true,
+          children: [{ text: 'ThingsBoard', link: 'ThingsBoard-Table_apache' }],
         },
       ],
     },

@@ -123,6 +123,7 @@ comment
       ```
 6. columnDefinition 列名称与表名称具有相同特性，并且可包含特殊字符`.`。
 7. COMMENT 给表添加注释。
+8. 自 V2.0.12 起，支持设置布尔类型属性 `need_last_cache`，用于指定表是否主动维护 last cache，可选值为 `true` 或 `false`。创建表时显式指定该属性，则使用表级配置；未显式指定时，继承创建表时数据库的 `need_last_cache` 配置。
 
 
 **示例:** 
@@ -163,17 +164,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
    - `PRE_CREATE`：表示表正在创建中或创建失败，此时表不可用。
    - `PRE_DELETE`：表示表正在删除中或删除失败，此类表将永久不可用。
 
+自 V2.0.12 起，`SHOW TABLES DETAILS` 结果集新增 `NeedLastCache` 列。
+
 **示例:**
  
 ```sql
 SHOW TABLES DETAILS FROM database1;
 ```
 ```shell
-+---------------+-----------+------+-------+
-|      TableName|    TTL(ms)|Status|Comment|
-+---------------+-----------+------+-------+
-|         table1|31536000000| USING| table1|
-+---------------+-----------+------+-------+
++---------------+-----------+------+-------+----------+-------------+
+|      TableName|    TTL(ms)|Status|Comment| TableType|NeedLastCache|
++---------------+-----------+------+-------+----------+-------------+
+|         table1|31536000000| USING| table1|BASE TABLE|         true|
++---------------+-----------+------+-------+----------+-------------+
 ```
 
 ### 2.3 查看表的列
@@ -228,7 +231,8 @@ SHOW CREATE TABLE <TABLE_NAME>
 
 **说明：**
 
-1. 该语句不支持对系统表的查询 
+1. 该语句不支持对系统表的查询
+2. 自 V2.0.12 起，返回的建表语句包含 `need_last_cache` 属性信息。
 
 **示例:**
 
@@ -236,11 +240,11 @@ SHOW CREATE TABLE <TABLE_NAME>
 SHOW CREATE TABLE table1;
 ```
 ```shell
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Table|                                                                                                                                                                                                                                                                     Create Table|
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
-+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table|                                                                                                                                                                                                                                                                                           Create Table|
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000, need_last_cache=true)|
++------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 
@@ -256,7 +260,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 #dropColumn;
 ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier; 
 #setTableProperties;                  
-// set TTL can use this;
+// set TTL or need_last_cache can use this;
 ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;  
               
 COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
@@ -265,7 +269,7 @@ COMMENT ON COLUMN tableName.column IS 'column_comment';
 
 **说明：**
 
-1. `SET PROPERTIES`操作目前仅支持对表的 TTL 属性进行配置。
+1. `SET PROPERTIES` 操作支持对表的 TTL 属性进行配置；自 V2.0.12 起，也支持配置 `need_last_cache` 属性。
 2. 删除列功能，仅支持删除属性列(ATTRIBUTE)和物理量列(FIELD)，标识列(TAG)不支持删除。
 3. 修改后的 comment 会覆盖原有注释，如果指定为 null，则会擦除之前的 comment。
 
@@ -291,6 +295,14 @@ COMMENT ON TABLE table1 IS 'table1';
 ```SQL
 COMMENT ON COLUMN table1.a IS null;
 ```
+
+修改表 table1 的 `need_last_cache`
+
+```SQL
+ALTER TABLE table1 SET PROPERTIES need_last_cache=false;
+```
+
+注意：`ALTER TABLE ... SET PROPERTIES need_last_cache=DEFAULT` 表示恢复数据库默认语义：数据库显式设置了 `need_last_cache` 时，表恢复为数据库级值；数据库未显式设置时，表恢复为默认值 `true`。
 
 ### 2.6 删除表
 

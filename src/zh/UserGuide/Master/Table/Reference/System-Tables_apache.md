@@ -27,7 +27,7 @@ IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统�
 
 * 名称：`INFORMATION_SCHEMA`
 * 指令：只读，只支持 `Show databases (DETAILS) `​`/ Show Tables (DETAILS) / Use`，其余操作将会报错：`"The database 'information_schema' can only be queried"`
-* 属性：`TTL=INF`，其余属性默认为`null`
+* 属性：`TTL=INF`；自 V2.0.12 起，`need_last_cache=false`；其余属性默认为 `null`
 * SQL示例：
 
 ```sql
@@ -88,18 +88,20 @@ IoTDB> show tables from information_schema
 | max\_schema\_region\_group\_num | INT32 | ATTRIBUTE | 可扩展最大元数据分区数量，V2.0.11 起支持 |
 | data\_region\_group\_num | INT32 | ATTRIBUTE | 数据分区数量 |
 | max\_data\_region\_group\_num | INT32 | ATTRIBUTE | 可扩展最大数据分区数量，V2.0.11 起支持 |
+| `need_last_cache` | BOOLEAN | ATTRIBUTE | 数据库级 last cache 默认值；未显式设置时为 `true` |
 
+* `need_last_cache` 自 V2.0.12 起支持
 * 查询结果只展示自身对该数据库本身或库中任意表有任意权限的数据库集合
 * 查询示例：
 
 ```sql
 IoTDB> select * from information_schema.databases
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
-|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
-|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|
-|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|
-+------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
+|          database|ttl(ms)|schema_replication_factor|data_replication_factor|time_partition_interval|schema_region_group_num|max_schema_region_group_num|data_region_group_num|max_data_region_group_num|need_last_cache|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
+|information_schema|    INF|                     null|                   null|                   null|                   null|                       null|                 null|                     null|          false|
+|         database1|    INF|                        1|                      1|              604800000|                      1|                          1|                    2|                        2|           true|
++------------------+-------+-------------------------+-----------------------+-----------------------+-----------------------+---------------------------+---------------------+-------------------------+---------------+
 ```
 
 ### 2.2 TABLES 表
@@ -114,35 +116,37 @@ IoTDB> select * from information_schema.databases
 | ttl(ms)     | STRING   | ATTRIBUTE | 数据保留时间 |
 | status      | STRING   | ATTRIBUTE | 状态         |
 | comment     | STRING   | ATTRIBUTE | 注释         |
+| `need_last_cache` | BOOLEAN | ATTRIBUTE | 普通表或树转表视图当前生效的 last cache 配置。 |
 
 * 说明：status 可能为`USING`/`PRE_CREATE`/`PRE_DELETE`，具体见表管理中[查看表](../Basic-Concept/Table-Management_apache.md#12-查看表)的相关描述
+* `need_last_cache` 自 V2.0.12 起支持
 * 查询结果只展示自身有任意权限的表集合
 * 查询示例：
 
 ```sql
 IoTDB> select * from information_schema.tables
-+------------------+--------------+-----------+------+-------+-----------+
-|          database|    table_name|    ttl(ms)|status|comment| table_type|
-+------------------+--------------+-----------+------+-------+-----------+
-|information_schema|     databases|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        models|        INF| USING|   null|SYSTEM VIEW|
-|information_schema| subscriptions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       regions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|     functions|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|      keywords|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       columns|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        topics|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|configurations|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|       queries|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|        tables|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|  pipe_plugins|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         nodes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|    data_nodes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         pipes|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|         views|        INF| USING|   null|SYSTEM VIEW|
-|information_schema|  config_nodes|        INF| USING|   null|SYSTEM VIEW|
-|         database1|        table1|31536000000| USING|   null| BASE TABLE|
-+------------------+--------------+-----------+------+-------+-----------+
++------------------+--------------+-----------+------+-------+-------------+---------------+
+|          database|    table_name|    ttl(ms)|status|comment|   table_type|need_last_cache|
++------------------+--------------+-----------+------+-------+-------------+---------------+
+|information_schema|     databases|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        models|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema| subscriptions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       regions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|     functions|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|      keywords|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       columns|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        topics|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|configurations|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|       queries|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|        tables|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|  pipe_plugins|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|    data_nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         pipes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|         views|        INF| USING|   null|  SYSTEM VIEW|          false|
+|information_schema|  config_nodes|        INF| USING|   null|  SYSTEM VIEW|          false|
+|         database1|        table1|31536000000| USING|   null|   BASE TABLE|           true|
++------------------+--------------+-----------+------+-------+-------------+---------------+
 ```
 
 ### 2.3 REGIONS 表

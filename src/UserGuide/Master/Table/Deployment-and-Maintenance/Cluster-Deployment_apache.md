@@ -41,6 +41,7 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 3. **Unmodifiable Parameters**: Some parameters cannot be changed after the first startup. Refer to the [Parameter Configuration](#22-parameters-configuration) section.
 
+4. **Unmodifiable Parameters**: Some parameters cannot be changed after the first startup. Refer to the [Parameter Configuration](#22-parameters-configuration) section.
 
 4. **Installation Path**: Ensure the installation path contains no spaces or non-ASCII characters to prevent runtime issues.
 5. **User Permissions**: Choose one of the following permissions during installation and deployment:
@@ -50,6 +51,8 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
       - Avoid using `sudo`, which can cause permission conflicts.
 
 6. **Health Check Tool**: Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
+For dual-stack or IPv6-only deployment, verify before startup that IPv6 is enabled in the operating system and the configured addresses are assigned to the appropriate network interfaces and can be bound by the services; that IPv6 routing between ConfigNodes, DataNodes, and AINodes is reachable and the required RPC, consensus, and client ports are allowed through the firewall; and that DNS or `/etc/hosts` resolution is consistent across nodes when hostnames are used. `0.0.0.0` and `::` are wildcard listening addresses only and cannot be used for node registration, node discovery, client redirection, or other remote connection targets.
 
 ## 2. Preparation
 
@@ -154,23 +157,33 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 
 | **Parameter**       | **Description**                                              | **Default**     | **Recommended**                                              | **11.101.17.224** | **11.101.17.225** | **11.101.17.226** | **Notes**                                                  |
 | :------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :---------------- | :---------------- | :---------------- | :--------------------------------------------------------- |
-| cn_internal_address | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
+| cn_internal_address | Address used for ConfigNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1       | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
 | cn_internal_port    | Port used for internal communication within the cluster      | 10710           | 10710                                                        | 10710             | 10710             | 10710             | This parameter cannot be modified after the first startup. |
 | cn_consensus_port   | Port used for consensus protocol communication among ConfigNode replicas | 10720           | 10720                                                        | 10720             | 10720             | 10720             | This parameter cannot be modified after the first startup. |
-| cn_seed_config_node | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Address and port of the seed ConfigNode (e.g., `cn_internal_address:cn_internal_port`) | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
+| cn_seed_config_node | ConfigNode endpoint used for node registration and joining the cluster, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 | Address and port of the seed ConfigNode (e.g., `cn_internal_address:cn_internal_port`) | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
 
 **DataNode Parameters**:
 
 | **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                                                                                                                                                                                                                                     | **11.101.17.224** | **11.101.17.225** | **11.101.17.226** | **Notes**                                                  |
 | :------------------------------ | :----------------------------------------------------------- |:----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :---------------- | :---------------- | :---------------- | :--------------------------------------------------------- |
-| dn_rpc_address                  | Address for the client RPC service                           | 127.0.0.1        | By default, the local machine can directly access it. For non-local access, please modify this configuration item to the IPv4 address or hostname of the server where it is located. It is recommended to use the IPv4 address of the server where it is located.   | iotdb-1           | iotdb-2           | iotdb-3         | Effective after restarting the service.                    |
+| dn_rpc_address                  | Client RPC listening address. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1        | Local access only by default; for remote access, specify the server’s routable IPv4 address, unbracketed IPv6 address, or hostname | iotdb-1           | iotdb-2           | iotdb-3         | Effective after restarting the service.                    |
 | dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                                                                                                                                                                                                                                | 6667              | 6667              | 6667              | Effective after restarting the service.                    |
-| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes.                                                                                                                                                                                | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
+| dn_internal_address             | Address used for DataNode internal communication. IPv6 uses an unbracketed address without a port. IPv6 is supported from V2.0.12. | 127.0.0.1       | The server’s IPv4 address, unbracketed IPv6 address, or hostname; a hostname is recommended | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
 | dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                                                                                                                                                                                                                               | 10730             | 10730             | 10730             | This parameter cannot be modified after the first startup. |
 | dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                                                                                                                                                                                                                               | 10740             | 10740             | 10740             | This parameter cannot be modified after the first startup. |
 | dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                                                                                                                                                                                                                               | 10750             | 10750             | 10750             | This parameter cannot be modified after the first startup. |
 | dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                                                                                                                                                                               | 10760             | 10760             | 10760             | This parameter cannot be modified after the first startup. |
-| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster.(e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Address of the first ConfigNode                                                                                                                                                                                                                                     | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
+| dn_seed_config_node             | ConfigNode endpoint used for node registration and joining the cluster, namely `cn_internal_address:cn_internal_port`; use `[ipv6]:port` for IPv6. IPv6 is supported from V2.0.12. | 127.0.0.1:10710 | Address of the first ConfigNode                                                                                                                                                                                                                                     | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
+
+Replace `CN_IPV6_ADDRESS` and `DN_IPV6_ADDRESS` with the nodes’ actual reachable IPv6 addresses before deployment.
+
+```properties
+cn_internal_address=CN_IPV6_ADDRESS
+cn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+dn_internal_address=DN_IPV6_ADDRESS
+dn_rpc_address=DN_IPV6_ADDRESS
+dn_seed_config_node=[CN_IPV6_ADDRESS]:10710
+```
 
 **Note:** Ensure files are saved after editing. Tools like VSCode Remote do not save changes automatically.
 
@@ -195,6 +208,8 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 
 If the startup fails, refer to the [Common Issues](#5-common-issues) section below for troubleshooting.
 
+After startup, run `show cluster` in the CLI to verify that ConfigNodes and DataNodes are registered. In an IPv6-only environment, node address fields should display the configured unbracketed IPv6 addresses; addresses with ports in logs or errors should use `[ipv6]:port`. If `::` is returned as a node address, configure an actual routable IPv6 address for the node’s published address.
+
 ### 3.5 Start DataNode Instances
 
 On each server, navigate to the `sbin` directory and start the DataNode:
@@ -211,6 +226,13 @@ On each server, navigate to the `sbin` directory and start the DataNode:
   # V2.0.4.x and later versions
   .\windows\start-datanode.bat
   ```
+
+When passing an IPv6 address separately with `-h`, omit brackets and specify the port with `-p`. For example:
+
+```shell
+bash sbin/start-cli.sh -h DN_IPV6_ADDRESS -p 6667 -u root -pw '<password>' -sql_dialect table
+```
+
 
 ### 3.6 Start CLI
 

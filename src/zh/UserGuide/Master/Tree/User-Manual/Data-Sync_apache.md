@@ -374,6 +374,16 @@ with sink (
 )
 ```
 
+```sql
+create pipe A2B_IPV6
+with sink (
+  'sink'='iotdb-thrift-sink',
+  'node-urls'='[DN_IPV6_ADDRESS]:6667,[DN_IPV6_ADDRESS_2]:6667'
+)
+```
+
+自 V2.0.12 起，Pipe 支持使用 IPv6 endpoint 连接目标端 IoTDB。`node-urls` 同时包含地址和端口，IPv6 使用 `[ipv6]:port`；多个 endpoint 使用英文逗号分隔。上方独立示例中的 `DN_IPV6_ADDRESS` 和 `DN_IPV6_ADDRESS_2` 分别表示目标端两个 DataNode 的实际可达 IPv6 地址，使用前须替换；原有 Pipe 示例不变。
+
 ### 3.2 部分数据同步
 
 本例子用来演示同步某个历史时间范围（ 2023 年 8 月 23 日 8 点到 2023 年 10 月 23 日 8 点）的数据至另一个 IoTDB，数据链路如下图所示：
@@ -538,6 +548,18 @@ with sink (
 - `ssl.trust-store-path`: 连接目标端 DataNode 所需的 trust store 证书路径
 - `ssl.trust-store-pwd`: 连接目标端 DataNode 所需的 trust store 证书密码
 
+```sql
+create pipe A2B_SSL_IPV6
+with sink (
+  'sink'='iotdb-thrift-ssl-sink',
+  'node-urls'='[DN_IPV6_ADDRESS]:6667,[DN_IPV6_ADDRESS_2]:6667',
+  'ssl.trust-store-path'='pki/trusted',
+  'ssl.trust-store-pwd'='<trust_store_password>'
+)
+```
+
+通过 IPv6 地址进行 TLS 主机身份校验时，目标 DataNode 的服务端证书 SAN 必须包含客户端实际访问的裸 IPv6 `IP Address`，不包含方括号和端口。
+
 ## 4. 参考：注意事项
 
 可通过修改 IoTDB 配置文件（`iotdb-system.properties`）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：：
@@ -611,7 +633,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | source                   | iotdb-source                                                                                                                                                                                                                                                                                                                         | String: iotdb-source                                                   | 必填     | -              |
 | inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限                                                                                                                                                                                                                                                                                                        | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
 | inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量                                                                                                                                                                                                                                                                                               | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | 空字符串       |
-| mode.streaming           | 此参数指定时序数据写入的捕获来源。适用于 `mode.streaming`为 `false` 模式下的场景，决定`inclusion`中`data.insert`数据的捕获来源。提供两种捕获策略：true： 动态选择捕获的类型。系统将根据下游处理速度，自适应地选择是捕获每个写入请求还是仅捕获 TsFile 文件的封口请求。当下游处理速度快时，优先捕获写入请求以减少延迟；当处理速度慢时，仅捕获文件封口请求以避免处理堆积。这种模式适用于大多数场景，能够实现处理延迟和吞吐量的最优平衡。false：固定按批捕获方式。仅捕获 TsFile 文件的封口请求，适用于资源受限的应用场景，以降低系统负载。注意，pipe 启动时捕获的快照数据只会以文件的方式供下游处理。 | Boolean: true / false                                                  | 否           | true                            |
 | mode.strict              | 在使用 time / path / database-name / table-name 参数过滤数据时，是否需要严格按照条件筛选：`true`： 严格筛选。系统将完全按照给定条件过滤筛选被捕获的数据，确保只有符合条件的数据被选中。`false`：非严格筛选。系统在筛选被捕获的数据时可能会包含一些额外的数据，适用于性能敏感的场景，可降低 CPU 和 IO 消耗。                                                                                                                                               | Boolean: true / false                                                  | 否           | true                            |
 | mode.snapshot            | 此参数决定时序数据的捕获方式，影响`inclusion`中的`data`数据。提供两种模式：`true`：静态数据捕获。启动 pipe 时，会进行一次性的数据快照捕获。当快照数据被完全消费后，**pipe 将自动终止（DROP PIPE SQL 会自动执行）**。`false`：动态数据捕获。除了在 pipe 启动时捕获快照数据外，还会持续捕获后续的数据变更。pipe 将持续运行以处理动态数据流。                                                                                                                             | Boolean: true / false                                                  | 否           | false                           |
 | path                     | 当用户连接指定的sql_dialect为tree时可以指定。对于升级上来的用户pipe,默认sql_dialect为tree。此参数决定时序数据的捕获范围,影响 inclusion中的data数据,以及部分序列相关的元数据。当数据的树模型路径能够被path匹配时，数据会被筛选出来进入流处理pipe。<br>  自 V2.0.8 版本起，该参数支持在一个pipe中填写多个精确路径的path , 如 `'path'='root.test.d0,s1,root.test.d0.s2,root.test.d0.s3'`                                                                   | String:IoTDB标准的树路径模式,可以带通配符                                            | 选填     | root.**        |
@@ -621,9 +642,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | mods                     | 同 mods.enable，是否发送 tsfile 的 mods 文件                                                                                                                                                                                                                                                                                                  | Boolean: true / false                                        | 选填     | false          |
 | skipIf                   | 出现哪些错误可以跳过，当前只有无权限的错误                                                                                                                                                                                                                                                                                                                       | String:no-privileges                                                      | 选填   | no-privileges  |
 
-> 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
-> - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
-> - **false**：该取值下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 
 ### 5.2 sink 参数 
@@ -633,7 +651,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | **参数**                                   | **描述**                                                                                                                                                                                                   | **value 取值范围**                                                             | **是否必填** | **默认取值**     |
 |------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------|--------------|
 | sink                                     | iotdb-thrift-sink 或 iotdb-thrift-async-sink                                                                                                                                                              | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink                        | 必填       | -            |
-| node-urls                                | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发）                                                                                                                                              | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填       | -            |
+| node-urls                                | 目标端 IoTDB 任意多个 DataNode 节点的数据服务 endpoint（同步任务不支持向自身服务转发）。IPv6 使用 `[ipv6]:port`，多个 endpoint 使用英文逗号分隔。IPv6 自 V2.0.12 起支持。 | String。示例：`'127.0.0.1:6667,127.0.0.1:6668'`、`'[DN_IPV6_ADDRESS]:6667,[DN_IPV6_ADDRESS_2]:6667'` | 必填       | -            |
 | user/username                            | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                             | String                                                                     | 选填       | root         |
 | password                                 | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                                        | String                                                                     | 选填       | root         |
 | batch.enable                             | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                                                                                                                                                                            | Boolean: true, false                                                       | 选填       | true         |
@@ -652,7 +670,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | **参数**                                   | **描述**                                                                                                                                                                                       | **value 取值范围**                                                                   | **是否必填** | **默认取值**     |
 |------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------| -------- | ------------ |
 | sink                                     | iotdb-thrift-ssl-sink                                                                                                                                                                        | String: iotdb-thrift-ssl-sink                                                    | 必填     | -            |
-| node-urls                                | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发）                                                                                                                                  | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667'       | 必填     | -            |
+| node-urls                                | 目标端 IoTDB 任意多个 DataNode 节点的数据服务 endpoint（同步任务不支持向自身服务转发）。IPv6 使用 `[ipv6]:port`，多个 endpoint 使用英文逗号分隔；目标证书 SAN 必须覆盖实际连接地址。IPv6 自 V2.0.12 起支持。 | String。示例：`'127.0.0.1:6667,127.0.0.1:6668'`、`'[DN_IPV6_ADDRESS]:6667,[DN_IPV6_ADDRESS_2]:6667'` | 必填     | -            |
 | user/username                            | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                           | 选填     | root         |
 | password                                 | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                           | 选填     | root         |
 | batch.enable                             | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                                                                                                                                                                | Boolean: true, false                                                             | 选填     | true         |
@@ -667,4 +685,3 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | ssl.trust-store-pwd                      | 连接目标端 DataNode 所需的 trust store 证书密码                                                                                                                                                          | String: 'root'                                                                          | 必填     | -            |
 | format                                   | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet                                                 | 选填    | hybrid |
 | exception.data.convert-on-type-mismatch  | 接收端类型不同时是否转换                                                                                                                                                                                             | Boolean: true / false                                                      | 选填       | true       |
-

@@ -99,6 +99,26 @@ session.open(enable_rpc_compression=False)
 ```python
 session.close()
 ```
+
+```python
+# host 和 port 分开传入时，host 使用裸 IPv6
+session = Session(
+    ip="DN_IPV6_ADDRESS",
+    port="6667",
+    user="root",
+    password="<password>",
+)
+
+# node URL 同时包含地址和端口时，IPv6 使用 [ipv6]:port
+session = Session.init_from_node_urls(
+    node_urls=["[DN_IPV6_ADDRESS]:6667", "[DN_IPV6_ADDRESS_2]:6667"],
+    user="root",
+    password="<password>",
+)
+```
+
+自 V2.0.12 起，Python Session 和 SessionPool 支持使用 IPv6 地址连接 IoTDB。单独传入 `ip` 时使用裸 IPv6，不要将带方括号的地址传给底层 socket；`node_urls` 中的元素同时包含地址和端口，使用 `[ipv6]:port`。示例中的 `DN_IPV6_ADDRESS` 与 `DN_IPV6_ADDRESS_2` 是两个节点的地址占位符，使用前须替换为实际可达的 IPv6 地址。原 IPv4 示例保留。
+
 ### 3.2 通过SessionPool管理session连接
 
 利用SessionPool管理session，不需要再考虑如何重用session。当session连接到达pool的最大值时，获取session的请求会被阻塞，可以通过参数设置阻塞等待时间。每次session使用完需要使用putBack方法将session归还到SessionPool中管理。
@@ -231,6 +251,8 @@ def get_data2():
 if __name__ == "__main__":
     df = get_data()
 ```
+
+IPv6 SSL 连接中的 host 使用裸 IPv6。`ca_certs` 指定的 CA 必须能够验证服务端证书，且服务端证书 SAN 必须包含客户端实际访问的裸 IPv6 `IP Address`。如果 SAN 不包含该地址，TLS 主机身份校验将失败。
 
 ## 4. 数据定义接口 DDL
 

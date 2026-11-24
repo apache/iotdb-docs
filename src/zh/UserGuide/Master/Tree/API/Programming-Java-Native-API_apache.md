@@ -73,7 +73,14 @@ public class IoTDBSessionPoolExample {
                         .build();
     }
 }
-``` 
+```
+
+```java
+// IPv6 node URL 同时包含地址和端口：
+// nodeUrls.add("[IPV6_ADDRESS]:6667");
+```
+
+自 V2.0.12 起，Java Session 和 SessionPool 支持使用 IPv6 地址连接 IoTDB。`nodeUrls` 中的每个元素都是地址与端口组合，IPv6 使用 `[ipv6]:port`；注释中的 `IPV6_ADDRESS` 仅表示待填写的实际节点地址，原有 `nodeUrls.add` 保留。如果 API 分别接收 host 和 port，host 使用裸 IPv6，port 单独传入。连接池重试与节点刷新使用同一 endpoint 规则。
 
 ### 2.3 执行数据库操作
 
@@ -494,7 +501,7 @@ Session具有如下的字段，可以通过构造函数或Session.Builder方式�
 
 | 字段名                           | 类型                                | 说明                                     |
 | -------------------------------- | ----------------------------------- | ---------------------------------------- |
-| `nodeUrls`                       | `List<String>`                      | 数据库节点的 URL 列表，支持多节点连接    |
+| `nodeUrls`                       | `List<String>`                      | 数据库节点的 URL 列表，支持多节点连接；IPv6 endpoint 使用 `[ipv6]:port`，例如 `[DN_IPV6_ADDRESS]:6667`。IPv6 自 V2.0.12 起支持。 |
 | `username`                       | `String`                            | 用户名                                   |
 | `password`                       | `String`                            | 密码                                     |
 | `fetchSize`                      | `int`                               | 查询结果的默认批量返回大小               |
@@ -620,6 +627,3 @@ Session具有如下的字段，可以通过构造函数或Session.Builder方式�
 | `getBackupConfiguration()` | 获取备份配置信息       | 无参数                                 |
 | `fetchAllConnections()`    | 获取所有活动的连接信息 | 无参数                                 |
 | `getSystemStatus()`        | 获取系统状态           | 已废弃，默认返回 `SystemStatus.NORMAL` |
-
-
-

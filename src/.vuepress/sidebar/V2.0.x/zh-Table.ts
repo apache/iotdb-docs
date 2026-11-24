@@ -94,7 +94,7 @@ export const zhSidebar = {
           text: '数据删除',
           collapsible: true,
           children: [
-            { text: '数据删除', link: 'Delete-Data' },
+            { text: '数据删除', link: 'Delete-Data_apache' },
             { text: '数据保留时间', link: 'TTL-Delete-Data_apache' },
           ],
         },
@@ -220,6 +220,11 @@ export const zhSidebar = {
             { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
             { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
+        },
+        {
+          text: '物联网平台',
+          collapsible: true,
+          children: [{ text: 'ThingsBoard', link: 'ThingsBoard-Table_apache' }],
         },
       ],
     },

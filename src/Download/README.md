@@ -27,45 +27,45 @@
       <th>release notes</th>
     </tr>
     <tr>
-      <td rowspan="2">2.0.11</td>
+      <td rowspan="2">2.0.12</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.11/apache-iotdb-2.0.11-all-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.12/apache-iotdb-2.0.12-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-all-bin.zip.sha512"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-all-bin.zip.asc"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-all-bin.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.11/apache-iotdb-2.0.11-source-release.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.12/apache-iotdb-2.0.12-source-release.zip"
           >Sources</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-source-release.zip.sha512"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-source-release.zip.asc"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-source-release.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
-        <a href="https://downloads.apache.org/iotdb/2.0.11/RELEASE_NOTES.md"
+        <a href="https://downloads.apache.org/iotdb/2.0.12/RELEASE_NOTES.md"
           >release notes</a
         >
       </td>
@@ -73,19 +73,19 @@
     <tr>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.11/apache-iotdb-2.0.11-edge-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.12/apache-iotdb-2.0.12-edge-bin.zip"
           >Edge</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-edge-bin.zip.sha512"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-edge-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://downloads.apache.org/iotdb/2.0.11/apache-iotdb-2.0.11-edge-bin.zip.asc"
+          href="https://downloads.apache.org/iotdb/2.0.12/apache-iotdb-2.0.12-edge-bin.zip.asc"
           >ASC</a
         >
       </td>

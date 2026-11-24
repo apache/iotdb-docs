@@ -59,7 +59,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 4. Data Deletion: IoTDB supports two deletion methods: SQL-based deletion and automatic expiration deletion (TTL).
 
-   - SQL-Based Deletion: For a basic introduction, please refer to [Delete Data](../Basic-Concept/Delete-Data.md)
+   - SQL-Based Deletion: For a basic introduction, please refer to [Delete Data](../Basic-Concept/Delete-Data_apache.md)
    
    - Automatic Expiration Deletion (TTL): For a basic introduction, please see  [TTL Delete Data](../Basic-Concept/TTL-Delete-Data_apache.md)
 
