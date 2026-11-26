@@ -122,7 +122,9 @@ The following table lists the recommended disk partitioning methods.
 
 ### 2.3 Network Configuration
 
-1. Disable the firewall
+1. Disable the firewall (optional)
+
+Note: Users can choose whether to disable the firewall based on their actual network conditions.
 
 ```Bash
 # View firewall

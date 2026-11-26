@@ -132,7 +132,9 @@ Recommended disk partitioning is as follows:
 
 ### 2.3 Network Configuration
 
-1. **Disable Firewall**
+1. **Disable Firewall (Optional)**
+
+Note: Users can choose whether to disable the firewall based on their actual network conditions.
       ```Bash
       # Check firewall status
       systemctl status firewalld
