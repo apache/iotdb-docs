@@ -29,7 +29,7 @@
 
 1. 准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources_apache.md)
 
-2. 完成系统配置准备：IoTDB 的系统配置涉及多个方面，关键的系统配置介绍可查看 [系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)
+2. 完成系统配置准备：IoTDB 的系统配置涉及多个方面，关键的系统配置介绍可查看 [系统配置](../Deployment-and-Maintenance/Environment-Requirements_apache.md)
 
 3. 获取安装包：您可以在[ Apache IoTDB 官网](https://iotdb.apache.org/zh/Download/)获取获取 IoTDB 安装包。具体安装包结构可查看：[安装包获取](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
 
