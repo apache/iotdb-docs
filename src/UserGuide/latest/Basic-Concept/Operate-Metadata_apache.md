@@ -790,22 +790,6 @@ It costs 0.004s
 
 * **`SHOW LATEST TIMESERIES`**: the returned timeseries are sorted in descending order of the last insertion timestamp. Note that when the queried path does not exist, the system will return 0 timeseries.
 
-* **`SHOW INVALID TIMESERIES`**: Since V2.0.8, this SQL statement is supported to show the invalidated timeseries after a full path rename succeeds.
-
-```sql
-show invalid timeSeries
-```
-
-```
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-```
-
-Note: The last column `NewPath` in the result shows the new timeseries corresponding to the invalidated one, which serves scenarios such as view construction and cluster migration (Load + rename).
-
 * **`SHOW TIMESERIES ORDER BY TIMESERIES (ASC | DESC)`**: Since V2.0.11, the query results can be sorted by timeseries name.
 
 ```sql
