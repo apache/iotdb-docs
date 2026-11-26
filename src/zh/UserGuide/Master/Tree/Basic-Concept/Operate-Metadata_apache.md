@@ -838,22 +838,6 @@ It costs 0.004s
 
 * **`SHOW LATEST TIMESERIES`**：表示查询出的时间序列需要按照最近插入时间戳降序排列。需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
 
-* **`SHOW INVALID TIMESERIES`**：自 V2.0.8 版本起，支持该 SQL 语句，用于展示修改全路径名称成功后的作废时间序列。
-
-```sql
-show invalid timeSeries
-```
-
-```shell
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
-+-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
-```
-
-说明：返回结果中的最后一列 NewPath，展示作废序列对应的新序列，以服务于视图构建、集群迁移（Load+改名）等场景。
-
 * **`SHOW TIMESERIES ORDER BY TIMESERIES (ASC | DESC)`**：自 V2.0.11 版本起，支持查询结果按照序列名称排序。
 
 ```sql
